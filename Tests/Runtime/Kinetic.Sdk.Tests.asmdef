@@ -12,7 +12,8 @@
     "precompiledReferences": [
         "nunit.framework.dll",
         "NSubstitute.dll",
-        "Solana.Unity.Wallet.dll"
+        "Solana.Unity.Wallet.dll",
+        "Solana.Unity.Rpc.dll"
     ],
     "autoReferenced": false,
     "defineConstraints": [

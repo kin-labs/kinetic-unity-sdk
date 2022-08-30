@@ -7,6 +7,7 @@
     "overrideReferences": false,
     "precompiledReferences": [
         "Solana.Unity.Wallet.dll",
+        "Solana.Unity.Rpc.dll",
         "Chaos.NaCl.dll",
         "BouncyCastl.Crypto.dll",
         "RestSharp.dll"
