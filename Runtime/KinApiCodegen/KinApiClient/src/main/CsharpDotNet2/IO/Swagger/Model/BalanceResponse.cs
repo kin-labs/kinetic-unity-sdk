@@ -17,7 +17,7 @@ namespace IO.Swagger.Model {
     /// </summary>
     [DataMember(Name="balance", EmitDefaultValue=false)]
     [JsonProperty(PropertyName = "balance")]
-    public BigNumber Balance { get; set; }
+    public string Balance { get; set; }
 
     /// <summary>
     /// Gets or Sets Mints

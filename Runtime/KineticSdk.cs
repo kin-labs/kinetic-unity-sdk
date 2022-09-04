@@ -2,6 +2,8 @@ using System;
 using IO.Swagger.Api;
 using IO.Swagger.Model;
 using Kinetic.Sdk.Helpers;
+using Kinetic.Sdk.Transactions;
+using Solana.Unity.Rpc.Types;
 using UnityEngine;
 
 // ReSharper disable once CheckNamespace
@@ -17,13 +19,12 @@ namespace Kinetic.Sdk
         private readonly AccountApi _accountApi;
         private readonly AirdropApi _airdropApi;
         private readonly AppApi _appApi;
-        private readonly DefaultApi _defaultApi;
         private readonly TransactionApi _transactionApi;
         
         private readonly KineticSdkConfig _sdkConfig;
-        
-        public Solana Solana;
-        public AppConfig Config;
+
+        public Solana Solana { get; private set; }
+        public AppConfig Config { get; private set; }
 
         private KineticSdk(KineticSdkConfig config)
         {
@@ -33,9 +34,45 @@ namespace Kinetic.Sdk
             _accountApi = new AccountApi(basePath);
             _airdropApi = new AirdropApi(basePath);
             _appApi = new AppApi(basePath);
-            _defaultApi = new DefaultApi(basePath);
             _transactionApi = new TransactionApi(basePath);
         }
+        
+        #region Transactions
+
+        public AppTransaction CreateAccount(Keypair owner, string mint = null, Commitment commitment = default)
+        {
+            if (Config is null)
+            {
+                throw new Exception("AppConfig not initialized");
+            }
+
+            mint ??= Config.Mint.PublicKey;
+
+            var pt = PrepareTransaction(mint);
+            
+            var tx = TransactionHelper.CreateAccountTransaction(
+                Config.Mint.AddMemo,
+                appIndex: Config.App.Index,
+                pt.LatestBlockhash, 
+                pt.MintFeePayer, 
+                pt.MintPublicKey,
+                owner);
+
+            var request = new CreateAccountRequest
+            {
+                Environment = Config.Environment.Name,
+                Index = Config.App.Index,
+                Mint = mint,
+                Tx = tx
+            };
+
+            var res = _accountApi.CreateAccount(request);
+            return res;
+        }
+
+        #endregion
+        
+        #region Initialization
 
         private AppConfig Init()
         {
@@ -59,7 +96,7 @@ namespace Kinetic.Sdk
                 throw;
             }
         }
-        
+
         public static KineticSdk Setup(KineticSdkConfig config)
         {
             var sdk = new KineticSdk(config);
@@ -76,5 +113,35 @@ namespace Kinetic.Sdk
             }
         }
         
+        #endregion
+        
+        #region Utils
+        
+        private PreTransaction PrepareTransaction(string mint){
+            if (Config is null)
+            {
+                throw new Exception("AppConfig not initialized");
+            }
+            mint ??= Config.Mint.PublicKey;
+            var found = Config.Mints.Find((item) => item.PublicKey == mint);
+            if (found is null)
+            {
+                throw new Exception("Mint not found");
+            }
+
+            var latestBlockhashResponse = _transactionApi.GetLatestBlockhash(Config.Environment.Name, Config.App.Index);
+
+            return new PreTransaction
+            {
+                MintDecimals = found.Decimals,
+                MintPublicKey = found.PublicKey,
+                MintFeePayer = found.FeePayer,
+                LatestBlockhash = latestBlockhashResponse.Blockhash,
+                LastValidBlockHeight = latestBlockhashResponse.LastValidBlockHeight
+            };
+        }
+        
+        #endregion
     }
+    
 }

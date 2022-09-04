@@ -17,14 +17,14 @@ namespace IO.Swagger.Model {
     /// </summary>
     [DataMember(Name="account", EmitDefaultValue=false)]
     [JsonProperty(PropertyName = "account")]
-    public Object Account { get; set; }
+    public string Account { get; set; }
 
     /// <summary>
     /// Gets or Sets History
     /// </summary>
     [DataMember(Name="history", EmitDefaultValue=false)]
     [JsonProperty(PropertyName = "history")]
-    public List<string> History { get; set; }
+    public List<ConfirmedSignatureInfo> History { get; set; }
 
 
     /// <summary>

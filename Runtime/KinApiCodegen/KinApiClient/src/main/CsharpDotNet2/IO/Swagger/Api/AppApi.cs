@@ -16,23 +16,15 @@ namespace IO.Swagger.Api
         /// </summary>
         /// <param name="environment"></param>
         /// <param name="index"></param>
-        /// <param name="type"></param>
-        /// <returns></returns>
-        void ApiAppFeatureControllerAppWebhook (string environment, decimal? index, string type);
-        /// <summary>
-        ///  
-        /// </summary>
-        /// <param name="environment"></param>
-        /// <param name="index"></param>
         /// <returns>AppConfig</returns>
-        AppConfig GetAppConfig (string environment, decimal? index);
+        AppConfig GetAppConfig (string environment, int? index);
         /// <summary>
         ///  
         /// </summary>
         /// <param name="environment"></param>
         /// <param name="index"></param>
         /// <returns>AppHealth</returns>
-        AppHealth GetAppHealth (string environment, decimal? index);
+        AppHealth GetAppHealth (string environment, int? index);
     }
   
     /// <summary>
@@ -93,51 +85,8 @@ namespace IO.Swagger.Api
         /// </summary>
         /// <param name="environment"></param>
         /// <param name="index"></param>
-        /// <param name="type"></param>
-        /// <returns></returns>
-        public void ApiAppFeatureControllerAppWebhook (string environment, decimal? index, string type)
-        {
-            // verify the required parameter 'environment' is set
-            if (environment == null) throw new ApiException(400, "Missing required parameter 'environment' when calling ApiAppFeatureControllerAppWebhook");
-            // verify the required parameter 'index' is set
-            if (index == null) throw new ApiException(400, "Missing required parameter 'index' when calling ApiAppFeatureControllerAppWebhook");
-            // verify the required parameter 'type' is set
-            if (type == null) throw new ApiException(400, "Missing required parameter 'type' when calling ApiAppFeatureControllerAppWebhook");
-    
-            var path = "/api/app/{environment}/{index}/webhook/{type}";
-            path = path.Replace("{format}", "json");
-            path = path.Replace("{" + "environment" + "}", ApiClient.ParameterToString(environment));
-path = path.Replace("{" + "index" + "}", ApiClient.ParameterToString(index));
-path = path.Replace("{" + "type" + "}", ApiClient.ParameterToString(type));
-    
-            var queryParams = new Dictionary<String, String>();
-            var headerParams = new Dictionary<String, String>();
-            var formParams = new Dictionary<String, String>();
-            var fileParams = new Dictionary<String, FileParameter>();
-            String postBody = null;
-    
-                                    
-            // authentication setting, if any
-            String[] authSettings = new String[] {  };
-    
-            // make the HTTP request
-            IRestResponse response = (IRestResponse) ApiClient.CallApi(path, Method.POST, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
-    
-            if (((int)response.StatusCode) >= 400)
-                throw new ApiException ((int)response.StatusCode, "Error calling ApiAppFeatureControllerAppWebhook: " + response.Content, response.Content);
-            else if (((int)response.StatusCode) == 0)
-                throw new ApiException ((int)response.StatusCode, "Error calling ApiAppFeatureControllerAppWebhook: " + response.ErrorMessage, response.ErrorMessage);
-    
-            return;
-        }
-    
-        /// <summary>
-        ///  
-        /// </summary>
-        /// <param name="environment"></param>
-        /// <param name="index"></param>
         /// <returns>AppConfig</returns>
-        public AppConfig GetAppConfig (string environment, decimal? index)
+        public AppConfig GetAppConfig (string environment, int? index)
         {
             // verify the required parameter 'environment' is set
             if (environment == null) throw new ApiException(400, "Missing required parameter 'environment' when calling GetAppConfig");
@@ -176,7 +125,7 @@ path = path.Replace("{" + "index" + "}", ApiClient.ParameterToString(index));
         /// <param name="environment"></param>
         /// <param name="index"></param>
         /// <returns>AppHealth</returns>
-        public AppHealth GetAppHealth (string environment, decimal? index)
+        public AppHealth GetAppHealth (string environment, int? index)
         {
             // verify the required parameter 'environment' is set
             if (environment == null) throw new ApiException(400, "Missing required parameter 'environment' when calling GetAppHealth");

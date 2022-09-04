@@ -17,7 +17,7 @@ namespace IO.Swagger.Api
         /// <param name="environment"></param>
         /// <param name="index"></param>
         /// <returns>LatestBlockhashResponse</returns>
-        LatestBlockhashResponse GetLatestBlockhash (string environment, decimal? index);
+        LatestBlockhashResponse GetLatestBlockhash (string environment, int? index);
         /// <summary>
         ///  
         /// </summary>
@@ -25,7 +25,7 @@ namespace IO.Swagger.Api
         /// <param name="index"></param>
         /// <param name="dataLength"></param>
         /// <returns>MinimumRentExemptionBalanceResponse</returns>
-        MinimumRentExemptionBalanceResponse GetMinimumRentExemptionBalance (string environment, decimal? index, decimal? dataLength);
+        MinimumRentExemptionBalanceResponse GetMinimumRentExemptionBalance (string environment, int? index, int? dataLength);
         /// <summary>
         ///  
         /// </summary>
@@ -93,7 +93,7 @@ namespace IO.Swagger.Api
         /// <param name="environment"></param>
         /// <param name="index"></param>
         /// <returns>LatestBlockhashResponse</returns>
-        public LatestBlockhashResponse GetLatestBlockhash (string environment, decimal? index)
+        public LatestBlockhashResponse GetLatestBlockhash (string environment, int? index)
         {
             // verify the required parameter 'environment' is set
             if (environment == null) throw new ApiException(400, "Missing required parameter 'environment' when calling GetLatestBlockhash");
@@ -133,7 +133,7 @@ path = path.Replace("{" + "index" + "}", ApiClient.ParameterToString(index));
         /// <param name="index"></param>
         /// <param name="dataLength"></param>
         /// <returns>MinimumRentExemptionBalanceResponse</returns>
-        public MinimumRentExemptionBalanceResponse GetMinimumRentExemptionBalance (string environment, decimal? index, decimal? dataLength)
+        public MinimumRentExemptionBalanceResponse GetMinimumRentExemptionBalance (string environment, int? index, int? dataLength)
         {
             // verify the required parameter 'environment' is set
             if (environment == null) throw new ApiException(400, "Missing required parameter 'environment' when calling GetMinimumRentExemptionBalance");

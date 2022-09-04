@@ -24,7 +24,7 @@ namespace IO.Swagger.Model {
     /// </summary>
     [DataMember(Name="lastValidBlockHeight", EmitDefaultValue=false)]
     [JsonProperty(PropertyName = "lastValidBlockHeight")]
-    public decimal? LastValidBlockHeight { get; set; }
+    public int? LastValidBlockHeight { get; set; }
 
 
     /// <summary>

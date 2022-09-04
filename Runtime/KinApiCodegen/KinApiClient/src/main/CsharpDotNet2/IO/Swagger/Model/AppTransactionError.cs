@@ -20,6 +20,13 @@ namespace IO.Swagger.Model {
     public string Id { get; set; }
 
     /// <summary>
+    /// Gets or Sets Logs
+    /// </summary>
+    [DataMember(Name="logs", EmitDefaultValue=false)]
+    [JsonProperty(PropertyName = "logs")]
+    public List<string> Logs { get; set; }
+
+    /// <summary>
     /// Gets or Sets Message
     /// </summary>
     [DataMember(Name="message", EmitDefaultValue=false)]
@@ -31,7 +38,14 @@ namespace IO.Swagger.Model {
     /// </summary>
     [DataMember(Name="type", EmitDefaultValue=false)]
     [JsonProperty(PropertyName = "type")]
-    public Object Type { get; set; }
+    public string Type { get; set; }
+
+    /// <summary>
+    /// Gets or Sets Instruction
+    /// </summary>
+    [DataMember(Name="instruction", EmitDefaultValue=false)]
+    [JsonProperty(PropertyName = "instruction")]
+    public int? Instruction { get; set; }
 
 
     /// <summary>
@@ -42,8 +56,10 @@ namespace IO.Swagger.Model {
       var sb = new StringBuilder();
       sb.Append("class AppTransactionError {\n");
       sb.Append("  Id: ").Append(Id).Append("\n");
+      sb.Append("  Logs: ").Append(Logs).Append("\n");
       sb.Append("  Message: ").Append(Message).Append("\n");
       sb.Append("  Type: ").Append(Type).Append("\n");
+      sb.Append("  Instruction: ").Append(Instruction).Append("\n");
       sb.Append("}\n");
       return sb.ToString();
     }

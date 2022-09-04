@@ -10,7 +10,7 @@ Method | HTTP request | Description
 
 <a name="getlatestblockhash"></a>
 # **GetLatestBlockhash**
-> LatestBlockhashResponse GetLatestBlockhash (string environment, decimal? index)
+> LatestBlockhashResponse GetLatestBlockhash (string environment, int? index)
 
 
 
@@ -31,7 +31,7 @@ namespace Example
 
             var apiInstance = new TransactionApi();
             var environment = environment_example;  // string | 
-            var index = 1.2;  // decimal? | 
+            var index = 56;  // int? | 
 
             try
             {
@@ -52,7 +52,7 @@ namespace Example
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **environment** | **string**|  | 
- **index** | **decimal?**|  | 
+ **index** | **int?**|  | 
 
 ### Return type
 
@@ -71,7 +71,7 @@ No authorization required
 
 <a name="getminimumrentexemptionbalance"></a>
 # **GetMinimumRentExemptionBalance**
-> MinimumRentExemptionBalanceResponse GetMinimumRentExemptionBalance (string environment, decimal? index, decimal? dataLength)
+> MinimumRentExemptionBalanceResponse GetMinimumRentExemptionBalance (string environment, int? index, int? dataLength)
 
 
 
@@ -92,8 +92,8 @@ namespace Example
 
             var apiInstance = new TransactionApi();
             var environment = environment_example;  // string | 
-            var index = 1.2;  // decimal? | 
-            var dataLength = 1.2;  // decimal? | 
+            var index = 56;  // int? | 
+            var dataLength = 56;  // int? | 
 
             try
             {
@@ -114,8 +114,8 @@ namespace Example
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **environment** | **string**|  | 
- **index** | **decimal?**|  | 
- **dataLength** | **decimal?**|  | 
+ **index** | **int?**|  | 
+ **dataLength** | **int?**|  | 
 
 ### Return type
 

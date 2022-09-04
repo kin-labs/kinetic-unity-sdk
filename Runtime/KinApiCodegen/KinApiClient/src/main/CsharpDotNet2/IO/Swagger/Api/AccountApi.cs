@@ -14,14 +14,6 @@ namespace IO.Swagger.Api
         /// <summary>
         ///  
         /// </summary>
-        /// <param name="environment"></param>
-        /// <param name="index"></param>
-        /// <param name="accountId"></param>
-        /// <returns></returns>
-        void ApiAccountFeatureControllerGetAccountInfo (string environment, decimal? index, string accountId);
-        /// <summary>
-        ///  
-        /// </summary>
         /// <param name="body"></param>
         /// <returns>AppTransaction</returns>
         AppTransaction CreateAccount (CreateAccountRequest body);
@@ -31,8 +23,16 @@ namespace IO.Swagger.Api
         /// <param name="environment"></param>
         /// <param name="index"></param>
         /// <param name="accountId"></param>
+        /// <returns></returns>
+        void GetAccountInfo (string environment, int? index, string accountId);
+        /// <summary>
+        ///  
+        /// </summary>
+        /// <param name="environment"></param>
+        /// <param name="index"></param>
+        /// <param name="accountId"></param>
         /// <returns>BalanceResponse</returns>
-        BalanceResponse GetBalance (string environment, decimal? index, string accountId);
+        BalanceResponse GetBalance (string environment, int? index, string accountId);
         /// <summary>
         ///  
         /// </summary>
@@ -41,7 +41,7 @@ namespace IO.Swagger.Api
         /// <param name="accountId"></param>
         /// <param name="mint"></param>
         /// <returns>List&lt;HistoryResponse&gt;</returns>
-        List<HistoryResponse> GetHistory (string environment, decimal? index, string accountId, string mint);
+        List<HistoryResponse> GetHistory (string environment, int? index, string accountId, string mint);
         /// <summary>
         ///  
         /// </summary>
@@ -50,7 +50,7 @@ namespace IO.Swagger.Api
         /// <param name="accountId"></param>
         /// <param name="mint"></param>
         /// <returns>List&lt;string&gt;</returns>
-        List<string> GetTokenAccounts (string environment, decimal? index, string accountId, string mint);
+        List<string> GetTokenAccounts (string environment, int? index, string accountId, string mint);
     }
   
     /// <summary>
@@ -109,49 +109,6 @@ namespace IO.Swagger.Api
         /// <summary>
         ///  
         /// </summary>
-        /// <param name="environment"></param>
-        /// <param name="index"></param>
-        /// <param name="accountId"></param>
-        /// <returns></returns>
-        public void ApiAccountFeatureControllerGetAccountInfo (string environment, decimal? index, string accountId)
-        {
-            // verify the required parameter 'environment' is set
-            if (environment == null) throw new ApiException(400, "Missing required parameter 'environment' when calling ApiAccountFeatureControllerGetAccountInfo");
-            // verify the required parameter 'index' is set
-            if (index == null) throw new ApiException(400, "Missing required parameter 'index' when calling ApiAccountFeatureControllerGetAccountInfo");
-            // verify the required parameter 'accountId' is set
-            if (accountId == null) throw new ApiException(400, "Missing required parameter 'accountId' when calling ApiAccountFeatureControllerGetAccountInfo");
-    
-            var path = "/api/account/info/{environment}/{index}/{accountId}";
-            path = path.Replace("{format}", "json");
-            path = path.Replace("{" + "environment" + "}", ApiClient.ParameterToString(environment));
-path = path.Replace("{" + "index" + "}", ApiClient.ParameterToString(index));
-path = path.Replace("{" + "accountId" + "}", ApiClient.ParameterToString(accountId));
-    
-            var queryParams = new Dictionary<String, String>();
-            var headerParams = new Dictionary<String, String>();
-            var formParams = new Dictionary<String, String>();
-            var fileParams = new Dictionary<String, FileParameter>();
-            String postBody = null;
-    
-                                    
-            // authentication setting, if any
-            String[] authSettings = new String[] {  };
-    
-            // make the HTTP request
-            IRestResponse response = (IRestResponse) ApiClient.CallApi(path, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
-    
-            if (((int)response.StatusCode) >= 400)
-                throw new ApiException ((int)response.StatusCode, "Error calling ApiAccountFeatureControllerGetAccountInfo: " + response.Content, response.Content);
-            else if (((int)response.StatusCode) == 0)
-                throw new ApiException ((int)response.StatusCode, "Error calling ApiAccountFeatureControllerGetAccountInfo: " + response.ErrorMessage, response.ErrorMessage);
-    
-            return;
-        }
-    
-        /// <summary>
-        ///  
-        /// </summary>
         /// <param name="body"></param>
         /// <returns>AppTransaction</returns>
         public AppTransaction CreateAccount (CreateAccountRequest body)
@@ -167,8 +124,8 @@ path = path.Replace("{" + "accountId" + "}", ApiClient.ParameterToString(account
             var formParams = new Dictionary<String, String>();
             var fileParams = new Dictionary<String, FileParameter>();
             String postBody = null;
-    
-                                    postBody = ApiClient.Serialize(body); // http body (model) parameter
+            
+            postBody = ApiClient.Serialize(body); // http body (model) parameter
 
             // authentication setting, if any
             String[] authSettings = new String[] {  };
@@ -190,8 +147,51 @@ path = path.Replace("{" + "accountId" + "}", ApiClient.ParameterToString(account
         /// <param name="environment"></param>
         /// <param name="index"></param>
         /// <param name="accountId"></param>
+        /// <returns></returns>
+        public void GetAccountInfo (string environment, int? index, string accountId)
+        {
+            // verify the required parameter 'environment' is set
+            if (environment == null) throw new ApiException(400, "Missing required parameter 'environment' when calling GetAccountInfo");
+            // verify the required parameter 'index' is set
+            if (index == null) throw new ApiException(400, "Missing required parameter 'index' when calling GetAccountInfo");
+            // verify the required parameter 'accountId' is set
+            if (accountId == null) throw new ApiException(400, "Missing required parameter 'accountId' when calling GetAccountInfo");
+    
+            var path = "/api/account/info/{environment}/{index}/{accountId}";
+            path = path.Replace("{format}", "json");
+            path = path.Replace("{" + "environment" + "}", ApiClient.ParameterToString(environment));
+path = path.Replace("{" + "index" + "}", ApiClient.ParameterToString(index));
+path = path.Replace("{" + "accountId" + "}", ApiClient.ParameterToString(accountId));
+    
+            var queryParams = new Dictionary<String, String>();
+            var headerParams = new Dictionary<String, String>();
+            var formParams = new Dictionary<String, String>();
+            var fileParams = new Dictionary<String, FileParameter>();
+            String postBody = null;
+    
+                                    
+            // authentication setting, if any
+            String[] authSettings = new String[] {  };
+    
+            // make the HTTP request
+            IRestResponse response = (IRestResponse) ApiClient.CallApi(path, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
+    
+            if (((int)response.StatusCode) >= 400)
+                throw new ApiException ((int)response.StatusCode, "Error calling GetAccountInfo: " + response.Content, response.Content);
+            else if (((int)response.StatusCode) == 0)
+                throw new ApiException ((int)response.StatusCode, "Error calling GetAccountInfo: " + response.ErrorMessage, response.ErrorMessage);
+    
+            return;
+        }
+    
+        /// <summary>
+        ///  
+        /// </summary>
+        /// <param name="environment"></param>
+        /// <param name="index"></param>
+        /// <param name="accountId"></param>
         /// <returns>BalanceResponse</returns>
-        public BalanceResponse GetBalance (string environment, decimal? index, string accountId)
+        public BalanceResponse GetBalance (string environment, int? index, string accountId)
         {
             // verify the required parameter 'environment' is set
             if (environment == null) throw new ApiException(400, "Missing required parameter 'environment' when calling GetBalance");
@@ -235,7 +235,7 @@ path = path.Replace("{" + "accountId" + "}", ApiClient.ParameterToString(account
         /// <param name="accountId"></param>
         /// <param name="mint"></param>
         /// <returns>List&lt;HistoryResponse&gt;</returns>
-        public List<HistoryResponse> GetHistory (string environment, decimal? index, string accountId, string mint)
+        public List<HistoryResponse> GetHistory (string environment, int? index, string accountId, string mint)
         {
             // verify the required parameter 'environment' is set
             if (environment == null) throw new ApiException(400, "Missing required parameter 'environment' when calling GetHistory");
@@ -282,7 +282,7 @@ path = path.Replace("{" + "mint" + "}", ApiClient.ParameterToString(mint));
         /// <param name="accountId"></param>
         /// <param name="mint"></param>
         /// <returns>List&lt;string&gt;</returns>
-        public List<string> GetTokenAccounts (string environment, decimal? index, string accountId, string mint)
+        public List<string> GetTokenAccounts (string environment, int? index, string accountId, string mint)
         {
             // verify the required parameter 'environment' is set
             if (environment == null) throw new ApiException(400, "Missing required parameter 'environment' when calling GetTokenAccounts");

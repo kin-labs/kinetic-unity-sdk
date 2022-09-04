@@ -24,7 +24,7 @@ namespace IO.Swagger.Model {
     /// </summary>
     [DataMember(Name="count", EmitDefaultValue=false)]
     [JsonProperty(PropertyName = "count")]
-    public decimal? Count { get; set; }
+    public int? Count { get; set; }
 
 
     /// <summary>

@@ -4,9 +4,9 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Environment** | **string** |  | 
-**Index** | [**decimal?**](BigDecimal.md) |  | 
+**Index** | **int?** |  | 
 **Mint** | **string** |  | 
-**Tx** | [**Buffer**](Buffer.md) |  | 
+**Tx** | **byte[]** |  | 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

@@ -4,73 +4,11 @@ All URIs are relative to *https://devnet.kinetic.kin.org*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**ApiAccountFeatureControllerGetAccountInfo**](AccountApi.md#apiaccountfeaturecontrollergetaccountinfo) | **GET** /api/account/info/{environment}/{index}/{accountId} | 
 [**CreateAccount**](AccountApi.md#createaccount) | **POST** /api/account/create | 
+[**GetAccountInfo**](AccountApi.md#getaccountinfo) | **GET** /api/account/info/{environment}/{index}/{accountId} | 
 [**GetBalance**](AccountApi.md#getbalance) | **GET** /api/account/balance/{environment}/{index}/{accountId} | 
 [**GetHistory**](AccountApi.md#gethistory) | **GET** /api/account/history/{environment}/{index}/{accountId}/{mint} | 
 [**GetTokenAccounts**](AccountApi.md#gettokenaccounts) | **GET** /api/account/token-accounts/{environment}/{index}/{accountId}/{mint} | 
-
-<a name="apiaccountfeaturecontrollergetaccountinfo"></a>
-# **ApiAccountFeatureControllerGetAccountInfo**
-> void ApiAccountFeatureControllerGetAccountInfo (string environment, decimal? index, string accountId)
-
-
-
-### Example
-```csharp
-using System;
-using System.Diagnostics;
-using IO.Swagger.Api;
-using IO.Swagger.Client;
-using IO.Swagger.Model;
-
-namespace Example
-{
-    public class ApiAccountFeatureControllerGetAccountInfoExample
-    {
-        public void main()
-        {
-
-            var apiInstance = new AccountApi();
-            var environment = environment_example;  // string | 
-            var index = 1.2;  // decimal? | 
-            var accountId = accountId_example;  // string | 
-
-            try
-            {
-                apiInstance.ApiAccountFeatureControllerGetAccountInfo(environment, index, accountId);
-            }
-            catch (Exception e)
-            {
-                Debug.Print("Exception when calling AccountApi.ApiAccountFeatureControllerGetAccountInfo: " + e.Message );
-            }
-        }
-    }
-}
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **environment** | **string**|  | 
- **index** | **decimal?**|  | 
- **accountId** | **string**|  | 
-
-### Return type
-
-void (empty response body)
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: Not defined
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 <a name="createaccount"></a>
 # **CreateAccount**
@@ -131,9 +69,71 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+<a name="getaccountinfo"></a>
+# **GetAccountInfo**
+> void GetAccountInfo (string environment, int? index, string accountId)
+
+
+
+### Example
+```csharp
+using System;
+using System.Diagnostics;
+using IO.Swagger.Api;
+using IO.Swagger.Client;
+using IO.Swagger.Model;
+
+namespace Example
+{
+    public class GetAccountInfoExample
+    {
+        public void main()
+        {
+
+            var apiInstance = new AccountApi();
+            var environment = environment_example;  // string | 
+            var index = 56;  // int? | 
+            var accountId = accountId_example;  // string | 
+
+            try
+            {
+                apiInstance.GetAccountInfo(environment, index, accountId);
+            }
+            catch (Exception e)
+            {
+                Debug.Print("Exception when calling AccountApi.GetAccountInfo: " + e.Message );
+            }
+        }
+    }
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **environment** | **string**|  | 
+ **index** | **int?**|  | 
+ **accountId** | **string**|  | 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 <a name="getbalance"></a>
 # **GetBalance**
-> BalanceResponse GetBalance (string environment, decimal? index, string accountId)
+> BalanceResponse GetBalance (string environment, int? index, string accountId)
 
 
 
@@ -154,7 +154,7 @@ namespace Example
 
             var apiInstance = new AccountApi();
             var environment = environment_example;  // string | 
-            var index = 1.2;  // decimal? | 
+            var index = 56;  // int? | 
             var accountId = accountId_example;  // string | 
 
             try
@@ -176,7 +176,7 @@ namespace Example
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **environment** | **string**|  | 
- **index** | **decimal?**|  | 
+ **index** | **int?**|  | 
  **accountId** | **string**|  | 
 
 ### Return type
@@ -196,7 +196,7 @@ No authorization required
 
 <a name="gethistory"></a>
 # **GetHistory**
-> List<HistoryResponse> GetHistory (string environment, decimal? index, string accountId, string mint)
+> List<HistoryResponse> GetHistory (string environment, int? index, string accountId, string mint)
 
 
 
@@ -217,7 +217,7 @@ namespace Example
 
             var apiInstance = new AccountApi();
             var environment = environment_example;  // string | 
-            var index = 1.2;  // decimal? | 
+            var index = 56;  // int? | 
             var accountId = accountId_example;  // string | 
             var mint = mint_example;  // string | 
 
@@ -240,7 +240,7 @@ namespace Example
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **environment** | **string**|  | 
- **index** | **decimal?**|  | 
+ **index** | **int?**|  | 
  **accountId** | **string**|  | 
  **mint** | **string**|  | 
 
@@ -261,7 +261,7 @@ No authorization required
 
 <a name="gettokenaccounts"></a>
 # **GetTokenAccounts**
-> List<string> GetTokenAccounts (string environment, decimal? index, string accountId, string mint)
+> List<string> GetTokenAccounts (string environment, int? index, string accountId, string mint)
 
 
 
@@ -282,7 +282,7 @@ namespace Example
 
             var apiInstance = new AccountApi();
             var environment = environment_example;  // string | 
-            var index = 1.2;  // decimal? | 
+            var index = 56;  // int? | 
             var accountId = accountId_example;  // string | 
             var mint = mint_example;  // string | 
 
@@ -305,7 +305,7 @@ namespace Example
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **environment** | **string**|  | 
- **index** | **decimal?**|  | 
+ **index** | **int?**|  | 
  **accountId** | **string**|  | 
  **mint** | **string**|  | 
 
