@@ -58,6 +58,15 @@ namespace Kinetic.Sdk.Tests
         }
         
         [Test]
+        public void GetBalance()
+        {
+            var res = _sdk.GetBalance(account: KineticSdkFixture.AliceKeypair.PublicKey);
+            var balance = double.Parse(res.Balance);
+            Assert.IsTrue(!double.IsNaN(balance));
+            Assert.IsTrue(balance > 0);
+        }
+        
+        [Test]
         public void TestCreateAccount()
         {
             var owner = Keypair.Random();
@@ -70,15 +79,31 @@ namespace Kinetic.Sdk.Tests
             Assert.AreEqual("Committed", tx.Status);
         }
         
-        /*[Test]
+        [Test]
         public void TestCreateAccountAlreadyExists()
         {
-            var owner = Keypair.Random();
-            var tx1 = _sdk.CreateAccount(owner);
-            Assert.AreEqual(tx1.Errors.Count, 0);
-            var tx2 = _sdk.CreateAccount(owner);
-            Assert.IsTrue(tx2.Errors.Count > 0);
-            Assert.AreEqual("Failed", tx2.Status);
-        }*/
+            var tx = _sdk.CreateAccount(KineticSdkFixture.DaveKeypair);
+            Assert.IsNull(tx.Signature);
+            Assert.IsNull(tx.Amount);
+            Assert.IsTrue(tx.Errors.Count > 0);
+            Assert.AreEqual("Failed", tx.Status);
+            //Assert.IsTrue(tx.Errors[0].Message.Contains("Error: Account already exists."));
+        }
+        
+        [Test]
+        public void TestGetHistory()
+        {
+            var history = _sdk.GetHistory(KineticSdkFixture.AliceKeypair.PublicKey);
+            Assert.IsTrue(history.Count > 0);
+            Assert.IsNotNull(history[0].Account);
+        }
+        
+        [Test]
+        public void TestGetTokenAccounts()
+        {
+            var tokenAccounts = _sdk.GetTokenAccounts(KineticSdkFixture.AliceKeypair.PublicKey);
+            Assert.IsTrue(tokenAccounts.Count > 0);
+            Assert.IsNotNull(tokenAccounts[0]);
+        }
     }
 }

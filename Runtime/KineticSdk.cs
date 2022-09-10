@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using IO.Swagger.Api;
 using IO.Swagger.Model;
 using Kinetic.Sdk.Helpers;
@@ -37,6 +38,51 @@ namespace Kinetic.Sdk
             _transactionApi = new TransactionApi(basePath);
         }
         
+        #region Utility
+
+        public BalanceResponse GetBalance(string account)
+        {
+            if (Config is null)
+            {
+                throw new Exception("AppConfig not initialized");
+            }
+
+            return _accountApi.GetBalance(
+                Config.Environment.Name,
+                Config.App.Index,
+                account
+            );
+        }
+        
+        public string GetExplorerUrl(string path)
+        {
+            return Config.Environment.Explorer.Replace("{path}", path);
+        }
+        
+        
+        public List<HistoryResponse> GetHistory(string account, string mint = null) 
+        {
+            if (Config is null)
+            {
+                throw new Exception("AppConfig not initialized");
+            }
+            mint ??= Config.Mint.PublicKey;
+            return _accountApi.GetHistory(Config.Environment.Name, Config.App.Index, account, mint);
+        }
+        
+        public List<string> GetTokenAccounts(string account, string mint = null){
+            if (Config is null)
+            {
+                throw new Exception("AppConfig not initialized");
+            }
+            mint ??= Config.Mint.PublicKey;
+
+            return _accountApi
+                .GetTokenAccounts(this.Config.Environment.Name, this.Config.App.Index, account, mint);
+        }
+
+        #endregion
+        
         #region Transactions
 
         public AppTransaction CreateAccount(Keypair owner, string mint = null, Commitment commitment = default)
@@ -68,6 +114,49 @@ namespace Kinetic.Sdk
 
             var res = _accountApi.CreateAccount(request);
             return res;
+        }
+
+        public AppTransaction MakeTransfer(Keypair owner, string amount, string destination, string mint = null,
+            string referenceId = null, string referenceType = null, bool senderCreate = false,
+            Commitment commitment = Commitment.Confirmed, TransactionType type = TransactionType.None)
+        {
+            if (Config is null)
+            {
+                throw new Exception("AppConfig not initialized");
+            }
+            mint ??= Config.Mint.PublicKey;
+            var pt = PrepareTransaction(mint);
+            
+            var account = GetTokenAccounts(account: destination, mint);
+
+            var tx = TransactionHelper.MakeTransferTransaction(
+                addMemo: Config.Mint.AddMemo,
+                amount,
+                appIndex: Config.App.Index,
+                destination,
+                pt.LastValidBlockHeight,
+                pt.LatestBlockhash,
+                pt.MintDecimals,
+                pt.MintFeePayer,
+                pt.MintPublicKey,
+                signer: owner.Solana,
+                senderCreate: account?.Count == 0 && senderCreate,
+                type: type
+            );
+
+            var mkTransfer = new MakeTransferRequest()
+            {
+                Commitment = commitment.ToString(),
+                Environment = Config.Environment.Name,
+                Index = Config.App.Index,
+                LastValidBlockHeight = (int?) pt.LastValidBlockHeight,
+                Mint =  mint,
+                ReferenceId = referenceId,
+                ReferenceType = referenceType,
+                Tx = tx,
+            };
+            
+            return _transactionApi.MakeTransfer(mkTransfer);
         }
 
         #endregion

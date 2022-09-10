@@ -25,7 +25,7 @@ namespace Kinetic.Sdk.Tests
             5, 3, 7, 6, 0, 7, 2, 2, 1, 35, 6, 3, 1, 5, 84, 102, 38, 7, 100, 200, 251, 34, 72, 143, 134, 254, 202, 250,
             134, 208, 29, 170, 161, 12, 132, 240, 98, 16, 241, 4, 69, 193, 117, 148, 215
         };
-        
+
 
         public static readonly Keypair CreateAccountSigner = Keypair.FromSecretKey(
             "5icCMHSkDzPFzY4UxHRP67BsTq8EcA6nVSL2ifpzsveGa79G3d8gU8hmWxhopR16s5WgBnFS7J6upt5ZevhihQ3q");
@@ -36,5 +36,31 @@ namespace Kinetic.Sdk.Tests
             97, 183, 156, 226, 201, 41, 182, 121, 217, 250, 238, 76, 4, 19, 24, 196, 157, 151, 211, 203, 168, 71, 45,
             124, 138, 232, 252, 130, 3, 120, 6, 92, 109, 6, 93, 143, 36, 18, 138, 11
         };
+
+        // ALisrzsaVqciCxy8r6g7MUrPoRo3CpGxPhwBbZzqZ9bA
+        private static readonly byte[] AliceKey =
+        {
+
+            205, 213, 7, 246, 167, 206, 37, 209, 161, 129, 168, 160, 90, 103, 198, 142, 83, 177, 214, 203, 80, 29,
+            71, 245, 56,
+            152, 15, 8, 235, 174, 62, 79, 138, 198, 145, 111, 119, 33, 15, 237, 89, 201, 122, 89, 48, 221, 224, 71, 81,
+            128, 45,
+            97, 191, 105, 37, 228, 243, 238, 130, 151, 53, 221, 172, 125,
+        };
+
+        // DAVEXJQuNAzUaVZsFeDiUr67WikDH3cj4L1YHyx5t2Nj
+        private static readonly byte[] DaveKey =
+        {
+            99, 184, 26, 205, 22, 184, 129, 159, 152, 181, 28, 169, 124, 74, 249, 50, 233, 159, 85, 86, 195, 237, 252,
+            22,
+            140,
+            73, 253, 235, 97, 243, 180, 21, 180, 186, 100, 202, 161, 4, 96, 215, 244, 173, 174, 184, 79, 108, 59, 85, 0,
+            114, 203,
+            238, 237, 212, 159, 220, 81, 103, 142, 111, 199, 18, 74, 168,
+        };
+
+        public static readonly Keypair AliceKeypair = Keypair.FromByteArray(AliceKey);
+        
+        public static readonly Keypair DaveKeypair = Keypair.FromByteArray(DaveKey);
     }
 }
