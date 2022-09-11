@@ -1,3 +1,5 @@
+// ReSharper disable once CheckNamespace
+
 namespace Kinetic.Sdk.Helpers
 {
     public class PreTransaction

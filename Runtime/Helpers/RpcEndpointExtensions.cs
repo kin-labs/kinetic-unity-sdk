@@ -12,12 +12,12 @@ namespace Kinetic.Sdk.Helpers
             {
                 case "devnet":
                 {
-                    return "devnet";
+                    return "https://api.devnet.solana.com";
                 }
 
                 case "mainnet":
                 case "mainnet-beta":
-                    return "mainnet-beta";
+                    return "https://api.mainnet-beta.solana.com";
 
                 default:
                 {

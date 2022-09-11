@@ -1,12 +1,10 @@
+using System;
 using System.Collections.Generic;
-using System.IO;
-using Kinetic.Sdk.Helpers;
-using Org.BouncyCastle.Asn1.Ocsp;
+using Kinetic.Sdk.KinMemo;
 using Solana.Unity.Programs;
 using Solana.Unity.Rpc.Builders;
 using Solana.Unity.Rpc.Models;
 using Solana.Unity.Wallet;
-using Solana.Unity.Rpc.Utilities;
 
 // ReSharper disable once CheckNamespace
 
@@ -14,6 +12,7 @@ namespace Kinetic.Sdk.Transactions
 {
     public static class TransactionHelper
     {
+
         public static byte[] CreateAccountTransaction(
             bool? addMemo, decimal? appIndex, string latestBlockhash, 
             string mintFeePayer, string mintPublicKey, Keypair signer)
@@ -44,7 +43,7 @@ namespace Kinetic.Sdk.Transactions
             if (addMemo is not null && addMemo.Value)
             {
                 // Create Memo Instruction for KRE Ingestion - Must be Memo Program v1, not v2
-                var memoInstruction = KineticMemo(signer, appIndex);
+                var memoInstruction = KineticMemo(signer.PublicKey, appIndex, type:TransactionType.None);
                 transaction.Instructions.Add(memoInstruction);
             }
 
@@ -54,16 +53,13 @@ namespace Kinetic.Sdk.Transactions
                 TokenProgram.SetAuthority(associatedTokenAccount, AuthorityType.CloseAccount, signer.PublicKey, feePayerKey));
 
 
-            // Sign and Serialize Transaction
+            // Partially sign the transaction
             transaction.PartialSign(signer.Solana);
 
             return transaction.Serialize();
-            
-            
         }
 
         
-
         public static byte[] MakeTransferTransaction(
             bool? addMemo, string amount, int? appIndex, string destination, 
             decimal? lastValidBlockHeight, string latestBlockhash, 
@@ -95,50 +91,51 @@ namespace Kinetic.Sdk.Transactions
                     }
                 }
             };
-            /*
+            
             if (addMemo is not null && addMemo.Value)
             {
                 // Create Memo Instruction for KRE Ingestion - Must be Memo Program v1, not v2
-                var memoInstruction = KineticMemo(appIndex, type);
+                var memoInstruction = KineticMemo(signer.PublicKey, appIndex, type:type);
                 transaction.Instructions.Add(memoInstruction);
-            }
-           
-            if (addMemo) {
-                instructions.push(
-                    generateKinMemoInstruction({
-                    appIndex,
-                    type,
-                }),
-                )
             }
 
             if (senderCreate)
             {
                 transaction.Instructions.Add(
-                    AssociatedTokenAccountProgram.CreateAssociatedTokenAccount(feePayerKey, destinationTokenAccount,
-                        new PublicKey(destination), mintKey));
+                    AssociatedTokenAccountProgram.CreateAssociatedTokenAccount(
+                        feePayerKey, new PublicKey(destination), mintKey));
             }
-
+            
+            var amountWithDecimals =
+                ulong.Parse(amount) * (ulong)Math.Pow(10, (double)mintDecimals.GetValueOrDefault(0));
             transaction.Instructions.Add(
-                    createTransferInstruction(
-                            ownerTokenAccount,
-                            destinationTokenAccount,
-                            signer.publicKey,
-                            addDecimals(amount, mintDecimals).toNumber(),
-                        [],
-                    TOKEN_PROGRAM_ID,
-                ),
-                )*/
-
+                TokenProgram.Transfer(
+                    ownerTokenAccount, 
+                    destinationTokenAccount, 
+                    amountWithDecimals, 
+                    signer.PublicKey
+                    )
+            );
+    
             // Partially sign the transaction
             transaction.PartialSign(signer);
 
             return transaction.Serialize();
         }
         
-        private static TransactionInstruction KineticMemo(Keypair signer, decimal? appIndex)
+        /// <summary>
+        /// Method to format a correct Kin Memo Instruction based on appIndex and Type
+        /// </summary>
+        /// <param name="signer"></param>
+        /// <param name="appIndex"></param>
+        /// <param name="memo"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        private static TransactionInstruction KineticMemo(
+            PublicKey signer, decimal? appIndex, string memo = null, TransactionType type = TransactionType.None)
         {
-            return MemoProgram.NewMemo(signer.PublicKey, appIndex.ToString());
+            var memoBytes = KinMemo.KinMemo.CreateKinMemo(appIndex, memo, type).Buffer;
+            return MemoProgram.NewMemo(signer, Convert.ToBase64String(memoBytes));
         }
     }
 }

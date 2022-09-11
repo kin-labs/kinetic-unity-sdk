@@ -12,7 +12,7 @@ Method | HTTP request | Description
 
 <a name="createaccount"></a>
 # **CreateAccount**
-> AppTransaction CreateAccount (CreateAccountRequest body)
+> Transaction CreateAccount (CreateAccountRequest body)
 
 
 
@@ -36,7 +36,7 @@ namespace Example
 
             try
             {
-                AppTransaction result = apiInstance.CreateAccount(body);
+                Transaction result = apiInstance.CreateAccount(body);
                 Debug.WriteLine(result);
             }
             catch (Exception e)
@@ -56,7 +56,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**AppTransaction**](AppTransaction.md)
+[**Transaction**](Transaction.md)
 
 ### Authorization
 

@@ -15,8 +15,8 @@ namespace IO.Swagger.Api
         ///  
         /// </summary>
         /// <param name="body"></param>
-        /// <returns>AppTransaction</returns>
-        AppTransaction CreateAccount (CreateAccountRequest body);
+        /// <returns>Transaction</returns>
+        Transaction CreateAccount (CreateAccountRequest body);
         /// <summary>
         ///  
         /// </summary>
@@ -110,8 +110,8 @@ namespace IO.Swagger.Api
         ///  
         /// </summary>
         /// <param name="body"></param>
-        /// <returns>AppTransaction</returns>
-        public AppTransaction CreateAccount (CreateAccountRequest body)
+        /// <returns>Transaction</returns>
+        public Transaction CreateAccount (CreateAccountRequest body)
         {
             // verify the required parameter 'body' is set
             if (body == null) throw new ApiException(400, "Missing required parameter 'body' when calling CreateAccount");
@@ -124,8 +124,8 @@ namespace IO.Swagger.Api
             var formParams = new Dictionary<String, String>();
             var fileParams = new Dictionary<String, FileParameter>();
             String postBody = null;
-            
-            postBody = ApiClient.Serialize(body); // http body (model) parameter
+    
+                                    postBody = ApiClient.Serialize(body); // http body (model) parameter
 
             // authentication setting, if any
             String[] authSettings = new String[] {  };
@@ -138,7 +138,7 @@ namespace IO.Swagger.Api
             else if (((int)response.StatusCode) == 0)
                 throw new ApiException ((int)response.StatusCode, "Error calling CreateAccount: " + response.ErrorMessage, response.ErrorMessage);
     
-            return (AppTransaction) ApiClient.Deserialize(response.Content, typeof(AppTransaction), response.Headers);
+            return (Transaction) ApiClient.Deserialize(response.Content, typeof(Transaction), response.Headers);
         }
     
         /// <summary>

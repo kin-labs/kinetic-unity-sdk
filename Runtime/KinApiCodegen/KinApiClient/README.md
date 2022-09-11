@@ -54,7 +54,7 @@ namespace Example
 
             try
             {
-                AppTransaction result = apiInstance.CreateAccount(body);
+                Transaction result = apiInstance.CreateAccount(body);
                 Debug.WriteLine(result);
             }
             catch (Exception e)
@@ -153,6 +153,7 @@ Class | Method | HTTP request | Description
 *AppApi* | [**GetAppHealth**](docs/AppApi.md#getapphealth) | **GET** /api/app/{environment}/{index}/health | 
 *TransactionApi* | [**GetLatestBlockhash**](docs/TransactionApi.md#getlatestblockhash) | **GET** /api/transaction/latest-blockhash/{environment}/{index} | 
 *TransactionApi* | [**GetMinimumRentExemptionBalance**](docs/TransactionApi.md#getminimumrentexemptionbalance) | **GET** /api/transaction/minimum-rent-exemption-balance/{environment}/{index} | 
+*TransactionApi* | [**GetTransaction**](docs/TransactionApi.md#gettransaction) | **GET** /api/transaction/transaction/{environment}/{index}/{signature} | 
 *TransactionApi* | [**MakeTransfer**](docs/TransactionApi.md#maketransfer) | **POST** /api/transaction/make-transfer | 
 
 <a name="documentation-for-models"></a>
@@ -162,23 +163,30 @@ Class | Method | HTTP request | Description
  - [IO.Swagger.Model.AirdropStatsCounts](docs/AirdropStatsCounts.md)
  - [IO.Swagger.Model.AirdropStatsDate](docs/AirdropStatsDate.md)
  - [IO.Swagger.Model.AppConfig](docs/AppConfig.md)
+ - [IO.Swagger.Model.AppConfigApi](docs/AppConfigApi.md)
  - [IO.Swagger.Model.AppConfigApp](docs/AppConfigApp.md)
  - [IO.Swagger.Model.AppConfigCluster](docs/AppConfigCluster.md)
  - [IO.Swagger.Model.AppConfigEnvironment](docs/AppConfigEnvironment.md)
  - [IO.Swagger.Model.AppConfigMint](docs/AppConfigMint.md)
  - [IO.Swagger.Model.AppHealth](docs/AppHealth.md)
- - [IO.Swagger.Model.AppTransaction](docs/AppTransaction.md)
- - [IO.Swagger.Model.AppTransactionError](docs/AppTransactionError.md)
  - [IO.Swagger.Model.BalanceResponse](docs/BalanceResponse.md)
  - [IO.Swagger.Model.BalanceToken](docs/BalanceToken.md)
  - [IO.Swagger.Model.ConfirmedSignatureInfo](docs/ConfirmedSignatureInfo.md)
+ - [IO.Swagger.Model.ConfirmedTransactionMeta](docs/ConfirmedTransactionMeta.md)
  - [IO.Swagger.Model.CreateAccountRequest](docs/CreateAccountRequest.md)
+ - [IO.Swagger.Model.GetTransactionResponse](docs/GetTransactionResponse.md)
  - [IO.Swagger.Model.HistoryResponse](docs/HistoryResponse.md)
  - [IO.Swagger.Model.LatestBlockhashResponse](docs/LatestBlockhashResponse.md)
  - [IO.Swagger.Model.MakeTransferRequest](docs/MakeTransferRequest.md)
+ - [IO.Swagger.Model.Message](docs/Message.md)
  - [IO.Swagger.Model.MinimumRentExemptionBalanceResponse](docs/MinimumRentExemptionBalanceResponse.md)
  - [IO.Swagger.Model.RequestAirdropRequest](docs/RequestAirdropRequest.md)
  - [IO.Swagger.Model.RequestAirdropResponse](docs/RequestAirdropResponse.md)
+ - [IO.Swagger.Model.SignatureStatus](docs/SignatureStatus.md)
+ - [IO.Swagger.Model.Transaction](docs/Transaction.md)
+ - [IO.Swagger.Model.TransactionData](docs/TransactionData.md)
+ - [IO.Swagger.Model.TransactionError](docs/TransactionError.md)
+ - [IO.Swagger.Model.TransactionResponse](docs/TransactionResponse.md)
 
 <a name="documentation-for-authorization"></a>
 ## Documentation for Authorization

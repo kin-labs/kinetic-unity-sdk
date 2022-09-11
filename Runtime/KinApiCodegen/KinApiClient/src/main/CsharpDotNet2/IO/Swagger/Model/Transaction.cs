@@ -11,7 +11,7 @@ namespace IO.Swagger.Model {
   /// 
   /// </summary>
   [DataContract]
-  public class AppTransaction {
+  public class Transaction {
     /// <summary>
     /// Gets or Sets Id
     /// </summary>
@@ -41,6 +41,13 @@ namespace IO.Swagger.Model {
     public string Amount { get; set; }
 
     /// <summary>
+    /// Gets or Sets Decimals
+    /// </summary>
+    [DataMember(Name="decimals", EmitDefaultValue=false)]
+    [JsonProperty(PropertyName = "decimals")]
+    public decimal? Decimals { get; set; }
+
+    /// <summary>
     /// Gets or Sets Destination
     /// </summary>
     [DataMember(Name="destination", EmitDefaultValue=false)]
@@ -52,7 +59,7 @@ namespace IO.Swagger.Model {
     /// </summary>
     [DataMember(Name="errors", EmitDefaultValue=false)]
     [JsonProperty(PropertyName = "errors")]
-    public List<AppTransactionError> Errors { get; set; }
+    public List<TransactionError> Errors { get; set; }
 
     /// <summary>
     /// Gets or Sets ExplorerUrl
@@ -67,6 +74,13 @@ namespace IO.Swagger.Model {
     [DataMember(Name="feePayer", EmitDefaultValue=false)]
     [JsonProperty(PropertyName = "feePayer")]
     public string FeePayer { get; set; }
+
+    /// <summary>
+    /// Gets or Sets Ip
+    /// </summary>
+    [DataMember(Name="ip", EmitDefaultValue=false)]
+    [JsonProperty(PropertyName = "ip")]
+    public string Ip { get; set; }
 
     /// <summary>
     /// Gets or Sets Mint
@@ -167,6 +181,13 @@ namespace IO.Swagger.Model {
     public decimal? TotalDuration { get; set; }
 
     /// <summary>
+    /// Gets or Sets Ua
+    /// </summary>
+    [DataMember(Name="ua", EmitDefaultValue=false)]
+    [JsonProperty(PropertyName = "ua")]
+    public string Ua { get; set; }
+
+    /// <summary>
     /// Gets or Sets WebhookEventStart
     /// </summary>
     [DataMember(Name="webhookEventStart", EmitDefaultValue=false)]
@@ -215,15 +236,17 @@ namespace IO.Swagger.Model {
     /// <returns>String presentation of the object</returns>
     public override string ToString()  {
       var sb = new StringBuilder();
-      sb.Append("class AppTransaction {\n");
+      sb.Append("class Transaction {\n");
       sb.Append("  Id: ").Append(Id).Append("\n");
       sb.Append("  CreatedAt: ").Append(CreatedAt).Append("\n");
       sb.Append("  UpdatedAt: ").Append(UpdatedAt).Append("\n");
       sb.Append("  Amount: ").Append(Amount).Append("\n");
+      sb.Append("  Decimals: ").Append(Decimals).Append("\n");
       sb.Append("  Destination: ").Append(Destination).Append("\n");
       sb.Append("  Errors: ").Append(Errors).Append("\n");
       sb.Append("  ExplorerUrl: ").Append(ExplorerUrl).Append("\n");
       sb.Append("  FeePayer: ").Append(FeePayer).Append("\n");
+      sb.Append("  Ip: ").Append(Ip).Append("\n");
       sb.Append("  Mint: ").Append(Mint).Append("\n");
       sb.Append("  ProcessingDuration: ").Append(ProcessingDuration).Append("\n");
       sb.Append("  ReferenceId: ").Append(ReferenceId).Append("\n");
@@ -238,6 +261,7 @@ namespace IO.Swagger.Model {
       sb.Append("  Source: ").Append(Source).Append("\n");
       sb.Append("  Status: ").Append(Status).Append("\n");
       sb.Append("  TotalDuration: ").Append(TotalDuration).Append("\n");
+      sb.Append("  Ua: ").Append(Ua).Append("\n");
       sb.Append("  WebhookEventStart: ").Append(WebhookEventStart).Append("\n");
       sb.Append("  WebhookEventEnd: ").Append(WebhookEventEnd).Append("\n");
       sb.Append("  WebhookEventDuration: ").Append(WebhookEventDuration).Append("\n");

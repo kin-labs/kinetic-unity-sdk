@@ -1,13 +1,12 @@
-# IO.Swagger.Model.AppTransactionError
+# IO.Swagger.Model.SignatureStatus
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Id** | **string** |  | 
-**Logs** | **List&lt;string&gt;** |  | 
-**Message** | **string** |  | 
-**Type** | **string** |  | 
-**Instruction** | **int?** |  | 
+**Slot** | [**decimal?**](BigDecimal.md) |  | 
+**Confirmations** | [**decimal?**](BigDecimal.md) |  | 
+**Err** | **Object** |  | 
+**ConfirmationStatus** | **Object** |  | 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

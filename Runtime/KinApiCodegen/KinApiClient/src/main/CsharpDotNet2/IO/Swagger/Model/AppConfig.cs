@@ -20,6 +20,13 @@ namespace IO.Swagger.Model {
     public AppConfigApp App { get; set; }
 
     /// <summary>
+    /// Gets or Sets Api
+    /// </summary>
+    [DataMember(Name="api", EmitDefaultValue=false)]
+    [JsonProperty(PropertyName = "api")]
+    public AppConfigApi Api { get; set; }
+
+    /// <summary>
     /// Gets or Sets Environment
     /// </summary>
     [DataMember(Name="environment", EmitDefaultValue=false)]
@@ -49,6 +56,7 @@ namespace IO.Swagger.Model {
       var sb = new StringBuilder();
       sb.Append("class AppConfig {\n");
       sb.Append("  App: ").Append(App).Append("\n");
+      sb.Append("  Api: ").Append(Api).Append("\n");
       sb.Append("  Environment: ").Append(Environment).Append("\n");
       sb.Append("  Mint: ").Append(Mint).Append("\n");
       sb.Append("  Mints: ").Append(Mints).Append("\n");

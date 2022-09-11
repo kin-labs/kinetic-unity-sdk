@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using IO.Swagger.Api;
 using IO.Swagger.Model;
+using Kinetic.Sdk.Configurations;
 using Kinetic.Sdk.Helpers;
+using Kinetic.Sdk.KinMemo;
 using Kinetic.Sdk.Transactions;
 using Solana.Unity.Rpc.Types;
 using UnityEngine;
@@ -22,15 +24,15 @@ namespace Kinetic.Sdk
         private readonly AppApi _appApi;
         private readonly TransactionApi _transactionApi;
         
-        private readonly KineticSdkConfig _sdkConfig;
+        public readonly KineticSdkConfig SdkConfig;
 
         public Solana Solana { get; private set; }
         public AppConfig Config { get; private set; }
 
         private KineticSdk(KineticSdkConfig config)
         {
-            _sdkConfig = config;
-            var basePath = config.Endpoint.ParseEndpoint();
+            SdkConfig = config;
+            var basePath = config.Endpoint;
             
             _accountApi = new AccountApi(basePath);
             _airdropApi = new AirdropApi(basePath);
@@ -80,12 +82,35 @@ namespace Kinetic.Sdk
             return _accountApi
                 .GetTokenAccounts(this.Config.Environment.Name, this.Config.App.Index, account, mint);
         }
+        
+        public RequestAirdropResponse RequestAirdrop(string account, string amount,
+            Commitment commitment = Commitment.Finalized, string mint = null){
+            if (Config is null)
+            {
+                throw new Exception("AppConfig not initialized");
+            }
+            mint ??= Config.Mint.PublicKey;
+
+            return _airdropApi
+                .RequestAirdrop(
+                    new RequestAirdropRequest()
+                    {
+                        Account = account,
+                        Amount = amount,
+                        Commitment = commitment.ToString(),
+                        Environment = Config.Environment.Name,
+                        Index = Config.App.Index,
+                        Mint = mint,
+                    }
+                );
+        }
+
 
         #endregion
         
         #region Transactions
 
-        public AppTransaction CreateAccount(Keypair owner, string mint = null, Commitment commitment = default)
+        public Transaction CreateAccount(Keypair owner, string mint = null, Commitment commitment = default)
         {
             if (Config is null)
             {
@@ -112,11 +137,10 @@ namespace Kinetic.Sdk
                 Tx = tx
             };
 
-            var res = _accountApi.CreateAccount(request);
-            return res;
+            return _accountApi.CreateAccount(request);
         }
 
-        public AppTransaction MakeTransfer(Keypair owner, string amount, string destination, string mint = null,
+        public Transaction MakeTransfer(Keypair owner, string amount, string destination, string mint = null,
             string referenceId = null, string referenceType = null, bool senderCreate = false,
             Commitment commitment = Commitment.Confirmed, TransactionType type = TransactionType.None)
         {
@@ -124,10 +148,19 @@ namespace Kinetic.Sdk
             {
                 throw new Exception("AppConfig not initialized");
             }
+            if (Config.Mints.Find(m => m.PublicKey == destination) != null)
+            {
+                throw new Exception("Transfers to a mint are not allowed.");
+            }
             mint ??= Config.Mint.PublicKey;
             var pt = PrepareTransaction(mint);
             
             var account = GetTokenAccounts(account: destination, mint);
+            
+            if (account.Count == 0 && !senderCreate)
+            {
+                throw new Exception("Destination account doesn't exist.");
+            }
 
             var tx = TransactionHelper.MakeTransferTransaction(
                 addMemo: Config.Mint.AddMemo,
@@ -167,14 +200,14 @@ namespace Kinetic.Sdk
         {
             try
             {
-                Config = _appApi.GetAppConfig(_sdkConfig.Environment, _sdkConfig.Index);
-                _sdkConfig.SolanaRpcEndpoint = _sdkConfig.SolanaRpcEndpoint != null
-                    ? _sdkConfig.SolanaRpcEndpoint.GetSolanaRpcEndpoint() 
+                Config = _appApi.GetAppConfig(SdkConfig.Environment, SdkConfig.Index);
+                SdkConfig.SolanaRpcEndpoint = SdkConfig.SolanaRpcEndpoint != null
+                    ? SdkConfig.SolanaRpcEndpoint.GetSolanaRpcEndpoint() 
                     : Config.Environment.Cluster.Endpoint.GetSolanaRpcEndpoint();
-                Solana = new Solana(_sdkConfig.SolanaRpcEndpoint, _sdkConfig.Logger);
-                _sdkConfig?.Logger?.Log(
-                    $"KineticSdk: endpoint '{_sdkConfig.Endpoint}', " +
-                    $"environment '{_sdkConfig.Environment}'," +
+                Solana = new Solana(SdkConfig.SolanaRpcEndpoint, SdkConfig.Logger);
+                SdkConfig?.Logger?.Log(
+                    $"KineticSdk: endpoint '{SdkConfig.Endpoint}', " +
+                    $"environment '{SdkConfig.Environment}'," +
                     $" index: {Config.App.Index}"
                 );
                 return Config;

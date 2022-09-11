@@ -11,7 +11,7 @@ namespace IO.Swagger.Model {
   /// 
   /// </summary>
   [DataContract]
-  public class AppTransactionError {
+  public class TransactionError {
     /// <summary>
     /// Gets or Sets Id
     /// </summary>
@@ -54,7 +54,7 @@ namespace IO.Swagger.Model {
     /// <returns>String presentation of the object</returns>
     public override string ToString()  {
       var sb = new StringBuilder();
-      sb.Append("class AppTransactionError {\n");
+      sb.Append("class TransactionError {\n");
       sb.Append("  Id: ").Append(Id).Append("\n");
       sb.Append("  Logs: ").Append(Logs).Append("\n");
       sb.Append("  Message: ").Append(Message).Append("\n");

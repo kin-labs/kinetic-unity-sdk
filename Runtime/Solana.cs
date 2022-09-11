@@ -1,20 +1,17 @@
-// ReSharper disable once CheckNamespace
-
-using Kinetic.Sdk.Helpers;
 using Solana.Unity.Rpc;
 using UnityEngine;
+
+// ReSharper disable once CheckNamespace
 
 namespace Kinetic.Sdk
 {
     public class Solana
     {
-        private readonly string _endpoint;
         public readonly IRpcClient Connection;
 
         public Solana(string endpoint, Logger logger=null)
         {
-            _endpoint = endpoint.ParseEndpoint();
-            Connection = ClientFactory.GetClient(_endpoint);
+            Connection = ClientFactory.GetClient(endpoint);
         }
     }
 }

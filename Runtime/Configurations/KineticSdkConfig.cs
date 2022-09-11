@@ -2,7 +2,7 @@ using UnityEngine;
 
 // ReSharper disable once CheckNamespace
 
-namespace Kinetic.Sdk.Helpers
+namespace Kinetic.Sdk.Configurations
 {
     public class KineticSdkConfig
     {
@@ -21,5 +21,11 @@ namespace Kinetic.Sdk.Helpers
             Logger = logger;
             SolanaRpcEndpoint = solanaRpcEndpoint;
         }
+    }
+    
+    public static class KineticSdkEndpoint
+    {
+        public const string Devnet = "devnet";
+        public const string Mainnet = "mainnet";
     }
 }

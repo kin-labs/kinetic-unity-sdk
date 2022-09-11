@@ -1,4 +1,4 @@
-# IO.Swagger.Model.AppTransaction
+# IO.Swagger.Model.Transaction
 ## Properties
 
 Name | Type | Description | Notes
@@ -7,10 +7,12 @@ Name | Type | Description | Notes
 **CreatedAt** | **DateTime?** |  | 
 **UpdatedAt** | **DateTime?** |  | 
 **Amount** | **string** |  | 
+**Decimals** | [**decimal?**](BigDecimal.md) |  | 
 **Destination** | **string** |  | 
-**Errors** | [**List&lt;AppTransactionError&gt;**](AppTransactionError.md) |  | 
+**Errors** | [**List&lt;TransactionError&gt;**](TransactionError.md) |  | 
 **ExplorerUrl** | **string** |  | 
 **FeePayer** | **string** |  | 
+**Ip** | **string** |  | 
 **Mint** | **string** |  | 
 **ProcessingDuration** | [**decimal?**](BigDecimal.md) |  | 
 **ReferenceId** | **string** |  | 
@@ -25,6 +27,7 @@ Name | Type | Description | Notes
 **Source** | **string** |  | 
 **Status** | **string** |  | 
 **TotalDuration** | [**decimal?**](BigDecimal.md) |  | 
+**Ua** | **string** |  | 
 **WebhookEventStart** | **DateTime?** |  | 
 **WebhookEventEnd** | **DateTime?** |  | 
 **WebhookEventDuration** | [**decimal?**](BigDecimal.md) |  | 

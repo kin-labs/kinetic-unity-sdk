@@ -29,9 +29,17 @@ namespace IO.Swagger.Api
         /// <summary>
         ///  
         /// </summary>
+        /// <param name="environment"></param>
+        /// <param name="index"></param>
+        /// <param name="signature"></param>
+        /// <returns>GetTransactionResponse</returns>
+        GetTransactionResponse GetTransaction (string environment, int? index, string signature);
+        /// <summary>
+        ///  
+        /// </summary>
         /// <param name="body"></param>
-        /// <returns>AppTransaction</returns>
-        AppTransaction MakeTransfer (MakeTransferRequest body);
+        /// <returns>Transaction</returns>
+        Transaction MakeTransfer (MakeTransferRequest body);
     }
   
     /// <summary>
@@ -172,9 +180,52 @@ path = path.Replace("{" + "index" + "}", ApiClient.ParameterToString(index));
         /// <summary>
         ///  
         /// </summary>
+        /// <param name="environment"></param>
+        /// <param name="index"></param>
+        /// <param name="signature"></param>
+        /// <returns>GetTransactionResponse</returns>
+        public GetTransactionResponse GetTransaction (string environment, int? index, string signature)
+        {
+            // verify the required parameter 'environment' is set
+            if (environment == null) throw new ApiException(400, "Missing required parameter 'environment' when calling GetTransaction");
+            // verify the required parameter 'index' is set
+            if (index == null) throw new ApiException(400, "Missing required parameter 'index' when calling GetTransaction");
+            // verify the required parameter 'signature' is set
+            if (signature == null) throw new ApiException(400, "Missing required parameter 'signature' when calling GetTransaction");
+    
+            var path = "/api/transaction/transaction/{environment}/{index}/{signature}";
+            path = path.Replace("{format}", "json");
+            path = path.Replace("{" + "environment" + "}", ApiClient.ParameterToString(environment));
+path = path.Replace("{" + "index" + "}", ApiClient.ParameterToString(index));
+path = path.Replace("{" + "signature" + "}", ApiClient.ParameterToString(signature));
+    
+            var queryParams = new Dictionary<String, String>();
+            var headerParams = new Dictionary<String, String>();
+            var formParams = new Dictionary<String, String>();
+            var fileParams = new Dictionary<String, FileParameter>();
+            String postBody = null;
+    
+                                    
+            // authentication setting, if any
+            String[] authSettings = new String[] {  };
+    
+            // make the HTTP request
+            IRestResponse response = (IRestResponse) ApiClient.CallApi(path, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
+    
+            if (((int)response.StatusCode) >= 400)
+                throw new ApiException ((int)response.StatusCode, "Error calling GetTransaction: " + response.Content, response.Content);
+            else if (((int)response.StatusCode) == 0)
+                throw new ApiException ((int)response.StatusCode, "Error calling GetTransaction: " + response.ErrorMessage, response.ErrorMessage);
+    
+            return (GetTransactionResponse) ApiClient.Deserialize(response.Content, typeof(GetTransactionResponse), response.Headers);
+        }
+    
+        /// <summary>
+        ///  
+        /// </summary>
         /// <param name="body"></param>
-        /// <returns>AppTransaction</returns>
-        public AppTransaction MakeTransfer (MakeTransferRequest body)
+        /// <returns>Transaction</returns>
+        public Transaction MakeTransfer (MakeTransferRequest body)
         {
             // verify the required parameter 'body' is set
             if (body == null) throw new ApiException(400, "Missing required parameter 'body' when calling MakeTransfer");
@@ -201,7 +252,7 @@ path = path.Replace("{" + "index" + "}", ApiClient.ParameterToString(index));
             else if (((int)response.StatusCode) == 0)
                 throw new ApiException ((int)response.StatusCode, "Error calling MakeTransfer: " + response.ErrorMessage, response.ErrorMessage);
     
-            return (AppTransaction) ApiClient.Deserialize(response.Content, typeof(AppTransaction), response.Headers);
+            return (Transaction) ApiClient.Deserialize(response.Content, typeof(Transaction), response.Headers);
         }
     
     }
