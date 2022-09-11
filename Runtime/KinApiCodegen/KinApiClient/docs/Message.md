@@ -1,4 +1,4 @@
-# IO.Swagger.Model.BigNumber
+# IO.Swagger.Model.Message
 ## Properties
 
 Name | Type | Description | Notes

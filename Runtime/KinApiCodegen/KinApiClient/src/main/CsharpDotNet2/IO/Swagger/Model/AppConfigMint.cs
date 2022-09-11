@@ -13,6 +13,13 @@ namespace IO.Swagger.Model {
   [DataContract]
   public class AppConfigMint {
     /// <summary>
+    /// Gets or Sets AddMemo
+    /// </summary>
+    [DataMember(Name="addMemo", EmitDefaultValue=false)]
+    [JsonProperty(PropertyName = "addMemo")]
+    public bool? AddMemo { get; set; }
+
+    /// <summary>
     /// Gets or Sets Airdrop
     /// </summary>
     [DataMember(Name="airdrop", EmitDefaultValue=false)]
@@ -24,21 +31,21 @@ namespace IO.Swagger.Model {
     /// </summary>
     [DataMember(Name="airdropAmount", EmitDefaultValue=false)]
     [JsonProperty(PropertyName = "airdropAmount")]
-    public decimal? AirdropAmount { get; set; }
+    public int? AirdropAmount { get; set; }
 
     /// <summary>
     /// Gets or Sets AirdropMax
     /// </summary>
     [DataMember(Name="airdropMax", EmitDefaultValue=false)]
     [JsonProperty(PropertyName = "airdropMax")]
-    public decimal? AirdropMax { get; set; }
+    public int? AirdropMax { get; set; }
 
     /// <summary>
     /// Gets or Sets Decimals
     /// </summary>
     [DataMember(Name="decimals", EmitDefaultValue=false)]
     [JsonProperty(PropertyName = "decimals")]
-    public decimal? Decimals { get; set; }
+    public int? Decimals { get; set; }
 
     /// <summary>
     /// Gets or Sets FeePayer
@@ -90,6 +97,7 @@ namespace IO.Swagger.Model {
     public override string ToString()  {
       var sb = new StringBuilder();
       sb.Append("class AppConfigMint {\n");
+      sb.Append("  AddMemo: ").Append(AddMemo).Append("\n");
       sb.Append("  Airdrop: ").Append(Airdrop).Append("\n");
       sb.Append("  AirdropAmount: ").Append(AirdropAmount).Append("\n");
       sb.Append("  AirdropMax: ").Append(AirdropMax).Append("\n");

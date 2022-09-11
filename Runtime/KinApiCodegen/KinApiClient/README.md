@@ -50,27 +50,11 @@ namespace Example
         {
 
             var apiInstance = new AccountApi();
-            var environment = environment_example;  // string | 
-            var index = 1.2;  // decimal? | 
-            var accountId = accountId_example;  // string | 
-
-            try
-            {
-                apiInstance.ApiAccountFeatureControllerGetAccountInfo(environment, index, accountId);
-            }
-            catch (Exception e)
-            {
-                Debug.Print("Exception when calling AccountApi.ApiAccountFeatureControllerGetAccountInfo: " + e.Message );
-            }
-        }
-    }
-}
-            var apiInstance = new AccountApi();
             var body = new CreateAccountRequest(); // CreateAccountRequest | 
 
             try
             {
-                AppTransaction result = apiInstance.CreateAccount(body);
+                Transaction result = apiInstance.CreateAccount(body);
                 Debug.WriteLine(result);
             }
             catch (Exception e)
@@ -82,7 +66,23 @@ namespace Example
 }
             var apiInstance = new AccountApi();
             var environment = environment_example;  // string | 
-            var index = 1.2;  // decimal? | 
+            var index = 56;  // int? | 
+            var accountId = accountId_example;  // string | 
+
+            try
+            {
+                apiInstance.GetAccountInfo(environment, index, accountId);
+            }
+            catch (Exception e)
+            {
+                Debug.Print("Exception when calling AccountApi.GetAccountInfo: " + e.Message );
+            }
+        }
+    }
+}
+            var apiInstance = new AccountApi();
+            var environment = environment_example;  // string | 
+            var index = 56;  // int? | 
             var accountId = accountId_example;  // string | 
 
             try
@@ -99,7 +99,7 @@ namespace Example
 }
             var apiInstance = new AccountApi();
             var environment = environment_example;  // string | 
-            var index = 1.2;  // decimal? | 
+            var index = 56;  // int? | 
             var accountId = accountId_example;  // string | 
             var mint = mint_example;  // string | 
 
@@ -117,7 +117,7 @@ namespace Example
 }
             var apiInstance = new AccountApi();
             var environment = environment_example;  // string | 
-            var index = 1.2;  // decimal? | 
+            var index = 56;  // int? | 
             var accountId = accountId_example;  // string | 
             var mint = mint_example;  // string | 
 
@@ -142,21 +142,18 @@ All URIs are relative to *https://devnet.kinetic.kin.org*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*AccountApi* | [**ApiAccountFeatureControllerGetAccountInfo**](docs/AccountApi.md#apiaccountfeaturecontrollergetaccountinfo) | **GET** /api/account/info/{environment}/{index}/{accountId} | 
 *AccountApi* | [**CreateAccount**](docs/AccountApi.md#createaccount) | **POST** /api/account/create | 
+*AccountApi* | [**GetAccountInfo**](docs/AccountApi.md#getaccountinfo) | **GET** /api/account/info/{environment}/{index}/{accountId} | 
 *AccountApi* | [**GetBalance**](docs/AccountApi.md#getbalance) | **GET** /api/account/balance/{environment}/{index}/{accountId} | 
 *AccountApi* | [**GetHistory**](docs/AccountApi.md#gethistory) | **GET** /api/account/history/{environment}/{index}/{accountId}/{mint} | 
 *AccountApi* | [**GetTokenAccounts**](docs/AccountApi.md#gettokenaccounts) | **GET** /api/account/token-accounts/{environment}/{index}/{accountId}/{mint} | 
 *AirdropApi* | [**AirdropStats**](docs/AirdropApi.md#airdropstats) | **GET** /api/airdrop/stats | 
 *AirdropApi* | [**RequestAirdrop**](docs/AirdropApi.md#requestairdrop) | **POST** /api/airdrop | 
-*AppApi* | [**ApiAppFeatureControllerAppWebhook**](docs/AppApi.md#apiappfeaturecontrollerappwebhook) | **POST** /api/app/{environment}/{index}/webhook/{type} | 
 *AppApi* | [**GetAppConfig**](docs/AppApi.md#getappconfig) | **GET** /api/app/{environment}/{index}/config | 
 *AppApi* | [**GetAppHealth**](docs/AppApi.md#getapphealth) | **GET** /api/app/{environment}/{index}/health | 
-*ConfigApi* | [**Config**](docs/ConfigApi.md#config) | **GET** /api/config | 
-*DefaultApi* | [**ApiCoreFeatureControllerMetrics**](docs/DefaultApi.md#apicorefeaturecontrollermetrics) | **GET** /api/metrics | 
-*DefaultApi* | [**ApiCoreFeatureControllerUptime**](docs/DefaultApi.md#apicorefeaturecontrolleruptime) | **GET** /api/uptime | 
 *TransactionApi* | [**GetLatestBlockhash**](docs/TransactionApi.md#getlatestblockhash) | **GET** /api/transaction/latest-blockhash/{environment}/{index} | 
 *TransactionApi* | [**GetMinimumRentExemptionBalance**](docs/TransactionApi.md#getminimumrentexemptionbalance) | **GET** /api/transaction/minimum-rent-exemption-balance/{environment}/{index} | 
+*TransactionApi* | [**GetTransaction**](docs/TransactionApi.md#gettransaction) | **GET** /api/transaction/transaction/{environment}/{index}/{signature} | 
 *TransactionApi* | [**MakeTransfer**](docs/TransactionApi.md#maketransfer) | **POST** /api/transaction/make-transfer | 
 
 <a name="documentation-for-models"></a>
@@ -165,26 +162,31 @@ Class | Method | HTTP request | Description
  - [IO.Swagger.Model.AirdropStats](docs/AirdropStats.md)
  - [IO.Swagger.Model.AirdropStatsCounts](docs/AirdropStatsCounts.md)
  - [IO.Swagger.Model.AirdropStatsDate](docs/AirdropStatsDate.md)
- - [IO.Swagger.Model.ApiConfigSummary](docs/ApiConfigSummary.md)
  - [IO.Swagger.Model.AppConfig](docs/AppConfig.md)
+ - [IO.Swagger.Model.AppConfigApi](docs/AppConfigApi.md)
  - [IO.Swagger.Model.AppConfigApp](docs/AppConfigApp.md)
  - [IO.Swagger.Model.AppConfigCluster](docs/AppConfigCluster.md)
  - [IO.Swagger.Model.AppConfigEnvironment](docs/AppConfigEnvironment.md)
  - [IO.Swagger.Model.AppConfigMint](docs/AppConfigMint.md)
  - [IO.Swagger.Model.AppHealth](docs/AppHealth.md)
- - [IO.Swagger.Model.AppTransaction](docs/AppTransaction.md)
- - [IO.Swagger.Model.AppTransactionError](docs/AppTransactionError.md)
  - [IO.Swagger.Model.BalanceResponse](docs/BalanceResponse.md)
  - [IO.Swagger.Model.BalanceToken](docs/BalanceToken.md)
- - [IO.Swagger.Model.BigNumber](docs/BigNumber.md)
- - [IO.Swagger.Model.Buffer](docs/Buffer.md)
+ - [IO.Swagger.Model.ConfirmedSignatureInfo](docs/ConfirmedSignatureInfo.md)
+ - [IO.Swagger.Model.ConfirmedTransactionMeta](docs/ConfirmedTransactionMeta.md)
  - [IO.Swagger.Model.CreateAccountRequest](docs/CreateAccountRequest.md)
+ - [IO.Swagger.Model.GetTransactionResponse](docs/GetTransactionResponse.md)
  - [IO.Swagger.Model.HistoryResponse](docs/HistoryResponse.md)
  - [IO.Swagger.Model.LatestBlockhashResponse](docs/LatestBlockhashResponse.md)
  - [IO.Swagger.Model.MakeTransferRequest](docs/MakeTransferRequest.md)
+ - [IO.Swagger.Model.Message](docs/Message.md)
  - [IO.Swagger.Model.MinimumRentExemptionBalanceResponse](docs/MinimumRentExemptionBalanceResponse.md)
  - [IO.Swagger.Model.RequestAirdropRequest](docs/RequestAirdropRequest.md)
  - [IO.Swagger.Model.RequestAirdropResponse](docs/RequestAirdropResponse.md)
+ - [IO.Swagger.Model.SignatureStatus](docs/SignatureStatus.md)
+ - [IO.Swagger.Model.Transaction](docs/Transaction.md)
+ - [IO.Swagger.Model.TransactionData](docs/TransactionData.md)
+ - [IO.Swagger.Model.TransactionError](docs/TransactionError.md)
+ - [IO.Swagger.Model.TransactionResponse](docs/TransactionResponse.md)
 
 <a name="documentation-for-authorization"></a>
 ## Documentation for Authorization

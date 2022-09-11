@@ -11,27 +11,27 @@ namespace IO.Swagger.Model {
   /// 
   /// </summary>
   [DataContract]
-  public class AppTransactionError {
+  public class GetTransactionResponse {
     /// <summary>
-    /// Gets or Sets Id
+    /// Gets or Sets Signature
     /// </summary>
-    [DataMember(Name="id", EmitDefaultValue=false)]
-    [JsonProperty(PropertyName = "id")]
-    public string Id { get; set; }
+    [DataMember(Name="signature", EmitDefaultValue=false)]
+    [JsonProperty(PropertyName = "signature")]
+    public string Signature { get; set; }
 
     /// <summary>
-    /// Gets or Sets Message
+    /// Gets or Sets Status
     /// </summary>
-    [DataMember(Name="message", EmitDefaultValue=false)]
-    [JsonProperty(PropertyName = "message")]
-    public string Message { get; set; }
+    [DataMember(Name="status", EmitDefaultValue=false)]
+    [JsonProperty(PropertyName = "status")]
+    public SignatureStatus Status { get; set; }
 
     /// <summary>
-    /// Gets or Sets Type
+    /// Gets or Sets Transaction
     /// </summary>
-    [DataMember(Name="type", EmitDefaultValue=false)]
-    [JsonProperty(PropertyName = "type")]
-    public Object Type { get; set; }
+    [DataMember(Name="transaction", EmitDefaultValue=false)]
+    [JsonProperty(PropertyName = "transaction")]
+    public TransactionResponse Transaction { get; set; }
 
 
     /// <summary>
@@ -40,10 +40,10 @@ namespace IO.Swagger.Model {
     /// <returns>String presentation of the object</returns>
     public override string ToString()  {
       var sb = new StringBuilder();
-      sb.Append("class AppTransactionError {\n");
-      sb.Append("  Id: ").Append(Id).Append("\n");
-      sb.Append("  Message: ").Append(Message).Append("\n");
-      sb.Append("  Type: ").Append(Type).Append("\n");
+      sb.Append("class GetTransactionResponse {\n");
+      sb.Append("  Signature: ").Append(Signature).Append("\n");
+      sb.Append("  Status: ").Append(Status).Append("\n");
+      sb.Append("  Transaction: ").Append(Transaction).Append("\n");
       sb.Append("}\n");
       return sb.ToString();
     }

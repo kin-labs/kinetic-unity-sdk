@@ -11,7 +11,7 @@ namespace IO.Swagger.Model {
   /// 
   /// </summary>
   [DataContract]
-  public class BigNumber {
+  public class Message {
 
     /// <summary>
     /// Get the string presentation of the object
@@ -19,7 +19,7 @@ namespace IO.Swagger.Model {
     /// <returns>String presentation of the object</returns>
     public override string ToString()  {
       var sb = new StringBuilder();
-      sb.Append("class BigNumber {\n");
+      sb.Append("class Message {\n");
       sb.Append("}\n");
       return sb.ToString();
     }

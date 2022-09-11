@@ -17,7 +17,7 @@ namespace IO.Swagger.Model {
     /// </summary>
     [DataMember(Name="lamports", EmitDefaultValue=false)]
     [JsonProperty(PropertyName = "lamports")]
-    public decimal? Lamports { get; set; }
+    public float? Lamports { get; set; }
 
 
     /// <summary>

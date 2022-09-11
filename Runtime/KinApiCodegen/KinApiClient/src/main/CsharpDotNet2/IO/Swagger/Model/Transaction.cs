@@ -11,7 +11,7 @@ namespace IO.Swagger.Model {
   /// 
   /// </summary>
   [DataContract]
-  public class AppTransaction {
+  public class Transaction {
     /// <summary>
     /// Gets or Sets Id
     /// </summary>
@@ -38,7 +38,14 @@ namespace IO.Swagger.Model {
     /// </summary>
     [DataMember(Name="amount", EmitDefaultValue=false)]
     [JsonProperty(PropertyName = "amount")]
-    public decimal? Amount { get; set; }
+    public string Amount { get; set; }
+
+    /// <summary>
+    /// Gets or Sets Decimals
+    /// </summary>
+    [DataMember(Name="decimals", EmitDefaultValue=false)]
+    [JsonProperty(PropertyName = "decimals")]
+    public decimal? Decimals { get; set; }
 
     /// <summary>
     /// Gets or Sets Destination
@@ -52,7 +59,7 @@ namespace IO.Swagger.Model {
     /// </summary>
     [DataMember(Name="errors", EmitDefaultValue=false)]
     [JsonProperty(PropertyName = "errors")]
-    public List<AppTransactionError> Errors { get; set; }
+    public List<TransactionError> Errors { get; set; }
 
     /// <summary>
     /// Gets or Sets ExplorerUrl
@@ -69,11 +76,25 @@ namespace IO.Swagger.Model {
     public string FeePayer { get; set; }
 
     /// <summary>
+    /// Gets or Sets Ip
+    /// </summary>
+    [DataMember(Name="ip", EmitDefaultValue=false)]
+    [JsonProperty(PropertyName = "ip")]
+    public string Ip { get; set; }
+
+    /// <summary>
     /// Gets or Sets Mint
     /// </summary>
     [DataMember(Name="mint", EmitDefaultValue=false)]
     [JsonProperty(PropertyName = "mint")]
     public string Mint { get; set; }
+
+    /// <summary>
+    /// Gets or Sets ProcessingDuration
+    /// </summary>
+    [DataMember(Name="processingDuration", EmitDefaultValue=false)]
+    [JsonProperty(PropertyName = "processingDuration")]
+    public decimal? ProcessingDuration { get; set; }
 
     /// <summary>
     /// Gets or Sets ReferenceId
@@ -97,6 +118,20 @@ namespace IO.Swagger.Model {
     public string Signature { get; set; }
 
     /// <summary>
+    /// Gets or Sets SolanaCommitted
+    /// </summary>
+    [DataMember(Name="solanaCommitted", EmitDefaultValue=false)]
+    [JsonProperty(PropertyName = "solanaCommitted")]
+    public DateTime? SolanaCommitted { get; set; }
+
+    /// <summary>
+    /// Gets or Sets SolanaCommittedDuration
+    /// </summary>
+    [DataMember(Name="solanaCommittedDuration", EmitDefaultValue=false)]
+    [JsonProperty(PropertyName = "solanaCommittedDuration")]
+    public decimal? SolanaCommittedDuration { get; set; }
+
+    /// <summary>
     /// Gets or Sets SolanaFinalized
     /// </summary>
     [DataMember(Name="solanaFinalized", EmitDefaultValue=false)]
@@ -104,11 +139,11 @@ namespace IO.Swagger.Model {
     public DateTime? SolanaFinalized { get; set; }
 
     /// <summary>
-    /// Gets or Sets SolanaCommitted
+    /// Gets or Sets SolanaFinalizedDuration
     /// </summary>
-    [DataMember(Name="solanaCommitted", EmitDefaultValue=false)]
-    [JsonProperty(PropertyName = "solanaCommitted")]
-    public DateTime? SolanaCommitted { get; set; }
+    [DataMember(Name="solanaFinalizedDuration", EmitDefaultValue=false)]
+    [JsonProperty(PropertyName = "solanaFinalizedDuration")]
+    public decimal? SolanaFinalizedDuration { get; set; }
 
     /// <summary>
     /// Gets or Sets SolanaStart
@@ -136,7 +171,21 @@ namespace IO.Swagger.Model {
     /// </summary>
     [DataMember(Name="status", EmitDefaultValue=false)]
     [JsonProperty(PropertyName = "status")]
-    public Object Status { get; set; }
+    public string Status { get; set; }
+
+    /// <summary>
+    /// Gets or Sets TotalDuration
+    /// </summary>
+    [DataMember(Name="totalDuration", EmitDefaultValue=false)]
+    [JsonProperty(PropertyName = "totalDuration")]
+    public decimal? TotalDuration { get; set; }
+
+    /// <summary>
+    /// Gets or Sets Ua
+    /// </summary>
+    [DataMember(Name="ua", EmitDefaultValue=false)]
+    [JsonProperty(PropertyName = "ua")]
+    public string Ua { get; set; }
 
     /// <summary>
     /// Gets or Sets WebhookEventStart
@@ -153,6 +202,13 @@ namespace IO.Swagger.Model {
     public DateTime? WebhookEventEnd { get; set; }
 
     /// <summary>
+    /// Gets or Sets WebhookEventDuration
+    /// </summary>
+    [DataMember(Name="webhookEventDuration", EmitDefaultValue=false)]
+    [JsonProperty(PropertyName = "webhookEventDuration")]
+    public decimal? WebhookEventDuration { get; set; }
+
+    /// <summary>
     /// Gets or Sets WebhookVerifyStart
     /// </summary>
     [DataMember(Name="webhookVerifyStart", EmitDefaultValue=false)]
@@ -166,6 +222,13 @@ namespace IO.Swagger.Model {
     [JsonProperty(PropertyName = "webhookVerifyEnd")]
     public DateTime? WebhookVerifyEnd { get; set; }
 
+    /// <summary>
+    /// Gets or Sets WebhookVerifyDuration
+    /// </summary>
+    [DataMember(Name="webhookVerifyDuration", EmitDefaultValue=false)]
+    [JsonProperty(PropertyName = "webhookVerifyDuration")]
+    public decimal? WebhookVerifyDuration { get; set; }
+
 
     /// <summary>
     /// Get the string presentation of the object
@@ -173,29 +236,38 @@ namespace IO.Swagger.Model {
     /// <returns>String presentation of the object</returns>
     public override string ToString()  {
       var sb = new StringBuilder();
-      sb.Append("class AppTransaction {\n");
+      sb.Append("class Transaction {\n");
       sb.Append("  Id: ").Append(Id).Append("\n");
       sb.Append("  CreatedAt: ").Append(CreatedAt).Append("\n");
       sb.Append("  UpdatedAt: ").Append(UpdatedAt).Append("\n");
       sb.Append("  Amount: ").Append(Amount).Append("\n");
+      sb.Append("  Decimals: ").Append(Decimals).Append("\n");
       sb.Append("  Destination: ").Append(Destination).Append("\n");
       sb.Append("  Errors: ").Append(Errors).Append("\n");
       sb.Append("  ExplorerUrl: ").Append(ExplorerUrl).Append("\n");
       sb.Append("  FeePayer: ").Append(FeePayer).Append("\n");
+      sb.Append("  Ip: ").Append(Ip).Append("\n");
       sb.Append("  Mint: ").Append(Mint).Append("\n");
+      sb.Append("  ProcessingDuration: ").Append(ProcessingDuration).Append("\n");
       sb.Append("  ReferenceId: ").Append(ReferenceId).Append("\n");
       sb.Append("  ReferenceType: ").Append(ReferenceType).Append("\n");
       sb.Append("  Signature: ").Append(Signature).Append("\n");
-      sb.Append("  SolanaFinalized: ").Append(SolanaFinalized).Append("\n");
       sb.Append("  SolanaCommitted: ").Append(SolanaCommitted).Append("\n");
+      sb.Append("  SolanaCommittedDuration: ").Append(SolanaCommittedDuration).Append("\n");
+      sb.Append("  SolanaFinalized: ").Append(SolanaFinalized).Append("\n");
+      sb.Append("  SolanaFinalizedDuration: ").Append(SolanaFinalizedDuration).Append("\n");
       sb.Append("  SolanaStart: ").Append(SolanaStart).Append("\n");
       sb.Append("  SolanaTransaction: ").Append(SolanaTransaction).Append("\n");
       sb.Append("  Source: ").Append(Source).Append("\n");
       sb.Append("  Status: ").Append(Status).Append("\n");
+      sb.Append("  TotalDuration: ").Append(TotalDuration).Append("\n");
+      sb.Append("  Ua: ").Append(Ua).Append("\n");
       sb.Append("  WebhookEventStart: ").Append(WebhookEventStart).Append("\n");
       sb.Append("  WebhookEventEnd: ").Append(WebhookEventEnd).Append("\n");
+      sb.Append("  WebhookEventDuration: ").Append(WebhookEventDuration).Append("\n");
       sb.Append("  WebhookVerifyStart: ").Append(WebhookVerifyStart).Append("\n");
       sb.Append("  WebhookVerifyEnd: ").Append(WebhookVerifyEnd).Append("\n");
+      sb.Append("  WebhookVerifyDuration: ").Append(WebhookVerifyDuration).Append("\n");
       sb.Append("}\n");
       return sb.ToString();
     }

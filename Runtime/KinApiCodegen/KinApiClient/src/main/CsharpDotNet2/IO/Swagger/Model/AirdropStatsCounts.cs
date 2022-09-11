@@ -17,21 +17,21 @@ namespace IO.Swagger.Model {
     /// </summary>
     [DataMember(Name="averageValue", EmitDefaultValue=false)]
     [JsonProperty(PropertyName = "averageValue")]
-    public decimal? AverageValue { get; set; }
+    public int? AverageValue { get; set; }
 
     /// <summary>
     /// Gets or Sets Total
     /// </summary>
     [DataMember(Name="total", EmitDefaultValue=false)]
     [JsonProperty(PropertyName = "total")]
-    public decimal? Total { get; set; }
+    public int? Total { get; set; }
 
     /// <summary>
     /// Gets or Sets TotalValue
     /// </summary>
     [DataMember(Name="totalValue", EmitDefaultValue=false)]
     [JsonProperty(PropertyName = "totalValue")]
-    public decimal? TotalValue { get; set; }
+    public int? TotalValue { get; set; }
 
 
     /// <summary>

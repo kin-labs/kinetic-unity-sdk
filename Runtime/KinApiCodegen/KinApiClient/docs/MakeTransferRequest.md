@@ -5,12 +5,12 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Commitment** | **string** |  | 
 **Environment** | **string** |  | 
-**Index** | [**decimal?**](BigDecimal.md) |  | 
+**Index** | **int?** |  | 
 **Mint** | **string** |  | 
-**LastValidBlockHeight** | [**decimal?**](BigDecimal.md) |  | 
+**LastValidBlockHeight** | **int?** |  | 
 **ReferenceId** | **string** |  | 
 **ReferenceType** | **string** |  | 
-**Tx** | [**Buffer**](Buffer.md) |  | 
+**Tx** | **byte[]** |  | 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

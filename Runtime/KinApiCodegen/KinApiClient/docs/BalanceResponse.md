@@ -3,7 +3,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Balance** | [**BigNumber**](BigNumber.md) |  | 
+**Balance** | **string** |  | 
 **Mints** | **Object** |  | 
 **Tokens** | [**List&lt;BalanceToken&gt;**](BalanceToken.md) |  | 
 

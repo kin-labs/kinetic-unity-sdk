@@ -11,20 +11,20 @@ namespace IO.Swagger.Model {
   /// 
   /// </summary>
   [DataContract]
-  public class ApiConfigSummary {
+  public class AppConfigApi {
     /// <summary>
-    /// Gets or Sets Port
+    /// Gets or Sets Name
     /// </summary>
-    [DataMember(Name="port", EmitDefaultValue=false)]
-    [JsonProperty(PropertyName = "port")]
-    public decimal? Port { get; set; }
+    [DataMember(Name="name", EmitDefaultValue=false)]
+    [JsonProperty(PropertyName = "name")]
+    public string Name { get; set; }
 
     /// <summary>
-    /// Gets or Sets Environment
+    /// Gets or Sets Version
     /// </summary>
-    [DataMember(Name="environment", EmitDefaultValue=false)]
-    [JsonProperty(PropertyName = "environment")]
-    public string Environment { get; set; }
+    [DataMember(Name="version", EmitDefaultValue=false)]
+    [JsonProperty(PropertyName = "version")]
+    public string Version { get; set; }
 
 
     /// <summary>
@@ -33,9 +33,9 @@ namespace IO.Swagger.Model {
     /// <returns>String presentation of the object</returns>
     public override string ToString()  {
       var sb = new StringBuilder();
-      sb.Append("class ApiConfigSummary {\n");
-      sb.Append("  Port: ").Append(Port).Append("\n");
-      sb.Append("  Environment: ").Append(Environment).Append("\n");
+      sb.Append("class AppConfigApi {\n");
+      sb.Append("  Name: ").Append(Name).Append("\n");
+      sb.Append("  Version: ").Append(Version).Append("\n");
       sb.Append("}\n");
       return sb.ToString();
     }

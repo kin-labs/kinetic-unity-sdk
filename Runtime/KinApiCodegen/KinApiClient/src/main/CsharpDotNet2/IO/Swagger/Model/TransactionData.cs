@@ -11,7 +11,21 @@ namespace IO.Swagger.Model {
   /// 
   /// </summary>
   [DataContract]
-  public class Buffer {
+  public class TransactionData {
+    /// <summary>
+    /// Gets or Sets Message
+    /// </summary>
+    [DataMember(Name="message", EmitDefaultValue=false)]
+    [JsonProperty(PropertyName = "message")]
+    public Message Message { get; set; }
+
+    /// <summary>
+    /// Gets or Sets Signatures
+    /// </summary>
+    [DataMember(Name="signatures", EmitDefaultValue=false)]
+    [JsonProperty(PropertyName = "signatures")]
+    public List<string> Signatures { get; set; }
+
 
     /// <summary>
     /// Get the string presentation of the object
@@ -19,7 +33,9 @@ namespace IO.Swagger.Model {
     /// <returns>String presentation of the object</returns>
     public override string ToString()  {
       var sb = new StringBuilder();
-      sb.Append("class Buffer {\n");
+      sb.Append("class TransactionData {\n");
+      sb.Append("  Message: ").Append(Message).Append("\n");
+      sb.Append("  Signatures: ").Append(Signatures).Append("\n");
       sb.Append("}\n");
       return sb.ToString();
     }

@@ -1,10 +1,12 @@
-# IO.Swagger.Model.ApiConfigSummary
+# IO.Swagger.Model.SignatureStatus
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Port** | [**decimal?**](BigDecimal.md) |  | 
-**Environment** | **string** |  | 
+**Slot** | [**decimal?**](BigDecimal.md) |  | 
+**Confirmations** | [**decimal?**](BigDecimal.md) |  | 
+**Err** | **Object** |  | 
+**ConfirmationStatus** | **Object** |  | 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

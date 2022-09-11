@@ -3,10 +3,11 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**AddMemo** | **bool?** |  | 
 **Airdrop** | **bool?** |  | 
-**AirdropAmount** | [**decimal?**](BigDecimal.md) |  | 
-**AirdropMax** | [**decimal?**](BigDecimal.md) |  | 
-**Decimals** | [**decimal?**](BigDecimal.md) |  | 
+**AirdropAmount** | **int?** |  | [optional] 
+**AirdropMax** | **int?** |  | [optional] 
+**Decimals** | **int?** |  | 
 **FeePayer** | **string** |  | 
 **LogoUrl** | **string** |  | 
 **Name** | **string** |  | 

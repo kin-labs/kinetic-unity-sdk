@@ -24,7 +24,7 @@ namespace IO.Swagger.Model {
     /// </summary>
     [DataMember(Name="index", EmitDefaultValue=false)]
     [JsonProperty(PropertyName = "index")]
-    public decimal? Index { get; set; }
+    public int? Index { get; set; }
 
     /// <summary>
     /// Gets or Sets Mint
@@ -38,7 +38,7 @@ namespace IO.Swagger.Model {
     /// </summary>
     [DataMember(Name="tx", EmitDefaultValue=false)]
     [JsonProperty(PropertyName = "tx")]
-    public Buffer Tx { get; set; }
+    public byte[] Tx { get; set; }
 
 
     /// <summary>
