@@ -1,11 +1,11 @@
 ---
-title: Kinetic-Unity SDK
+title: Unity SDK
 layout: layout-index
 eleventyNavigation:
-key: TODO SDK
+key: Unity SDK
 order: 19
 ---
-# Kinetic-Unity SDK
+# Unity SDK
 
 ## Get Started or Add to an Existing Project
 
