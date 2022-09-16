@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using IO.Swagger.Api;
 using IO.Swagger.Model;
 using Kinetic.Sdk.Configurations;
@@ -56,6 +57,10 @@ namespace Kinetic.Sdk
             );
         }
         
+        public async Task<BalanceResponse> GetBalanceAsync(string account){
+            return await Task.Run(()=> GetBalance(account));
+        }
+        
         public string GetExplorerUrl(string path)
         {
             return Config.Environment.Explorer.Replace("{path}", path);
@@ -72,6 +77,10 @@ namespace Kinetic.Sdk
             return _accountApi.GetHistory(Config.Environment.Name, Config.App.Index, account, mint);
         }
         
+        public async Task<List<HistoryResponse>> GetHistoryAsync(string account, string mint = null){
+            return await Task.Run(()=> GetHistory(account, mint));
+        }
+        
         public List<string> GetTokenAccounts(string account, string mint = null){
             if (Config is null)
             {
@@ -81,6 +90,10 @@ namespace Kinetic.Sdk
 
             return _accountApi
                 .GetTokenAccounts(this.Config.Environment.Name, this.Config.App.Index, account, mint);
+        }
+        
+        public async Task<List<string>> GetTokenAccountsAsync(string account, string mint = null){
+            return await Task.Run(()=> GetTokenAccounts(account, mint));
         }
         
         public RequestAirdropResponse RequestAirdrop(string account, string amount,
@@ -103,6 +116,16 @@ namespace Kinetic.Sdk
                         Mint = mint,
                     }
                 );
+        }
+        
+        public async Task<RequestAirdropResponse> RequestAirdropAsync(string account, string amount,
+            Commitment commitment = Commitment.Finalized, string mint = null){
+            if (Config is null)
+            {
+                throw new Exception("AppConfig not initialized");
+            }
+            mint ??= Config.Mint.PublicKey;
+            return await Task.Run(()=> RequestAirdrop(account, amount, commitment, mint));
         }
 
 
@@ -131,6 +154,7 @@ namespace Kinetic.Sdk
 
             var request = new CreateAccountRequest
             {
+                //Commitment = commitment, 
                 Environment = Config.Environment.Name,
                 Index = Config.App.Index,
                 Mint = mint,
@@ -138,6 +162,11 @@ namespace Kinetic.Sdk
             };
 
             return _accountApi.CreateAccount(request);
+        }
+        
+        public async Task<Transaction> CreateAccountAsync(Keypair owner, string mint = null,
+            Commitment commitment = Commitment.Confirmed){
+            return await Task.Run(()=> CreateAccount(owner, mint, commitment));
         }
 
         public Transaction MakeTransfer(Keypair owner, string amount, string destination, string mint = null,
@@ -191,6 +220,14 @@ namespace Kinetic.Sdk
             
             return _transactionApi.MakeTransfer(mkTransfer);
         }
+        
+        public async Task<Transaction> MakeTransferAsync(Keypair owner, string amount, string destination, 
+                string mint = null, string referenceId = null, string referenceType = null, bool senderCreate = false,
+                Commitment commitment = Commitment.Confirmed, TransactionType type = TransactionType.None){
+            return await Task.Run(()=> 
+                MakeTransfer(owner, amount, destination, mint, referenceId, referenceType, senderCreate,
+                    commitment, type));
+        }
 
         #endregion
         
@@ -233,6 +270,11 @@ namespace Kinetic.Sdk
                 Debug.LogError("KineticSdk: Error setting up SDK." + e.Message);
                 throw;
             }
+        }
+        
+        public static async Task<KineticSdk> SetupAsync(KineticSdkConfig config)
+        {
+            return await Task.Run(()=> Setup(config));
         }
         
         #endregion

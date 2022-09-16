@@ -24,10 +24,6 @@ namespace Kinetic.Sdk.Tests
             134, 208, 29, 170, 161, 12, 132, 240, 98, 16, 241, 4, 69, 193, 117, 148, 215
         };
 
-
-        public static readonly Keypair CreateAccountSigner = Keypair.FromSecretKey(
-            "5icCMHSkDzPFzY4UxHRP67BsTq8EcA6nVSL2ifpzsveGa79G3d8gU8hmWxhopR16s5WgBnFS7J6upt5ZevhihQ3q");
-
         public static readonly byte[] CreateAccountPartialSignature =
         {
             108, 50, 94, 175, 55, 107, 211, 168, 41, 145, 115, 48, 8, 33, 122, 226, 49, 233, 131, 76, 21, 211, 43, 61,
