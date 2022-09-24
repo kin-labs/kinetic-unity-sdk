@@ -27,7 +27,7 @@ public class WalletScreen : MonoBehaviour
     public async void UpdateBalance()
     {
         if(GameController.Keypair == null) return;
-        var balance = await GameController.KineticSdk.GetBalanceAsync( account: GameController.Keypair.PublicKey );
+        var balance = await GameController.KineticSdk.GetBalance( account: GameController.Keypair.PublicKey );
         txtBalance.gameObject.transform.parent.gameObject.SetActive(true);
         txtBalance.text = (float.Parse(balance.Balance) / Math.Pow(10, 5)).ToString("0.00") + " KIN";
     }
@@ -35,7 +35,7 @@ public class WalletScreen : MonoBehaviour
     public async void GetTokenAccounts()
     {
         if(GameController.Keypair == null) return;
-        var accounts = await GameController.KineticSdk.GetTokenAccountsAsync( account: GameController.Keypair.PublicKey );
+        var accounts = await GameController.KineticSdk.GetTokenAccounts( account: GameController.Keypair.PublicKey );
         if(accounts.Count == 0) return;
         tokenAccountsDropDown.gameObject.SetActive(true);
         txtTokenAccountDesc.gameObject.SetActive(true);
@@ -49,7 +49,7 @@ public class WalletScreen : MonoBehaviour
     public async void GetHistory()
     {
         if(GameController.Keypair == null) return;
-        var history =  await GameController.KineticSdk.GetHistoryAsync( account: GameController.Keypair.PublicKey );
+        var history =  await GameController.KineticSdk.GetHistory( account: GameController.Keypair.PublicKey );
         txtHistory.text = "";
         foreach (var h in history)
         {
@@ -63,7 +63,7 @@ public class WalletScreen : MonoBehaviour
         loading.SetActive(true);
         try
         {
-            await GameController.KineticSdk.RequestAirdropAsync(
+            await GameController.KineticSdk.RequestAirdrop(
                 account: GameController.Keypair.PublicKey,
                 amount: "1000"
             );
@@ -84,11 +84,12 @@ public class WalletScreen : MonoBehaviour
         loading.SetActive(true);
         try
         {
-            await GameController.KineticSdk.MakeTransferAsync(
+            await GameController.KineticSdk.MakeTransfer(
                 amount: txtAmount.text,
                 destination: txtDestination.text,
                 owner: GameController.Keypair,
-                commitment: Commitment.Finalized
+                commitment: Commitment.Finalized,
+                senderCreate: true
             );
             txtDestination.transform.parent.parent.gameObject.SetActive(false);
             UpdateBalance();

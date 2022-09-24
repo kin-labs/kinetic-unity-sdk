@@ -19,7 +19,7 @@ public class GameController : MonoBehaviour
     // Start is called before the first frame update
     async void Awake()
     {
-        KineticSdk = await KineticSdk.SetupAsync(
+        KineticSdk = await KineticSdk.Setup(
             new KineticSdkConfig(
                 index:1,
                 endpoint: endpoint, 
@@ -33,7 +33,7 @@ public class GameController : MonoBehaviour
     public async void CreateNewAccount()
     {
         Keypair = Keypair.Random();
-        await KineticSdk.CreateAccountAsync(Keypair, commitment: Commitment.Finalized);
+        await KineticSdk.CreateAccount(Keypair, commitment: Commitment.Finalized);
         canvasWallet.SetActive(true);
         canvasLogin.SetActive(false);
     }
