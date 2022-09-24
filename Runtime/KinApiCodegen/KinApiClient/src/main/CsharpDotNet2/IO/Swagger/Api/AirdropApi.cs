@@ -14,11 +14,6 @@ namespace IO.Swagger.Api
         /// <summary>
         ///  
         /// </summary>
-        /// <returns>AirdropStats</returns>
-        AirdropStats AirdropStats ();
-        /// <summary>
-        ///  
-        /// </summary>
         /// <param name="body"></param>
         /// <returns>RequestAirdropResponse</returns>
         RequestAirdropResponse RequestAirdrop (RequestAirdropRequest body);
@@ -76,37 +71,6 @@ namespace IO.Swagger.Api
         /// </summary>
         /// <value>An instance of the ApiClient</value>
         public ApiClient ApiClient {get; set;}
-    
-        /// <summary>
-        ///  
-        /// </summary>
-        /// <returns>AirdropStats</returns>
-        public AirdropStats AirdropStats ()
-        {
-    
-            var path = "/api/airdrop/stats";
-            path = path.Replace("{format}", "json");
-                
-            var queryParams = new Dictionary<String, String>();
-            var headerParams = new Dictionary<String, String>();
-            var formParams = new Dictionary<String, String>();
-            var fileParams = new Dictionary<String, FileParameter>();
-            String postBody = null;
-    
-                                    
-            // authentication setting, if any
-            String[] authSettings = new String[] {  };
-    
-            // make the HTTP request
-            IRestResponse response = (IRestResponse) ApiClient.CallApi(path, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
-    
-            if (((int)response.StatusCode) >= 400)
-                throw new ApiException ((int)response.StatusCode, "Error calling AirdropStats: " + response.Content, response.Content);
-            else if (((int)response.StatusCode) == 0)
-                throw new ApiException ((int)response.StatusCode, "Error calling AirdropStats: " + response.ErrorMessage, response.ErrorMessage);
-    
-            return (AirdropStats) ApiClient.Deserialize(response.Content, typeof(AirdropStats), response.Headers);
-        }
     
         /// <summary>
         ///  

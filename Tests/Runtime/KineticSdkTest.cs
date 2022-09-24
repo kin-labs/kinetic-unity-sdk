@@ -19,7 +19,7 @@ namespace Kinetic.Sdk.Tests
         [SetUp]
         public void Init()
         {
-            _sdk = KineticSdk.Setup(
+            _sdk = KineticSdk.SetupSync(
                 new KineticSdkConfig(
                     index:1,
                     endpoint: Endpoint, 
@@ -64,7 +64,7 @@ namespace Kinetic.Sdk.Tests
         [Test]
         public void GetBalance()
         {
-            var res = _sdk.GetBalance(account: KineticSdkFixture.AliceKeypair.PublicKey);
+            var res = _sdk.GetBalanceSync(account: KineticSdkFixture.AliceKeypair.PublicKey);
             var balance = double.Parse(res.Balance);
             Assert.IsTrue(!double.IsNaN(balance));
             Assert.IsTrue(balance > 0);
@@ -74,7 +74,7 @@ namespace Kinetic.Sdk.Tests
         public void TestCreateAccount()
         {
             var owner = Keypair.Random();
-            var tx = _sdk.CreateAccount(owner);
+            var tx = _sdk.CreateAccountSync(owner);
 
             Assert.NotNull(tx);
             Assert.NotNull(tx.Signature);
@@ -86,7 +86,7 @@ namespace Kinetic.Sdk.Tests
         [Test]
         public void TestCreateAccountAlreadyExists()
         {
-            var tx = _sdk.CreateAccount(KineticSdkFixture.DaveKeypair);
+            var tx = _sdk.CreateAccountSync(KineticSdkFixture.DaveKeypair);
             Assert.IsNull(tx.Signature);
             Assert.IsNull(tx.Amount);
             Assert.IsTrue(tx.Errors.Count > 0);
@@ -97,7 +97,7 @@ namespace Kinetic.Sdk.Tests
         [Test]
         public void TestGetHistory()
         {
-            var history = _sdk.GetHistory(KineticSdkFixture.AliceKeypair.PublicKey);
+            var history = _sdk.GetHistorySync(KineticSdkFixture.AliceKeypair.PublicKey);
             Assert.IsTrue(history.Count > 0);
             Assert.IsNotNull(history[0].Account);
         }
@@ -105,7 +105,7 @@ namespace Kinetic.Sdk.Tests
         [Test]
         public void TestGetTokenAccounts()
         {
-            var tokenAccounts = _sdk.GetTokenAccounts(KineticSdkFixture.AliceKeypair.PublicKey);
+            var tokenAccounts = _sdk.GetTokenAccountsSync(KineticSdkFixture.AliceKeypair.PublicKey);
             Assert.IsTrue(tokenAccounts.Count > 0);
             Assert.IsNotNull(tokenAccounts[0]);
         }
@@ -121,7 +121,7 @@ namespace Kinetic.Sdk.Tests
         [Test]
         public void TestTransaction()
         {
-            var tx = _sdk.MakeTransfer(
+            var tx = _sdk.MakeTransferSync(
                 amount: "43",
                 destination: KineticSdkFixture.BobKeypair.PublicKey,
                 owner: KineticSdkFixture.AliceKeypair);
@@ -136,7 +136,7 @@ namespace Kinetic.Sdk.Tests
         [Test]
         public void TestTransactionWithInsufficientFunds()
         {
-            var tx = _sdk.MakeTransfer(
+            var tx = _sdk.MakeTransferSync(
                 amount: "99999999999999",
                 destination: KineticSdkFixture.BobKeypair.PublicKey,
                 owner: KineticSdkFixture.AliceKeypair);
@@ -151,7 +151,7 @@ namespace Kinetic.Sdk.Tests
         public void TestTransactionWithSenderCreation()
         {
             var destination = Keypair.Random();
-            var tx = _sdk.MakeTransfer(
+            var tx = _sdk.MakeTransferSync(
                 amount: "43",
                 destination: destination.PublicKey,
                 owner: KineticSdkFixture.AliceKeypair,
@@ -169,7 +169,7 @@ namespace Kinetic.Sdk.Tests
             try
             {
                 var destination = Keypair.Random();
-                _sdk.MakeTransfer(
+                _sdk.MakeTransferSync(
                     amount: "43",
                     destination: destination.PublicKey,
                     owner: KineticSdkFixture.AliceKeypair,
@@ -188,7 +188,7 @@ namespace Kinetic.Sdk.Tests
             const string kinMint = "KinDesK3dYWo3R2wDk6Ucaf31tvQCCSYyL8Fuqp33GX";
             try
             {
-                _sdk.MakeTransfer(
+                _sdk.MakeTransferSync(
                     amount: "43",
                     destination: kinMint,
                     owner: KineticSdkFixture.AliceKeypair,
@@ -204,7 +204,7 @@ namespace Kinetic.Sdk.Tests
         [Test]
         public void TestRequestAirdrop()
         {
-            var airdrop = _sdk.RequestAirdrop( account: KineticSdkFixture.DaveKeypair.PublicKey, amount: "1000" );
+            var airdrop = _sdk.RequestAirdropSync( account: KineticSdkFixture.DaveKeypair.PublicKey, amount: "1000" );
             Assert.IsNotNull(airdrop.Signature);
         }
         
@@ -213,7 +213,7 @@ namespace Kinetic.Sdk.Tests
         {
             try
             {
-                _sdk.RequestAirdrop( account: KineticSdkFixture.DaveKeypair.PublicKey, amount: "50001" );
+                _sdk.RequestAirdropSync( account: KineticSdkFixture.DaveKeypair.PublicKey, amount: "50001" );
                 Assert.IsTrue(false);
             }
             catch (Exception e)

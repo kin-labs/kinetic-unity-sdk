@@ -35,7 +35,7 @@ The Kinetic Client will give you access to all the methods you need to work with
 We recommend starting with Devnet before moving on to Mainnet.
 
 ```
-    sdk = await KineticSdk.SetupAsync(
+    sdk = await KineticSdk.Setup(
       new KineticSdkConfig(
         index:1,
         endpoint: "https://sandbox.kinetic.host/",
@@ -57,19 +57,19 @@ You can create accounts from existing mnemonics or secret keys. In this case we'
 ```
     var mnemonic = Keypair.GenerateMnemonic();
     var keypair = Keypair.FromMnemonic(mnemonic);
-    await sdk.CreateAccountAsync(keypair);
+    await sdk.CreateAccount(keypair);
 ```
 #### Check Balance
 ```
-    var balance = await sdk.GetBalanceAsync(keypair.PublicKey);
+    var balance = await sdk.GetBalance(keypair.PublicKey);
 ```
 #### Airdrop Funds (devnet)
 ```
-    await sdk.RequestAirdropAsync( account: keypair.PublicKey, amount: "1000" );
+    await sdk.RequestAirdrop( account: keypair.PublicKey, amount: "1000" );
 ```
 #### Transfer Kin
 ```
-    await sdk.MakeTransferAsync(
+    await sdk.MakeTransfer(
       amount: "5000",
       destination: "BQJi5K2s4SDDbed1ArpXjb6n7yVUfM34ym9a179MAqVo",
       owner: keypair,
@@ -79,11 +79,12 @@ You can create accounts from existing mnemonics or secret keys. In this case we'
 
 #### Get Transaction Details
 ```
+    await sdk.GetTransaction(signature: transactionSignature);
 ```
 
 #### Get Account History
 ```
-    await sdk.GetHistoryAsync(account: keypair.PublicKey);
+    await sdk.GetHistory(account: keypair.PublicKey);
 ```
 
 ### Webhooks

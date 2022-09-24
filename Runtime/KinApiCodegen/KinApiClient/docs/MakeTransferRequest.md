@@ -8,8 +8,8 @@ Name | Type | Description | Notes
 **Index** | **int?** |  | 
 **Mint** | **string** |  | 
 **LastValidBlockHeight** | **int?** |  | 
-**ReferenceId** | **string** |  | 
-**ReferenceType** | **string** |  | 
+**ReferenceId** | **string** |  | [optional] 
+**ReferenceType** | **string** |  | [optional] 
 **Tx** | **byte[]** |  | 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

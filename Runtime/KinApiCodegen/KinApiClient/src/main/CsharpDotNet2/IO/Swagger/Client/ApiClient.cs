@@ -25,7 +25,7 @@ namespace IO.Swagger.Client
         /// Initializes a new instance of the <see cref="ApiClient" /> class.
         /// </summary>
         /// <param name="basePath">The base path.</param>
-        public ApiClient(String basePath="https://devnet.kinetic.kin.org")
+        public ApiClient(String basePath="http://localhost:3000")
         {
             BasePath = basePath;
             RestClient = new RestClient(BasePath);

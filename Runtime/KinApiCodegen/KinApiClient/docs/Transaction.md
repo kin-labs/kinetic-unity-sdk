@@ -3,37 +3,37 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Id** | **string** |  | 
-**CreatedAt** | **DateTime?** |  | 
-**UpdatedAt** | **DateTime?** |  | 
-**Amount** | **string** |  | 
-**Decimals** | [**decimal?**](BigDecimal.md) |  | 
-**Destination** | **string** |  | 
-**Errors** | [**List&lt;TransactionError&gt;**](TransactionError.md) |  | 
-**ExplorerUrl** | **string** |  | 
-**FeePayer** | **string** |  | 
-**Ip** | **string** |  | 
-**Mint** | **string** |  | 
-**ProcessingDuration** | [**decimal?**](BigDecimal.md) |  | 
-**ReferenceId** | **string** |  | 
-**ReferenceType** | **string** |  | 
-**Signature** | **string** |  | 
-**SolanaCommitted** | **DateTime?** |  | 
-**SolanaCommittedDuration** | [**decimal?**](BigDecimal.md) |  | 
-**SolanaFinalized** | **DateTime?** |  | 
-**SolanaFinalizedDuration** | [**decimal?**](BigDecimal.md) |  | 
-**SolanaStart** | **DateTime?** |  | 
-**SolanaTransaction** | **Object** |  | 
-**Source** | **string** |  | 
-**Status** | **string** |  | 
-**TotalDuration** | [**decimal?**](BigDecimal.md) |  | 
-**Ua** | **string** |  | 
-**WebhookEventStart** | **DateTime?** |  | 
-**WebhookEventEnd** | **DateTime?** |  | 
-**WebhookEventDuration** | [**decimal?**](BigDecimal.md) |  | 
-**WebhookVerifyStart** | **DateTime?** |  | 
-**WebhookVerifyEnd** | **DateTime?** |  | 
-**WebhookVerifyDuration** | [**decimal?**](BigDecimal.md) |  | 
+**Id** | **string** |  | [optional] 
+**CreatedAt** | **DateTime?** |  | [optional] 
+**UpdatedAt** | **DateTime?** |  | [optional] 
+**Amount** | **string** |  | [optional] 
+**Decimals** | [**decimal?**](BigDecimal.md) |  | [optional] 
+**Destination** | **string** |  | [optional] 
+**Errors** | [**List&lt;TransactionError&gt;**](TransactionError.md) |  | [optional] 
+**ExplorerUrl** | **string** |  | [optional] 
+**FeePayer** | **string** |  | [optional] 
+**Ip** | **string** |  | [optional] 
+**Mint** | **string** |  | [optional] 
+**ProcessingDuration** | [**decimal?**](BigDecimal.md) |  | [optional] 
+**ReferenceId** | **string** |  | [optional] 
+**ReferenceType** | **string** |  | [optional] 
+**Signature** | **string** |  | [optional] 
+**SolanaCommitted** | **DateTime?** |  | [optional] 
+**SolanaCommittedDuration** | [**decimal?**](BigDecimal.md) |  | [optional] 
+**SolanaFinalized** | **DateTime?** |  | [optional] 
+**SolanaFinalizedDuration** | [**decimal?**](BigDecimal.md) |  | [optional] 
+**SolanaStart** | **DateTime?** |  | [optional] 
+**SolanaTransaction** | **Object** |  | [optional] 
+**Source** | **string** |  | [optional] 
+**Status** | **string** |  | [optional] 
+**TotalDuration** | [**decimal?**](BigDecimal.md) |  | [optional] 
+**Ua** | **string** |  | [optional] 
+**WebhookEventStart** | **DateTime?** |  | [optional] 
+**WebhookEventEnd** | **DateTime?** |  | [optional] 
+**WebhookEventDuration** | [**decimal?**](BigDecimal.md) |  | [optional] 
+**WebhookVerifyStart** | **DateTime?** |  | [optional] 
+**WebhookVerifyEnd** | **DateTime?** |  | [optional] 
+**WebhookVerifyDuration** | [**decimal?**](BigDecimal.md) |  | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

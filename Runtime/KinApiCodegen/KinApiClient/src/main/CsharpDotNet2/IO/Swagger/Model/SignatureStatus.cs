@@ -38,7 +38,7 @@ namespace IO.Swagger.Model {
     /// </summary>
     [DataMember(Name="confirmationStatus", EmitDefaultValue=false)]
     [JsonProperty(PropertyName = "confirmationStatus")]
-    public Object ConfirmationStatus { get; set; }
+    public string ConfirmationStatus { get; set; }
 
 
     /// <summary>
