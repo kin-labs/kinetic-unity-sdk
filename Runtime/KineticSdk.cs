@@ -6,7 +6,6 @@ using IO.Swagger.Model;
 using Kinetic.Sdk.Configurations;
 using Kinetic.Sdk.Helpers;
 using Kinetic.Sdk.KinMemo;
-using Kinetic.Sdk.Transactions;
 using Solana.Unity.Rpc.Types;
 using UnityEngine;
 
@@ -26,6 +25,7 @@ namespace Kinetic.Sdk
         private readonly TransactionApi _transactionApi;
         
         public readonly KineticSdkConfig SdkConfig;
+        private readonly KineticSdkInternal _sdkInternal;
 
         public Solana Solana { get; private set; }
         public AppConfig Config { get; private set; }
@@ -33,32 +33,18 @@ namespace Kinetic.Sdk
         private KineticSdk(KineticSdkConfig config)
         {
             SdkConfig = config;
-            var basePath = config.Endpoint;
-            
-            _accountApi = new AccountApi(basePath);
-            _airdropApi = new AirdropApi(basePath);
-            _appApi = new AppApi(basePath);
-            _transactionApi = new TransactionApi(basePath);
-        }
+            _sdkInternal = new KineticSdkInternal(config);
+    }
         
         #region Utility
 
-        public BalanceResponse GetBalance(string account)
+        public BalanceResponse GetBalanceSync(string account)
         {
-            if (Config is null)
-            {
-                throw new Exception("AppConfig not initialized");
-            }
-
-            return _accountApi.GetBalance(
-                Config.Environment.Name,
-                Config.App.Index,
-                account
-            );
+            return _sdkInternal.GetBalance(account);
         }
         
-        public async Task<BalanceResponse> GetBalanceAsync(string account){
-            return await Task.Run(()=> GetBalance(account));
+        public async Task<BalanceResponse> GetBalance(string account){
+            return await Task.Run(()=> GetBalanceSync(account));
         }
         
         public string GetExplorerUrl(string path)
@@ -67,65 +53,43 @@ namespace Kinetic.Sdk
         }
         
         
-        public List<HistoryResponse> GetHistory(string account, string mint = null) 
+        public List<HistoryResponse> GetHistorySync(string account, string mint = null)
         {
-            if (Config is null)
-            {
-                throw new Exception("AppConfig not initialized");
-            }
-            mint ??= Config.Mint.PublicKey;
-            return _accountApi.GetHistory(Config.Environment.Name, Config.App.Index, account, mint);
+            return _sdkInternal.GetHistory(account, mint);
         }
         
-        public async Task<List<HistoryResponse>> GetHistoryAsync(string account, string mint = null){
-            return await Task.Run(()=> GetHistory(account, mint));
+        public async Task<List<HistoryResponse>> GetHistory(string account, string mint = null){
+            return await Task.Run(()=> GetHistorySync(account, mint));
         }
         
-        public List<string> GetTokenAccounts(string account, string mint = null){
-            if (Config is null)
-            {
-                throw new Exception("AppConfig not initialized");
-            }
-            mint ??= Config.Mint.PublicKey;
-
-            return _accountApi
-                .GetTokenAccounts(this.Config.Environment.Name, this.Config.App.Index, account, mint);
+        public GetTransactionResponse GetTransactionSync(string signature)
+        {
+            return _sdkInternal.GetTransaction(signature);
         }
         
-        public async Task<List<string>> GetTokenAccountsAsync(string account, string mint = null){
-            return await Task.Run(()=> GetTokenAccounts(account, mint));
+        public async Task<GetTransactionResponse> GetTransaction(string signature) {
+            return await Task.Run(()=> GetTransactionSync(signature));
         }
         
-        public RequestAirdropResponse RequestAirdrop(string account, string amount,
+        
+        public List<string> GetTokenAccountsSync(string account, string mint = null)
+        {
+            return _sdkInternal.GetTokenAccounts(account, mint);
+        }
+        
+        public async Task<List<string>> GetTokenAccounts(string account, string mint = null){
+            return await Task.Run(()=> GetTokenAccountsSync(account, mint));
+        }
+        
+        public RequestAirdropResponse RequestAirdropSync(string account, string amount,
+            Commitment commitment = Commitment.Finalized, string mint = null)
+        {
+            return _sdkInternal.RequestAirdrop(account, amount, commitment, mint);
+        }
+        
+        public async Task<RequestAirdropResponse> RequestAirdrop(string account, string amount,
             Commitment commitment = Commitment.Finalized, string mint = null){
-            if (Config is null)
-            {
-                throw new Exception("AppConfig not initialized");
-            }
-            mint ??= Config.Mint.PublicKey;
-
-            return _airdropApi
-                .RequestAirdrop(
-                    new RequestAirdropRequest()
-                    {
-                        Account = account,
-                        Amount = amount,
-                        Commitment = commitment.ToString(),
-                        Environment = Config.Environment.Name,
-                        Index = Config.App.Index,
-                        Mint = mint,
-                    }
-                );
-        }
-        
-        public async Task<RequestAirdropResponse> RequestAirdropAsync(string account, string amount,
-            Commitment commitment = Commitment.Finalized, string mint = null){
-            if (Config is null)
-            {
-                throw new Exception("AppConfig not initialized");
-            }
-            mint ??= Config.Mint.PublicKey;
-            return await Task.Run(()=> RequestAirdrop(account, amount, commitment, mint));
+            return await Task.Run(()=> RequestAirdropSync(account, amount, commitment, mint));
         }
 
 
@@ -133,99 +97,29 @@ namespace Kinetic.Sdk
         
         #region Transactions
 
-        public Transaction CreateAccount(Keypair owner, string mint = null, Commitment commitment = default)
+        public Transaction CreateAccountSync(Keypair owner, string mint = null, Commitment commitment = default)
         {
-            if (Config is null)
-            {
-                throw new Exception("AppConfig not initialized");
-            }
-
-            mint ??= Config.Mint.PublicKey;
-
-            var pt = PrepareTransaction(mint);
-            
-            var tx = TransactionHelper.CreateAccountTransaction(
-                Config.Mint.AddMemo,
-                appIndex: Config.App.Index,
-                pt.LatestBlockhash, 
-                pt.MintFeePayer, 
-                pt.MintPublicKey,
-                owner);
-
-            var request = new CreateAccountRequest
-            {
-                //Commitment = commitment, 
-                Environment = Config.Environment.Name,
-                Index = Config.App.Index,
-                Mint = mint,
-                Tx = tx
-            };
-
-            return _accountApi.CreateAccount(request);
+            return _sdkInternal.CreateAccount(owner, mint, commitment);
         }
         
-        public async Task<Transaction> CreateAccountAsync(Keypair owner, string mint = null,
+        public async Task<Transaction> CreateAccount(Keypair owner, string mint = null,
             Commitment commitment = Commitment.Confirmed){
-            return await Task.Run(()=> CreateAccount(owner, mint, commitment));
+            return await Task.Run(()=> CreateAccountSync(owner, mint, commitment));
         }
 
-        public Transaction MakeTransfer(Keypair owner, string amount, string destination, string mint = null,
+        public Transaction MakeTransferSync(Keypair owner, string amount, string destination, string mint = null,
             string referenceId = null, string referenceType = null, bool senderCreate = false,
             Commitment commitment = Commitment.Confirmed, TransactionType type = TransactionType.None)
         {
-            if (Config is null)
-            {
-                throw new Exception("AppConfig not initialized");
-            }
-            if (Config.Mints.Find(m => m.PublicKey == destination) != null)
-            {
-                throw new Exception("Transfers to a mint are not allowed.");
-            }
-            mint ??= Config.Mint.PublicKey;
-            var pt = PrepareTransaction(mint);
-            
-            var account = GetTokenAccounts(account: destination, mint);
-            
-            if (account.Count == 0 && !senderCreate)
-            {
-                throw new Exception("Destination account doesn't exist.");
-            }
-
-            var tx = TransactionHelper.MakeTransferTransaction(
-                addMemo: Config.Mint.AddMemo,
-                amount,
-                appIndex: Config.App.Index,
-                destination,
-                pt.LastValidBlockHeight,
-                pt.LatestBlockhash,
-                pt.MintDecimals,
-                pt.MintFeePayer,
-                pt.MintPublicKey,
-                signer: owner.Solana,
-                senderCreate: account?.Count == 0 && senderCreate,
-                type: type
-            );
-
-            var mkTransfer = new MakeTransferRequest()
-            {
-                Commitment = commitment.ToString(),
-                Environment = Config.Environment.Name,
-                Index = Config.App.Index,
-                LastValidBlockHeight = (int?) pt.LastValidBlockHeight,
-                Mint =  mint,
-                ReferenceId = referenceId,
-                ReferenceType = referenceType,
-                Tx = tx,
-            };
-            
-            return _transactionApi.MakeTransfer(mkTransfer);
+            return _sdkInternal.MakeTransfer(owner, amount, destination, mint, referenceId, referenceType,
+                senderCreate, commitment, type);
         }
         
-        public async Task<Transaction> MakeTransferAsync(Keypair owner, string amount, string destination, 
+        public async Task<Transaction> MakeTransfer(Keypair owner, string amount, string destination, 
                 string mint = null, string referenceId = null, string referenceType = null, bool senderCreate = false,
                 Commitment commitment = Commitment.Confirmed, TransactionType type = TransactionType.None){
             return await Task.Run(()=> 
-                MakeTransfer(owner, amount, destination, mint, referenceId, referenceType, senderCreate,
+                MakeTransferSync(owner, amount, destination, mint, referenceId, referenceType, senderCreate,
                     commitment, type));
         }
 
@@ -237,7 +131,7 @@ namespace Kinetic.Sdk
         {
             try
             {
-                Config = _appApi.GetAppConfig(SdkConfig.Environment, SdkConfig.Index);
+                Config = _sdkInternal.GetAppConfig(SdkConfig.Environment, SdkConfig.Index);
                 SdkConfig.SolanaRpcEndpoint = SdkConfig.SolanaRpcEndpoint != null
                     ? SdkConfig.SolanaRpcEndpoint.GetSolanaRpcEndpoint() 
                     : Config.Environment.Cluster.Endpoint.GetSolanaRpcEndpoint();
@@ -256,7 +150,7 @@ namespace Kinetic.Sdk
             }
         }
 
-        public static KineticSdk Setup(KineticSdkConfig config)
+        public static KineticSdk SetupSync(KineticSdkConfig config)
         {
             var sdk = new KineticSdk(config);
             try
@@ -272,37 +166,9 @@ namespace Kinetic.Sdk
             }
         }
         
-        public static async Task<KineticSdk> SetupAsync(KineticSdkConfig config)
+        public static async Task<KineticSdk> Setup(KineticSdkConfig config)
         {
-            return await Task.Run(()=> Setup(config));
-        }
-        
-        #endregion
-        
-        #region Utils
-        
-        private PreTransaction PrepareTransaction(string mint){
-            if (Config is null)
-            {
-                throw new Exception("AppConfig not initialized");
-            }
-            mint ??= Config.Mint.PublicKey;
-            var found = Config.Mints.Find((item) => item.PublicKey == mint);
-            if (found is null)
-            {
-                throw new Exception("Mint not found");
-            }
-
-            var latestBlockhashResponse = _transactionApi.GetLatestBlockhash(Config.Environment.Name, Config.App.Index);
-
-            return new PreTransaction
-            {
-                MintDecimals = found.Decimals,
-                MintPublicKey = found.PublicKey,
-                MintFeePayer = found.FeePayer,
-                LatestBlockhash = latestBlockhashResponse.Blockhash,
-                LastValidBlockHeight = latestBlockhashResponse.LastValidBlockHeight
-            };
+            return await Task.Run(()=> SetupSync(config));
         }
         
         #endregion

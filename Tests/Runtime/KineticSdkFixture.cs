@@ -30,6 +30,9 @@ namespace Kinetic.Sdk.Tests
             97, 183, 156, 226, 201, 41, 182, 121, 217, 250, 238, 76, 4, 19, 24, 196, 157, 151, 211, 203, 168, 71, 45,
             124, 138, 232, 252, 130, 3, 120, 6, 92, 109, 6, 93, 143, 36, 18, 138, 11
         };
+        
+        public static readonly Keypair CreateAccountSigner = Keypair.FromSecretKey(
+            "5icCMHSkDzPFzY4UxHRP67BsTq8EcA6nVSL2ifpzsveGa79G3d8gU8hmWxhopR16s5WgBnFS7J6upt5ZevhihQ3q");
 
         // ALisrzsaVqciCxy8r6g7MUrPoRo3CpGxPhwBbZzqZ9bA
         private static readonly byte[] AliceKey =
