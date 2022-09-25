@@ -13,7 +13,7 @@ namespace Kinetic.Sdk.Transactions
     public static class TransactionHelper
     {
 
-        public static byte[] CreateAccountTransaction(
+        public static Transaction CreateAccountTransaction(
             bool? addMemo, decimal? appIndex, string latestBlockhash, 
             string mintFeePayer, string mintPublicKey, Keypair signer)
         {
@@ -56,14 +56,14 @@ namespace Kinetic.Sdk.Transactions
             // Partially sign the transaction
             transaction.PartialSign(signer.Solana);
 
-            return transaction.Serialize();
+            return transaction;
         }
 
         
-        public static byte[] MakeTransferTransaction(
+        public static Transaction MakeTransferTransaction(
             bool? addMemo, string amount, int? appIndex, string destination, 
-            decimal? lastValidBlockHeight, string latestBlockhash, 
-            decimal? mintDecimals, string mintFeePayer, string mintPublicKey, 
+            string latestBlockhash, 
+            int mintDecimals, string mintFeePayer, string mintPublicKey, 
             Account signer, bool senderCreate, TransactionType type)
         {
             // Create objects from Response
@@ -107,20 +107,22 @@ namespace Kinetic.Sdk.Transactions
             }
             
             var amountWithDecimals =
-                ulong.Parse(amount) * (ulong)Math.Pow(10, (double)mintDecimals.GetValueOrDefault(0));
+                ulong.Parse(amount) * (ulong)Math.Pow(10, (double)mintDecimals);
             transaction.Instructions.Add(
-                TokenProgram.Transfer(
+                TokenProgram.TransferChecked(
                     ownerTokenAccount, 
                     destinationTokenAccount, 
                     amountWithDecimals, 
-                    signer.PublicKey
+                    mintDecimals,
+                    signer.PublicKey,
+                    mintKey
                     )
             );
     
             // Partially sign the transaction
             transaction.PartialSign(signer);
 
-            return transaction.Serialize();
+            return transaction;
         }
         
         /// <summary>

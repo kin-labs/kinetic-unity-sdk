@@ -138,7 +138,8 @@ namespace Kinetic.Sdk
                 Environment = Config.Environment.Name,
                 Index = Config.App.Index,
                 Mint = mint,
-                Tx = tx
+                Tx = tx.Serialize(),
+                LastValidBlockHeight = (int?) pt.LastValidBlockHeight,
             };
 
             return _accountApi.CreateAccount(request);
@@ -171,7 +172,6 @@ namespace Kinetic.Sdk
                 amount,
                 appIndex: Config.App.Index,
                 destination,
-                pt.LastValidBlockHeight,
                 pt.LatestBlockhash,
                 pt.MintDecimals,
                 pt.MintFeePayer,
@@ -190,7 +190,7 @@ namespace Kinetic.Sdk
                 Mint =  mint,
                 ReferenceId = referenceId,
                 ReferenceType = referenceType,
-                Tx = tx,
+                Tx = tx.Serialize(),
             };
             
             return _transactionApi.MakeTransfer(mkTransfer);
@@ -216,11 +216,11 @@ namespace Kinetic.Sdk
 
             return new PreTransaction
             {
-                MintDecimals = found.Decimals,
+                MintDecimals = found.Decimals.GetValueOrDefault(0),
                 MintPublicKey = found.PublicKey,
                 MintFeePayer = found.FeePayer,
                 LatestBlockhash = latestBlockhashResponse.Blockhash,
-                LastValidBlockHeight = latestBlockhashResponse.LastValidBlockHeight
+                LastValidBlockHeight = latestBlockhashResponse.LastValidBlockHeight.GetValueOrDefault(0)
             };
         }
         

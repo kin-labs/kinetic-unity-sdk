@@ -19,10 +19,6 @@ namespace Kinetic.Sdk
     /// </summary>
     public class KineticSdk
     {
-        private readonly AccountApi _accountApi;
-        private readonly AirdropApi _airdropApi;
-        private readonly AppApi _appApi;
-        private readonly TransactionApi _transactionApi;
         
         public readonly KineticSdkConfig SdkConfig;
         private readonly KineticSdkInternal _sdkInternal;
@@ -34,7 +30,7 @@ namespace Kinetic.Sdk
         {
             SdkConfig = config;
             _sdkInternal = new KineticSdkInternal(config);
-    }
+        }
         
         #region Utility
 
