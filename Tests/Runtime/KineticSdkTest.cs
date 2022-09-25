@@ -130,7 +130,7 @@ namespace Kinetic.Sdk.Tests
             Assert.IsNotNull(tx.Signature);
             Assert.IsTrue(tx.Errors.Count == 0);
             Assert.IsTrue(uint.Parse(tx.Amount) == 4300000);
-            Assert.AreEqual(KineticSdkFixture.AliceKeypair, tx.Source);
+            Assert.AreEqual(KineticSdkFixture.AliceKeypair.PublicKey.ToString(), tx.Source);
         }
         
         [Test]
