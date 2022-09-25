@@ -1,14 +1,14 @@
 {
-  "name": "com.kinetic.sdk",
-  "displayName": "Kinetic SDK",
-  "version": "0.1.0",
+  "name": "org.kin.kinetic-unity",
+  "displayName": "Kinetic Unity SDK",
+  "version": "1.0.0-rc.1",
   "unity": "2019.4",
   "description": "A Kinetic SDK is a wrapper around a Solana SDK with an extra layer that communicates with the Kinetic API.",
   "type": "library",
   "hideInEditor": false,
   "samples": [
     {
-       "displayName": "Kinetic SDK example",
+       "displayName": "Kinetic Unity SDK example",
        "description": "Contains a simple example of interaction with the Kinetic API",
        "path": "Samples~"
    }]

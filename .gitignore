@@ -78,4 +78,6 @@ crashlytics-build.properties
 *.uxf
 
 
-
+LICENSE.meta
+README.md.meta
+package.json.meta

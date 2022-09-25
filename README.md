@@ -18,13 +18,13 @@ Getting started with Kin is incredibly straightforward. Just follow the steps be
 * Click the add **+** button in the status bar.
 * The options for adding packages appear.
 * Select Add package from git URL from the add menu. A text box and an Add button appear.
-* Enter the `https://github.com/garbles-labs/Kinetic.Unity-SDK.git` Git URL in the text box and click Add.
+* Enter the `https://github.com/kin-labs/kinetic-unity-sdk.git` Git URL in the text box and click Add.
 * Once the package is installed, in the Package Manager inspector you will have Samples. Click on Import
 * You may also install a specific package version by using the URL with the specified version.
-    * `https://github.com/garbles-labs/Kinetic.Unity-SDK#X.Y.X`
+    * `https://github.com/kin-labs/kinetic-unity-sdk#X.Y.X`
     * Please note that the version `X.Y.Z` stated here is to be replaced with the version you would like to get.
-    * You can find all the available releases [here](https://github.com/garbles-labs/Kinetic.Unity-SDK/releases).
-    * The latest available release version is [![Last Release](https://img.shields.io/github/v/release/garbles-labs/Kinetic.Unity-SDK)](https://github.com/Sgarbles-labs/Solana.Unity-SDK/releases/latest)
+    * You can find all the available releases [here](https://github.com/kin-labs/kinetic-unity-sdk/releases).
+    * The latest available release version is [![Last Release](https://img.shields.io/github/v/release/kin-labs/kinetic-unity-sdk)](https://github.com/kin-labs/kinetic-unity-sdk/releases/latest)
 * You will find a sample App in `Samples/Kinetic SDK/0.1.0/Kinetic SDK example/ExampleKinSDK/scenes/KinSampleScene.unity````
 ```
 
