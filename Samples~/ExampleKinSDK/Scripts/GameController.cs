@@ -1,6 +1,6 @@
 using System;
 using Kinetic.Sdk;
-using Kinetic.Sdk.Configurations;
+using Kinetic.Sdk.Interfaces;
 using Solana.Unity.Rpc.Types;
 using TMPro;
 using UnityEngine;
@@ -8,6 +8,8 @@ using UnityEngine;
 public class GameController : MonoBehaviour
 {
     public string endpoint = "https://sandbox.kinetic.host/";
+    public string environment = "devnet";
+    public int index = 1;
     public static Keypair Keypair { get; private set; }
     public static KineticSdk KineticSdk { get; private set; }
 
@@ -21,9 +23,9 @@ public class GameController : MonoBehaviour
     {
         KineticSdk = await KineticSdk.Setup(
             new KineticSdkConfig(
-                index:1,
+                index: index,
                 endpoint: endpoint, 
-                environment: KineticSdkEndpoint.Devnet,
+                environment: environment,
                 logger: new Logger(Debug.unityLogger.logHandler)
             )
         );
