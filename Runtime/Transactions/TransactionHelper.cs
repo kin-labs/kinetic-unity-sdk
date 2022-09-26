@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Kinetic.Sdk.KinMemo;
+using Kinetic.Sdk.Interfaces;
 using Solana.Unity.Programs;
 using Solana.Unity.Rpc.Builders;
 using Solana.Unity.Rpc.Models;
@@ -136,7 +136,7 @@ namespace Kinetic.Sdk.Transactions
         private static TransactionInstruction KineticMemo(
             PublicKey signer, decimal? appIndex, string memo = null, TransactionType type = TransactionType.None)
         {
-            var memoBytes = KinMemo.KinMemo.CreateKinMemo(appIndex, memo, type).Buffer;
+            var memoBytes = KinMemo.CreateKinMemo(appIndex, memo, type).Buffer;
             return MemoProgram.NewMemo(signer, Convert.ToBase64String(memoBytes));
         }
     }

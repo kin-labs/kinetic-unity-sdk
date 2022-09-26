@@ -2,7 +2,7 @@ using UnityEngine;
 
 // ReSharper disable once CheckNamespace
 
-namespace Kinetic.Sdk.Configurations
+namespace Kinetic.Sdk.Interfaces
 {
     public class KineticSdkConfig
     {

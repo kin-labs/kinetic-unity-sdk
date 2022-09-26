@@ -1,6 +1,6 @@
 // ReSharper disable once CheckNamespace
 
-namespace Kinetic.Sdk.KinMemo
+namespace Kinetic.Sdk.Interfaces
 {
 
     public enum TransactionType
