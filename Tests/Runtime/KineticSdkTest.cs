@@ -25,7 +25,7 @@ namespace Kinetic.Sdk.Tests
         }
 
         private KineticSdk _sdk;
-        private const string Endpoint = "https://kinetic.ngrok.io/";
+        private const string Endpoint = "https://sandbox.kinetic.host";
 
         [Test]
         public void TestGetAppConfig()

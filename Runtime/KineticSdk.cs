@@ -74,24 +74,35 @@ namespace Kinetic.Sdk
         }
 
 
-        public List<string> GetTokenAccountsSync(string account, string mint = null)
+        public List<string> GetTokenAccountsSync(
+            string account,
+            string mint = null)
         {
             return _sdkInternal.GetTokenAccounts(account, mint);
         }
 
-        public async Task<List<string>> GetTokenAccounts(string account, string mint = null)
+        public async Task<List<string>> GetTokenAccounts(
+            string account,
+            string mint = null)
         {
             return await Task.Run(() => GetTokenAccountsSync(account, mint));
         }
 
-        public RequestAirdropResponse RequestAirdropSync(string account, string amount,
-            Commitment commitment = Commitment.Finalized, string mint = null)
+        public RequestAirdropResponse RequestAirdropSync(
+            string account,
+            string amount,
+            Commitment commitment = Commitment.Finalized,
+            string mint = null)
         {
             return _sdkInternal.RequestAirdrop(account, amount, commitment, mint);
         }
 
-        public async Task<RequestAirdropResponse> RequestAirdrop(string account, string amount,
-            Commitment commitment = Commitment.Finalized, string mint = null)
+        public async Task<RequestAirdropResponse> RequestAirdrop(
+            string account,
+            string amount,
+            Commitment commitment = Commitment.Finalized,
+            string mint = null
+        )
         {
             return await Task.Run(() => RequestAirdropSync(account, amount, commitment, mint));
         }
@@ -100,27 +111,52 @@ namespace Kinetic.Sdk
 
         #region Transactions
 
-        public Transaction CreateAccountSync(Keypair owner, string mint = null, Commitment commitment = default)
+        public Transaction CreateAccountSync(
+            Keypair owner,
+            string mint = null,
+            string referenceId = null,
+            string referenceType = null,
+            Commitment commitment = default
+        )
         {
-            return _sdkInternal.CreateAccount(owner, mint, commitment);
+            return _sdkInternal.CreateAccount(owner, mint, referenceId, referenceType, commitment);
         }
 
-        public async Task<Transaction> CreateAccount(Keypair owner, string mint = null,
-            Commitment commitment = Commitment.Confirmed)
+        public async Task<Transaction> CreateAccount(
+            Keypair owner,
+            string mint = null,
+            string referenceId = null,
+            string referenceType = null,
+            Commitment commitment = Commitment.Confirmed
+        )
         {
-            return await Task.Run(() => CreateAccountSync(owner, mint, commitment));
+            return await Task.Run(() => CreateAccountSync(owner, mint, referenceId, referenceType, commitment));
         }
 
-        public Transaction MakeTransferSync(Keypair owner, string amount, string destination, string mint = null,
-            string referenceId = null, string referenceType = null, bool senderCreate = false,
-            Commitment commitment = Commitment.Confirmed, TransactionType type = TransactionType.None)
+        public Transaction MakeTransferSync(
+            Keypair owner,
+            string amount,
+            string destination,
+            string mint = null,
+            string referenceId = null,
+            string referenceType = null,
+            bool senderCreate = false,
+            Commitment commitment = Commitment.Confirmed,
+            TransactionType type = TransactionType.None
+        )
         {
             return _sdkInternal.MakeTransfer(owner, amount, destination, mint, referenceId, referenceType,
                 senderCreate, commitment, type);
         }
 
-        public async Task<Transaction> MakeTransfer(Keypair owner, string amount, string destination,
-            string mint = null, string referenceId = null, string referenceType = null, bool senderCreate = false,
+        public async Task<Transaction> MakeTransfer(
+            Keypair owner,
+            string amount,
+            string destination,
+            string mint = null,
+            string referenceId = null,
+            string referenceType = null,
+            bool senderCreate = false,
             Commitment commitment = Commitment.Confirmed, TransactionType type = TransactionType.None)
         {
             return await Task.Run(() =>
