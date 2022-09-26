@@ -3,7 +3,7 @@ using System.Linq;
 
 // ReSharper disable once CheckNamespace
 
-namespace Kinetic.Sdk.KinMemo
+namespace Kinetic.Sdk.Interfaces
 {
     /// <summary>
     /// The KineticSdk is the main entry point and handles communication with the Kinetic API

@@ -6,8 +6,5 @@ namespace Kinetic.Sdk.Helpers
     {
         public string LatestBlockhash { get; set; }
         public int LastValidBlockHeight { get; set; }
-        public int MintDecimals { get; set; }
-        public string MintFeePayer { get; set; }
-        public string MintPublicKey { get; set; }
     }
 }

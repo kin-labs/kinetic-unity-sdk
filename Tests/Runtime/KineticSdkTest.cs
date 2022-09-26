@@ -1,10 +1,8 @@
 using System;
-using System.Transactions;
-using Kinetic.Sdk.Configurations;
+using Kinetic.Sdk.Interfaces;
 using NUnit.Framework;
 using Solana.Unity.Rpc.Models;
 using UnityEngine;
-using Transaction = Solana.Unity.Rpc.Models.Transaction;
 
 // ReSharper disable once CheckNamespace
 
@@ -13,31 +11,31 @@ namespace Kinetic.Sdk.Tests
     [TestFixture]
     public class KineticSdkTest
     {
-        private KineticSdk _sdk;
-        private const string Endpoint = "https://sandbox.kinetic.host/";
-
         [SetUp]
         public void Init()
         {
             _sdk = KineticSdk.SetupSync(
                 new KineticSdkConfig(
-                    index:1,
-                    endpoint: Endpoint, 
-                    environment: KineticSdkEndpoint.Devnet,
-                    logger: new Logger(Debug.unityLogger.logHandler)
+                    1,
+                    Endpoint,
+                    KineticSdkEndpoint.Devnet,
+                    new Logger(Debug.unityLogger.logHandler)
                 )
             );
         }
 
+        private KineticSdk _sdk;
+        private const string Endpoint = "https://sandbox.kinetic.host";
+
         [Test]
         public void TestGetAppConfig()
         {
-            var res = _sdk.Config;
+            var res = _sdk.Config();
 
-            Assert.AreEqual( Endpoint, _sdk.SdkConfig.Endpoint);
-            Assert.AreEqual( 1, res.App.Index);
+            Assert.AreEqual(Endpoint, _sdk.SdkConfig.Endpoint);
+            Assert.AreEqual(1, res.App.Index);
             Assert.AreEqual("App 1", res.App.Name);
-            Assert.AreEqual(KineticSdkEndpoint.Devnet, res.Environment.Name );
+            Assert.AreEqual(KineticSdkEndpoint.Devnet, res.Environment.Name);
             Assert.AreEqual("solana-devnet", res.Environment.Cluster.Id);
             Assert.AreEqual("Solana Devnet", res.Environment.Cluster.Name);
             Assert.AreEqual("KIN", res.Mint.Symbol);
@@ -60,16 +58,16 @@ namespace Kinetic.Sdk.Tests
             Assert.IsTrue(tx.VerifySignatures());
             Assert.AreEqual(KineticSdkFixture.CreateAccountPartialSignature, tx.Signatures[0].Signature);
         }
-        
+
         [Test]
         public void GetBalance()
         {
-            var res = _sdk.GetBalanceSync(account: KineticSdkFixture.AliceKeypair.PublicKey);
+            var res = _sdk.GetBalanceSync(KineticSdkFixture.AliceKeypair.PublicKey);
             var balance = double.Parse(res.Balance);
             Assert.IsTrue(!double.IsNaN(balance));
             Assert.IsTrue(balance > 0);
         }
-        
+
         [Test]
         public void TestCreateAccount()
         {
@@ -79,10 +77,10 @@ namespace Kinetic.Sdk.Tests
             Assert.NotNull(tx);
             Assert.NotNull(tx.Signature);
             Assert.AreEqual(0, tx.Errors.Count);
-            Assert.AreEqual(_sdk.Config.Mint.PublicKey, tx.Mint);
+            Assert.AreEqual(_sdk.Config().Mint.PublicKey, tx.Mint);
             Assert.AreEqual("Committed", tx.Status);
         }
-        
+
         [Test]
         public void TestCreateAccountAlreadyExists()
         {
@@ -93,7 +91,7 @@ namespace Kinetic.Sdk.Tests
             Assert.AreEqual("Failed", tx.Status);
             //Assert.IsTrue(tx.Errors[0].Message.Contains("Error: Account already exists."));
         }
-        
+
         [Test]
         public void TestGetHistory()
         {
@@ -101,7 +99,7 @@ namespace Kinetic.Sdk.Tests
             Assert.IsTrue(history.Count > 0);
             Assert.IsNotNull(history[0].Account);
         }
-        
+
         [Test]
         public void TestGetTokenAccounts()
         {
@@ -109,7 +107,7 @@ namespace Kinetic.Sdk.Tests
             Assert.IsTrue(tokenAccounts.Count > 0);
             Assert.IsNotNull(tokenAccounts[0]);
         }
-        
+
         [Test]
         public void TestGetExplorerUrl()
         {
@@ -117,7 +115,7 @@ namespace Kinetic.Sdk.Tests
             var explorerUrl = _sdk.GetExplorerUrl(kp.PublicKey);
             Assert.IsTrue(explorerUrl.Contains(kp.PublicKey));
         }
-        
+
         [Test]
         public void TestTransaction()
         {
@@ -126,13 +124,13 @@ namespace Kinetic.Sdk.Tests
                 destination: KineticSdkFixture.BobKeypair.PublicKey,
                 owner: KineticSdkFixture.AliceKeypair);
             Assert.IsNotNull(tx);
-            Assert.AreEqual(_sdk.Config.Mint.PublicKey, tx.Mint);
+            Assert.AreEqual(_sdk.Config().Mint.PublicKey, tx.Mint);
             Assert.IsNotNull(tx.Signature);
             Assert.IsTrue(tx.Errors.Count == 0);
             Assert.IsTrue(uint.Parse(tx.Amount) == 4300000);
             Assert.AreEqual(KineticSdkFixture.AliceKeypair.PublicKey.ToString(), tx.Source);
         }
-        
+
         [Test]
         public void TestTransactionWithInsufficientFunds()
         {
@@ -146,7 +144,7 @@ namespace Kinetic.Sdk.Tests
             Assert.AreEqual("Failed", tx.Status);
             Assert.IsTrue(tx.Errors[0].Message.Contains("Error: Insufficient funds."));
         }
-        
+
         [Test]
         public void TestTransactionWithSenderCreation()
         {
@@ -162,7 +160,7 @@ namespace Kinetic.Sdk.Tests
             Assert.IsTrue(tx.Errors.Count == 0);
             Assert.AreEqual(KineticSdkFixture.AliceKeypair.PublicKey.ToString(), tx.Source);
         }
-        
+
         [Test]
         public void TestTransactionWithoutSenderCreation()
         {
@@ -181,7 +179,7 @@ namespace Kinetic.Sdk.Tests
                 Assert.IsTrue(e.Message.Contains("Destination account doesn't exist."));
             }
         }
-        
+
         [Test]
         public void TestTransactionToMint()
         {
@@ -200,20 +198,20 @@ namespace Kinetic.Sdk.Tests
                 Assert.IsTrue(e.Message.Contains("Transfers to a mint are not allowed."));
             }
         }
-        
+
         [Test]
         public void TestRequestAirdrop()
         {
-            var airdrop = _sdk.RequestAirdropSync( account: KineticSdkFixture.DaveKeypair.PublicKey, amount: "1000" );
+            var airdrop = _sdk.RequestAirdropSync(KineticSdkFixture.DaveKeypair.PublicKey, "1000");
             Assert.IsNotNull(airdrop.Signature);
         }
-        
+
         [Test]
         public void TestRequestAirdropExceedMaximum()
         {
             try
             {
-                _sdk.RequestAirdropSync( account: KineticSdkFixture.DaveKeypair.PublicKey, amount: "50001" );
+                _sdk.RequestAirdropSync(KineticSdkFixture.DaveKeypair.PublicKey, "50001");
                 Assert.IsTrue(false);
             }
             catch (Exception e)
@@ -221,6 +219,5 @@ namespace Kinetic.Sdk.Tests
                 Assert.IsTrue(e.Message.Contains("Error: Try requesting 50000 or less."));
             }
         }
-        
     }
 }
