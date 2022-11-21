@@ -15,7 +15,7 @@ namespace Kinetic.Sdk
     internal static class Constants
     {
         public static string Name = "Kinetic Unity SDK";
-        public static string Version = "1.0.0-rc.1";
+        public static string Version = "1.0.0-rc.2";
     }
 
     public class KineticSdkInternal
