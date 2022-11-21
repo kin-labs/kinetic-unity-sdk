@@ -48,46 +48,84 @@ namespace Kinetic.Sdk.Tests
 
 
         [Test]
+        public void TestCreateImportKeypairFromSecret()
+        {
+            var kp1 = Keypair.Random();
+
+            var byteArray = "[" + kp1.SecretKey.KeyBytes.Aggregate("", (current, b) => current + (b + ",")) + "]";
+            var fromByteArray = Keypair.FromSecret(byteArray);
+            
+            Assert.AreEqual(fromByteArray.SecretKey, kp1.SecretKey);
+            Assert.AreEqual(fromByteArray.PublicKey, kp1.PublicKey);
+            Assert.AreEqual(fromByteArray.Mnemonic, null);
+            
+            var fromMnemonic = Keypair.FromSecret(kp1.Mnemonic.ToString());
+            Assert.AreEqual(fromMnemonic.SecretKey, kp1.SecretKey);
+            Assert.AreEqual(fromMnemonic.PublicKey, kp1.PublicKey);
+            Assert.AreEqual(fromMnemonic.Mnemonic.ToString(), kp1.Mnemonic.ToString());
+            
+            var fromSecretKey = Keypair.FromSecret(kp1.SecretKey.ToString());
+            Assert.AreEqual(fromSecretKey.SecretKey, kp1.SecretKey);
+            Assert.AreEqual(fromSecretKey.PublicKey, kp1.PublicKey);
+            Assert.AreEqual(fromSecretKey.Mnemonic, null);
+        }
+
+
+        [Test]
         public void TestCreateImportKeypair()
         {
             var kp1 = Keypair.Random();
             var kp2 = Keypair.FromSecretKey(kp1.SecretKey);
+            var kpSecret = Keypair.FromSecret(kp1.SecretKey);
             Assert.AreEqual(kp1.SecretKey, kp2.SecretKey);
             Assert.AreEqual(kp1.PublicKey, kp2.PublicKey);
+            Assert.AreEqual(kpSecret.PublicKey, kp2.PublicKey);
         }
 
         [Test]
         public void TestImportFromByteArray()
         {
             var kp = Keypair.FromByteArray(KeypairFixture.TestSecretByteArray);
+            var kpSecret = Keypair.FromSecret("[" + KeypairFixture.TestSecretByteArray.Aggregate("", (current, b) => current + (b + ",")) + "]");
             Assert.AreEqual(kp.PublicKey.ToString(), KeypairFixture.TestPublicKey);
+            Assert.AreEqual(kpSecret.PublicKey.ToString(), KeypairFixture.TestPublicKey);
         }
 
         [Test]
         public void TestImportExistingSecretKey()
         {
             var kp = Keypair.FromSecretKey(KeypairFixture.TestSecretKey);
+            var kpSecret = Keypair.FromSecret(KeypairFixture.TestSecretKey);
             Assert.AreEqual(kp.PublicKey.ToString(), KeypairFixture.TestPublicKey);
+            Assert.AreEqual(kpSecret.PublicKey.ToString(), KeypairFixture.TestPublicKey);
         }
 
         [Test]
         public void TestImportMnemonic12()
         {
-            var keypair = Keypair.FromMnemonic(KeypairFixture.TestMnemonic12);
+            var kp = Keypair.FromMnemonic(KeypairFixture.TestMnemonic12);
+            var kpSecret = Keypair.FromSecret(KeypairFixture.TestMnemonic12);
 
-            Assert.AreEqual(keypair.PublicKey.ToString(), KeypairFixture.TestMnemonic12Keypair.PublicKey.ToString());
-            Assert.AreEqual(keypair.SecretKey.ToString(), KeypairFixture.TestMnemonic12Keypair.SecretKey.ToString());
-            Assert.AreEqual(keypair.Mnemonic.ToString(), KeypairFixture.TestMnemonic12Keypair.Mnemonic.ToString());
+            Assert.AreEqual(kp.PublicKey.ToString(), KeypairFixture.TestMnemonic12Keypair.PublicKey.ToString());
+            Assert.AreEqual(kpSecret.PublicKey.ToString(), KeypairFixture.TestMnemonic12Keypair.PublicKey.ToString());
+            Assert.AreEqual(kp.SecretKey.ToString(), KeypairFixture.TestMnemonic12Keypair.SecretKey.ToString());
+            Assert.AreEqual(kpSecret.SecretKey.ToString(), KeypairFixture.TestMnemonic12Keypair.SecretKey.ToString());
+            Assert.AreEqual(kp.Mnemonic.ToString(), KeypairFixture.TestMnemonic12Keypair.Mnemonic.ToString());
+            Assert.AreEqual(kpSecret.Mnemonic.ToString(), KeypairFixture.TestMnemonic12Keypair.Mnemonic.ToString());
         }
 
         [Test]
         public void TestImportMnemonic24()
         {
-            var keypair = Keypair.FromMnemonic(KeypairFixture.TestMnemonic24);
+            var kp = Keypair.FromMnemonic(KeypairFixture.TestMnemonic24);
+            var kpSecret = Keypair.FromSecret(KeypairFixture.TestMnemonic24);
 
-            Assert.AreEqual(keypair.PublicKey.ToString(), KeypairFixture.TestMnemonic24Keypair.PublicKey.ToString());
-            Assert.AreEqual(keypair.SecretKey.ToString(), KeypairFixture.TestMnemonic24Keypair.SecretKey.ToString());
-            Assert.AreEqual(keypair.Mnemonic.ToString(), KeypairFixture.TestMnemonic24Keypair.Mnemonic.ToString());
+            Assert.AreEqual(kp.PublicKey.ToString(), KeypairFixture.TestMnemonic24Keypair.PublicKey.ToString());
+            Assert.AreEqual(kpSecret.PublicKey.ToString(), KeypairFixture.TestMnemonic24Keypair.PublicKey.ToString());
+            Assert.AreEqual(kp.SecretKey.ToString(), KeypairFixture.TestMnemonic24Keypair.SecretKey.ToString());
+            Assert.AreEqual(kpSecret.SecretKey.ToString(), KeypairFixture.TestMnemonic24Keypair.SecretKey.ToString());
+            Assert.AreEqual(kp.Mnemonic.ToString(), KeypairFixture.TestMnemonic24Keypair.Mnemonic.ToString());
+            Assert.AreEqual(kpSecret.Mnemonic.ToString(), KeypairFixture.TestMnemonic24Keypair.Mnemonic.ToString());
         }
 
         [Test]

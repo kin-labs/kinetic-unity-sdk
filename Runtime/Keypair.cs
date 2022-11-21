@@ -93,7 +93,37 @@ namespace Kinetic.Sdk
 
             return keypairs.ToArray();
         }
+        
+        /// <summary>
+        /// Returns an instance of Keypair from a mnemonic, byte array or secret key
+        /// </summary>
+        /// <param name="secret"></param>
+        /// <returns></returns>
+        public static Keypair FromSecret(string secret)
+        {
+            Keypair keypair;
+            if (IsMnemonic(secret))
+            {
+                keypair = FromMnemonic(secret);
+            }
+            else if (IsByteArray(secret))
+            {
+                keypair = ParseByteArray(secret);
+            }
+            else
+            {
+                keypair = FromSecretKey(secret);
+            }
 
+            // throw exception if keypair is null
+            if (keypair == null)
+            {
+                throw new System.Exception("Invalid secret");
+            }
+
+            return keypair;
+        }
+        
         /// <summary>
         /// Returns an instance of Keypair from a secret key
         /// </summary>
@@ -158,6 +188,42 @@ namespace Kinetic.Sdk
         {
             var privateKey = Ed25519.ExpandedPrivateKeyFromSeed(seed);
             return FromSecretKey(Encoders.Base58.EncodeData(privateKey));
+        }
+
+        /// <summary>
+        /// Takes a string as input and checks if it is a valid mnemonic 
+        /// </summary>
+        /// <param name="secret"></param>
+        /// <returns></returns>
+        private static bool IsMnemonic(string secret)
+        {
+            return secret.Split(' ').Length is 12 or 24;
+        }
+        
+        /// <summary>
+        /// Takes a string as input and checks if it is a valid byte array
+        /// </summary>
+        /// <param name="secret"></param>
+        /// <returns></returns>
+        private static bool IsByteArray(string secret)
+        {
+            return secret.StartsWith('[') && secret.EndsWith(']');
+        }
+        
+        /// <summary>
+        /// Takes a string as input and tries to parse it into a Keypair
+        /// </summary>
+        /// <param name="secret"></param>
+        /// <returns></returns>
+        private static Keypair ParseByteArray(string secret)
+        {
+            var parsed = secret
+                .Replace(",]", "]")
+                .Trim('[', ']')
+                .Split(',')
+                .Select(byte.Parse).ToArray();
+
+            return FromByteArray(parsed);
         }
     }
 }
