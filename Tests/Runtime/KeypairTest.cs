@@ -74,23 +74,33 @@ namespace Kinetic.Sdk.Tests
         public void TestImportMnemonic12()
         {
             var keypair = Keypair.FromMnemonic(KeypairFixture.TestMnemonic12);
-            CollectionAssert.AreEqual(keypair.SecretKey.KeyBytes, KeypairFixture.TestSecretByteArray);
-            Assert.AreEqual(keypair.SecretKey.ToString(), KeypairFixture.TestSecretKey);
-            Assert.AreEqual(keypair.PublicKey.ToString(), KeypairFixture.TestPublicKey);
+
+            Assert.AreEqual(keypair.PublicKey.ToString(), KeypairFixture.TestMnemonic12Keypair.PublicKey.ToString());
+            Assert.AreEqual(keypair.SecretKey.ToString(), KeypairFixture.TestMnemonic12Keypair.SecretKey.ToString());
+            Assert.AreEqual(keypair.Mnemonic.ToString(), KeypairFixture.TestMnemonic12Keypair.Mnemonic.ToString());
         }
 
         [Test]
         public void TestImportMnemonic24()
         {
             var keypair = Keypair.FromMnemonic(KeypairFixture.TestMnemonic24);
-            Assert.AreEqual(keypair.SecretKey.ToString(), KeypairFixture.TestMnemonic24SecretKey);
-            Assert.AreEqual(keypair.PublicKey.ToString(), KeypairFixture.TestMnemonic24PublicKey);
+
+            Assert.AreEqual(keypair.PublicKey.ToString(), KeypairFixture.TestMnemonic24Keypair.PublicKey.ToString());
+            Assert.AreEqual(keypair.SecretKey.ToString(), KeypairFixture.TestMnemonic24Keypair.SecretKey.ToString());
+            Assert.AreEqual(keypair.Mnemonic.ToString(), KeypairFixture.TestMnemonic24Keypair.Mnemonic.ToString());
+        }
+
+        [Test]
+        public void TestImportMnemonic12WrongInput()
+        {
+            var keypairs = Keypair.FromMnemonicSet(KeypairFixture.TestMnemonic12, 10, 1);
+            Assert.AreEqual(keypairs.Length, 1);
         }
 
         [Test]
         public void TestImportMnemonicSet12()
         {
-            var keypairSet = Keypair.FromMnemonicSet(KeypairFixture.TestMnemonic12);
+            var keypairSet = Keypair.FromMnemonicSet(KeypairFixture.TestMnemonic12, 0, 10);
             var keypairs = KeypairFixture.TestMnemonic12Set.Zip(keypairSet, (kp1, kp2)
                 => new {KP1 = kp1, KP2 = kp2});
 
@@ -105,7 +115,7 @@ namespace Kinetic.Sdk.Tests
         [Test]
         public void TestImportMnemonicSet24()
         {
-            var keypairSet = Keypair.FromMnemonicSet(KeypairFixture.TestMnemonic24);
+            var keypairSet = Keypair.FromMnemonicSet(KeypairFixture.TestMnemonic24, 0, 10);
             var keypairs = KeypairFixture.TestMnemonic24Set.Zip(keypairSet, (kp1, kp2)
                 => new {KP1 = kp1, KP2 = kp2});
 

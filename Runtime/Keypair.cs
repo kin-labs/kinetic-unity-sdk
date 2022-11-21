@@ -67,9 +67,7 @@ namespace Kinetic.Sdk
         /// <returns></returns>
         public static Keypair FromMnemonic(string mnemonic)
         {
-            return new Keypair(
-                new Wallet(new Mnemonic(mnemonic), "", SeedMode.Bip39).Account,
-                new Mnemonic(mnemonic));
+            return FromMnemonicSet(mnemonic, 0, 1)[0];
         }
 
 
@@ -80,7 +78,7 @@ namespace Kinetic.Sdk
         /// <param name="from"></param>
         /// <param name="to"></param>
         /// <returns></returns>
-        public static Keypair[] FromMnemonicSet(string mnemonic, int from = 0, int to = 10)
+        public static Keypair[] FromMnemonicSet(string mnemonic, int from = 0, int to = 1)
         {
             var keypairs = new List<Keypair>();
             var mnem = new Mnemonic(mnemonic);

@@ -23,16 +23,12 @@ namespace Kinetic.Sdk.Tests
         public const string TestMnemonic24 =
             "grab amused tattoo cruise industry corn welcome wealth tilt erupt gauge ankle remove toast journey heavy unit vibrant zoo blood notice jealous gesture cargo";
 
-        public const string TestMnemonic24SecretKey =
-            "RkXUT99dpuSPP33w3X6tTx8KTDJMs1ce3tjeHWm2GSTKau7qFDN5BFMEeGToMGcEDunXuBpozxWAnr6uir8JVMD";
-
-        public const string TestMnemonic24PublicKey = "36hssW7DqagnHyC3dPjD59kjiUnYWrYd8hXeQ3zZ5kUK";
-
+        public static readonly Keypair TestMnemonic12Keypair = new ("5F86TNSTre3CYwZd1wELsGQGhqG2HkN3d8zxhbyBSnzm", "cWNhG6WhR4q6X5v8d65x6UgVR4buQJFkpKVvKiFDbbbZnoxpTJZLoCkCLZXpCYKc1QgyXYbhQpACYN8VKgS5xxq", TestMnemonic12);
+        public static readonly Keypair TestMnemonic24Keypair = new ("6pFBagvvyvBHuCkbMAiPTLn42nnHXrHC2zwWSdZ1NtVn", "WTqijcBccatWsAA6WJzaqgNzJVdARiBHceL5DQG15RbZCNn9jeoEjwMyKRiQqsPvLKGhgkQMoUgo2ybbZmStU3r", TestMnemonic24);
+        
         public static readonly Keypair[] TestMnemonic12Set =
         {
-            new("5F86TNSTre3CYwZd1wELsGQGhqG2HkN3d8zxhbyBSnzm",
-                "cWNhG6WhR4q6X5v8d65x6UgVR4buQJFkpKVvKiFDbbbZnoxpTJZLoCkCLZXpCYKc1QgyXYbhQpACYN8VKgS5xxq",
-                TestMnemonic12),
+            TestMnemonic12Keypair,
             new("AWjbG5SH5VEay5ksZbGHHgJhYRhM1rsN5Z538cfFvs4a",
                 "CnJAJFfB8PkLPAGVfc7Pc9J2cWaCAiN65j44DFDP8ub7R1jN1XRkgT7FFBdBy9pUB33UmdAskuB5ZLPspH6U9jL",
                 TestMnemonic12),
@@ -64,9 +60,7 @@ namespace Kinetic.Sdk.Tests
 
         public static readonly Keypair[] TestMnemonic24Set =
         {
-            new("6pFBagvvyvBHuCkbMAiPTLn42nnHXrHC2zwWSdZ1NtVn",
-                "WTqijcBccatWsAA6WJzaqgNzJVdARiBHceL5DQG15RbZCNn9jeoEjwMyKRiQqsPvLKGhgkQMoUgo2ybbZmStU3r",
-                TestMnemonic24),
+            TestMnemonic24Keypair,
             new("Foo948ttNuYa8SsfHX78BVyPVA7P7MsV8u43ZeQ1RBxm",
                 "TcauP27RkmyhH2AsVaPh5rCofCN4xCoB1h5MgUT6eRoJ7GiVPDBqtW1dAmh9CNcHSqCVnoEFUbRhfApM6oLrUDF",
                 TestMnemonic24),
