@@ -1,11 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using IO.Swagger.Model;
+
 using Kinetic.Sdk.Helpers;
 using Kinetic.Sdk.Interfaces;
-using Solana.Unity.Rpc.Types;
+using Model;
 using UnityEngine;
+using Commitment = Solana.Unity.Rpc.Types.Commitment;
 
 // ReSharper disable once CheckNamespace
 

@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
-using IO.Swagger.Api;
-using IO.Swagger.Client;
-using IO.Swagger.Model;
+using Api;
+using Client;
 using Kinetic.Sdk.Helpers;
 using Kinetic.Sdk.Interfaces;
 using Kinetic.Sdk.Transactions;
-using Solana.Unity.Rpc.Types;
+using Model;
+using Commitment = Solana.Unity.Rpc.Types.Commitment;
 
 // ReSharper disable once CheckNamespace
 
@@ -63,7 +63,7 @@ namespace Kinetic.Sdk
             var blockhash = GetBlockhash();
 
             var tx = GenerateCreateAccountTransaction.Generate(
-                appMint.AddMemo ?? false,
+                appMint.AddMemo,
                 blockhash.LatestBlockhash,
                 _sdkConfig.Index,
                 appMint.FeePayer,
@@ -80,7 +80,7 @@ namespace Kinetic.Sdk
                 Mint = appMint.PublicKey,
                 ReferenceId = referenceId,
                 ReferenceType = referenceType,
-                Tx = tx.Serialize()
+                Tx = Convert.ToBase64String(tx.Serialize())
             };
 
             return _accountApi.CreateAccount(request);
@@ -151,12 +151,12 @@ namespace Kinetic.Sdk
             if (account.Count == 0 && !senderCreate) throw new Exception("Destination account doesn't exist.");
 
             var tx = GenerateMakeTransferTransaction.Generate(
-                appMint.AddMemo ?? false,
+                appMint.AddMemo,
                 amount,
                 blockhash.LatestBlockhash,
                 destination,
                 _sdkConfig.Index,
-                appMint.Decimals ?? 0,
+                appMint.Decimals,
                 appMint.FeePayer,
                 appMint.PublicKey,
                 owner.Solana,
@@ -173,7 +173,7 @@ namespace Kinetic.Sdk
                 Mint = appMint.PublicKey,
                 ReferenceId = referenceId,
                 ReferenceType = referenceType,
-                Tx = tx.Serialize()
+                Tx = Convert.ToBase64String(tx.Serialize())
             };
 
             return _transactionApi.MakeTransfer(mkTransfer);
@@ -230,7 +230,7 @@ namespace Kinetic.Sdk
             return new PreTransaction
             {
                 LatestBlockhash = latestBlockhashResponse.Blockhash,
-                LastValidBlockHeight = latestBlockhashResponse.LastValidBlockHeight.GetValueOrDefault(0)
+                LastValidBlockHeight = latestBlockhashResponse.LastValidBlockHeight
             };
         }
 
