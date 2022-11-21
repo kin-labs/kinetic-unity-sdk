@@ -127,7 +127,7 @@ namespace Kinetic.Sdk.Tests
             Assert.AreEqual(_sdk.Config().Mint.PublicKey, tx.Mint);
             Assert.IsNotNull(tx.Signature);
             Assert.IsTrue(tx.Errors.Count == 0);
-            Assert.IsTrue(uint.Parse(tx.Amount) == 4300000);
+            Assert.IsTrue(tx.Amount == "43");
             Assert.AreEqual(KineticSdkFixture.AliceKeypair.PublicKey.ToString(), tx.Source);
         }
 
@@ -139,7 +139,7 @@ namespace Kinetic.Sdk.Tests
                 destination: KineticSdkFixture.BobKeypair.PublicKey,
                 owner: KineticSdkFixture.AliceKeypair);
             Assert.IsNull(tx.Signature);
-            Assert.AreEqual("9999999999999900000", tx.Amount);
+            Assert.AreEqual("99999999999999", tx.Amount);
             Assert.IsTrue(tx.Errors.Count > 0);
             Assert.AreEqual("Failed", tx.Status);
             Assert.IsTrue(tx.Errors[0].Message.Contains("Error: Insufficient funds."));
@@ -156,7 +156,7 @@ namespace Kinetic.Sdk.Tests
                 senderCreate: true);
             Assert.IsNotNull(tx);
             Assert.IsNotNull(tx.Signature);
-            Assert.AreEqual("4300000", tx.Amount);
+            Assert.AreEqual("43", tx.Amount);
             Assert.IsTrue(tx.Errors.Count == 0);
             Assert.AreEqual(KineticSdkFixture.AliceKeypair.PublicKey.ToString(), tx.Source);
         }
