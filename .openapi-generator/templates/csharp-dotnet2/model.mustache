@@ -7,6 +7,13 @@ using Newtonsoft.Json;
 
 {{#models}}
 {{#model}}
+
+using ClusterType = System.String;
+using Commitment = System.String;
+using ConfirmationStatus = System.String;
+using TransactionErrorType = System.String;
+using TransactionStatus = System.String;
+
 namespace {{modelPackage}} {
 
   /// <summary>

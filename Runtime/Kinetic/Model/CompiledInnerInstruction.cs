@@ -18,34 +18,20 @@ namespace Model {
   /// 
   /// </summary>
   [DataContract]
-  public class BalanceToken {
+  public class CompiledInnerInstruction {
     /// <summary>
-    /// Gets or Sets Account
+    /// Gets or Sets Index
     /// </summary>
-    [DataMember(Name="account", EmitDefaultValue=false)]
-    [JsonProperty(PropertyName = "account")]
-    public string Account { get; set; }
+    [DataMember(Name="index", EmitDefaultValue=false)]
+    [JsonProperty(PropertyName = "index")]
+    public int Index { get; set; }
 
     /// <summary>
-    /// Gets or Sets Balance
+    /// Gets or Sets Instructions
     /// </summary>
-    [DataMember(Name="balance", EmitDefaultValue=false)]
-    [JsonProperty(PropertyName = "balance")]
-    public string Balance { get; set; }
-
-    /// <summary>
-    /// Gets or Sets Decimals
-    /// </summary>
-    [DataMember(Name="decimals", EmitDefaultValue=false)]
-    [JsonProperty(PropertyName = "decimals")]
-    public int Decimals { get; set; }
-
-    /// <summary>
-    /// Gets or Sets Mint
-    /// </summary>
-    [DataMember(Name="mint", EmitDefaultValue=false)]
-    [JsonProperty(PropertyName = "mint")]
-    public string Mint { get; set; }
+    [DataMember(Name="instructions", EmitDefaultValue=false)]
+    [JsonProperty(PropertyName = "instructions")]
+    public List<CompiledInstruction> Instructions { get; set; }
 
 
     /// <summary>
@@ -54,11 +40,9 @@ namespace Model {
     /// <returns>String presentation of the object</returns>
     public override string ToString()  {
       var sb = new StringBuilder();
-      sb.Append("class BalanceToken {\n");
-      sb.Append("  Account: ").Append(Account).Append("\n");
-      sb.Append("  Balance: ").Append(Balance).Append("\n");
-      sb.Append("  Decimals: ").Append(Decimals).Append("\n");
-      sb.Append("  Mint: ").Append(Mint).Append("\n");
+      sb.Append("class CompiledInnerInstruction {\n");
+      sb.Append("  Index: ").Append(Index).Append("\n");
+      sb.Append("  Instructions: ").Append(Instructions).Append("\n");
       sb.Append("}\n");
       return sb.ToString();
     }

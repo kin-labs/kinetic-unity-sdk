@@ -26,6 +26,7 @@ namespace Kinetic.Sdk.Tests
 
         private KineticSdk _sdk;
         private const string Endpoint = "https://sandbox.kinetic.host";
+        // private const string Endpoint = "http://localhost:3000";
 
         [Test]
         public void TestGetAppConfig()

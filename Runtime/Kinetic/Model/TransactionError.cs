@@ -5,6 +5,13 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
 
+
+using ClusterType = System.String;
+using Commitment = System.String;
+using ConfirmationStatus = System.String;
+using TransactionErrorType = System.String;
+using TransactionStatus = System.String;
+
 namespace Model {
 
   /// <summary>
@@ -38,7 +45,7 @@ namespace Model {
     /// </summary>
     [DataMember(Name="type", EmitDefaultValue=false)]
     [JsonProperty(PropertyName = "type")]
-    public string Type { get; set; }
+    public TransactionErrorType Type { get; set; }
 
     /// <summary>
     /// Gets or Sets Instruction

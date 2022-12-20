@@ -5,6 +5,13 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
 
+
+using ClusterType = System.String;
+using Commitment = System.String;
+using ConfirmationStatus = System.String;
+using TransactionErrorType = System.String;
+using TransactionStatus = System.String;
+
 namespace Model {
 
   /// <summary>
@@ -17,14 +24,14 @@ namespace Model {
     /// </summary>
     [DataMember(Name="fee", EmitDefaultValue=false)]
     [JsonProperty(PropertyName = "fee")]
-    public decimal? Fee { get; set; }
+    public int? Fee { get; set; }
 
     /// <summary>
     /// Gets or Sets InnerInstructions
     /// </summary>
     [DataMember(Name="innerInstructions", EmitDefaultValue=false)]
     [JsonProperty(PropertyName = "innerInstructions")]
-    public List<string> InnerInstructions { get; set; }
+    public List<CompiledInnerInstruction> InnerInstructions { get; set; }
 
     /// <summary>
     /// Gets or Sets PreBalances
@@ -52,14 +59,14 @@ namespace Model {
     /// </summary>
     [DataMember(Name="preTokenBalances", EmitDefaultValue=false)]
     [JsonProperty(PropertyName = "preTokenBalances")]
-    public List<string> PreTokenBalances { get; set; }
+    public List<TokenBalance> PreTokenBalances { get; set; }
 
     /// <summary>
     /// Gets or Sets PostTokenBalances
     /// </summary>
     [DataMember(Name="postTokenBalances", EmitDefaultValue=false)]
     [JsonProperty(PropertyName = "postTokenBalances")]
-    public List<string> PostTokenBalances { get; set; }
+    public List<TokenBalance> PostTokenBalances { get; set; }
 
     /// <summary>
     /// Gets or Sets Err

@@ -5,6 +5,13 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
 
+
+using ClusterType = System.String;
+using Commitment = System.String;
+using ConfirmationStatus = System.String;
+using TransactionErrorType = System.String;
+using TransactionStatus = System.String;
+
 namespace Model {
 
   /// <summary>
@@ -45,7 +52,7 @@ namespace Model {
     /// </summary>
     [DataMember(Name="decimals", EmitDefaultValue=false)]
     [JsonProperty(PropertyName = "decimals")]
-    public decimal? Decimals { get; set; }
+    public int? Decimals { get; set; }
 
     /// <summary>
     /// Gets or Sets Destination
@@ -94,7 +101,7 @@ namespace Model {
     /// </summary>
     [DataMember(Name="processingDuration", EmitDefaultValue=false)]
     [JsonProperty(PropertyName = "processingDuration")]
-    public decimal? ProcessingDuration { get; set; }
+    public int? ProcessingDuration { get; set; }
 
     /// <summary>
     /// Gets or Sets ReferenceId
@@ -129,7 +136,7 @@ namespace Model {
     /// </summary>
     [DataMember(Name="solanaCommittedDuration", EmitDefaultValue=false)]
     [JsonProperty(PropertyName = "solanaCommittedDuration")]
-    public decimal? SolanaCommittedDuration { get; set; }
+    public int? SolanaCommittedDuration { get; set; }
 
     /// <summary>
     /// Gets or Sets SolanaFinalized
@@ -143,7 +150,7 @@ namespace Model {
     /// </summary>
     [DataMember(Name="solanaFinalizedDuration", EmitDefaultValue=false)]
     [JsonProperty(PropertyName = "solanaFinalizedDuration")]
-    public decimal? SolanaFinalizedDuration { get; set; }
+    public int? SolanaFinalizedDuration { get; set; }
 
     /// <summary>
     /// Gets or Sets SolanaStart
@@ -171,14 +178,14 @@ namespace Model {
     /// </summary>
     [DataMember(Name="status", EmitDefaultValue=false)]
     [JsonProperty(PropertyName = "status")]
-    public string Status { get; set; }
+    public TransactionStatus Status { get; set; }
 
     /// <summary>
     /// Gets or Sets TotalDuration
     /// </summary>
     [DataMember(Name="totalDuration", EmitDefaultValue=false)]
     [JsonProperty(PropertyName = "totalDuration")]
-    public decimal? TotalDuration { get; set; }
+    public int? TotalDuration { get; set; }
 
     /// <summary>
     /// Gets or Sets Tx
@@ -213,7 +220,7 @@ namespace Model {
     /// </summary>
     [DataMember(Name="webhookEventDuration", EmitDefaultValue=false)]
     [JsonProperty(PropertyName = "webhookEventDuration")]
-    public decimal? WebhookEventDuration { get; set; }
+    public int? WebhookEventDuration { get; set; }
 
     /// <summary>
     /// Gets or Sets WebhookVerifyStart
@@ -234,7 +241,7 @@ namespace Model {
     /// </summary>
     [DataMember(Name="webhookVerifyDuration", EmitDefaultValue=false)]
     [JsonProperty(PropertyName = "webhookVerifyDuration")]
-    public decimal? WebhookVerifyDuration { get; set; }
+    public int? WebhookVerifyDuration { get; set; }
 
 
     /// <summary>
