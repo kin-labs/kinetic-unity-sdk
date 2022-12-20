@@ -16,17 +16,20 @@ namespace Kinetic.Sdk.Tests
         {
             _sdk = KineticSdk.SetupSync(
                 new KineticSdkConfig(
-                    1,
                     Endpoint,
-                    KineticSdkEndpoint.Devnet,
+                    Environment,
+                    Index,
                     new Logger(Debug.unityLogger.logHandler)
                 )
             );
         }
 
         private KineticSdk _sdk;
+        private const string Environment = "devnet";
+        // private const string Environment = "local";
         private const string Endpoint = "https://sandbox.kinetic.host";
         // private const string Endpoint = "http://localhost:3000";
+        private const int Index = 1;
 
         [Test]
         public void TestGetAppConfig()
@@ -36,7 +39,7 @@ namespace Kinetic.Sdk.Tests
             Assert.AreEqual(Endpoint, _sdk.SdkConfig.Endpoint);
             Assert.AreEqual(1, res.App.Index);
             Assert.AreEqual("App 1", res.App.Name);
-            Assert.AreEqual(KineticSdkEndpoint.Devnet, res.Environment.Name);
+            Assert.AreEqual("devnet", res.Environment.Name);
             Assert.AreEqual("solana-devnet", res.Environment.Cluster.Id);
             Assert.AreEqual("Solana Devnet", res.Environment.Cluster.Name);
             Assert.AreEqual("KIN", res.Mint.Symbol);
@@ -69,6 +72,44 @@ namespace Kinetic.Sdk.Tests
             Assert.IsTrue(balance > 0);
         }
 
+        [Test, Timeout(30000)]
+        public void TestGetAccountInfo()
+        {
+            var res = _sdk.GetAccountInfoSync(account: KineticSdkFixture.AliceKeypair.PublicKey);
+            
+            Assert.IsFalse(res.IsMint);
+            Assert.IsFalse(res.IsTokenAccount);
+            Assert.IsTrue(res.IsOwner);
+            Assert.AreEqual(1, res.Tokens.Count);
+            Assert.AreEqual(5, res.Tokens[0].Decimals);
+            Assert.AreEqual(KineticSdkFixture.DefaultMint, res.Tokens[0].Mint);
+            Assert.AreEqual(KineticSdkFixture.AliceKeypair.PublicKey.ToString(), res.Tokens[0].Owner);
+            Assert.AreEqual(KineticSdkFixture.AliceTokenAccount, res.Tokens[0].Account);
+        }
+
+
+        [Test, Timeout(30000)]
+        public void TestCloseAccount()
+        {
+            
+            var owner = Keypair.Random();
+            var createdTx = _sdk.CreateAccountSync(owner, commitment: Commitment.Finalized, referenceType: "Unity: TestCloseAccount", referenceId: "Create");
+
+            Assert.NotNull(createdTx);
+            Assert.NotNull(createdTx.Signature);
+            Assert.AreEqual(0, createdTx.Errors.Count);
+            Assert.AreEqual(_sdk.Config().Mint.PublicKey, createdTx.Mint);
+            Assert.AreEqual("Committed", createdTx.Status);
+            
+            var closedTx = _sdk.CloseAccountSync(owner.PublicKey, commitment: Commitment.Finalized, referenceType: "Unity: TestCloseAccount", referenceId: "Close");
+
+            Assert.NotNull(closedTx);
+            Assert.NotNull(closedTx.Signature);
+            Assert.AreEqual(0, closedTx.Errors.Count);
+            Assert.AreEqual(_sdk.Config().Mint.PublicKey, closedTx.Mint);
+            Assert.AreEqual("Committed", closedTx.Status);
+        }
+        
         [Test]
         public void TestCreateAccount()
         {

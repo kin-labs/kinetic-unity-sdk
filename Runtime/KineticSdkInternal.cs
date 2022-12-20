@@ -48,14 +48,41 @@ namespace Kinetic.Sdk
 
         #region Core
 
+        public Transaction CloseAccount(
+            string account,
+            string mint = null,
+            string referenceId = null,
+            string referenceType = null,
+            Commitment? commitment = null
+        )
+        {
+            var appCommitment = GetCommitment(commitment);
+            var appConfig = EnsureAppConfig();
+            var appMint = GetAppMint(appConfig, mint);
+
+            var request = new CloseAccountRequest
+            {
+                Account = account,
+                Commitment = appCommitment.ToString(),
+                Environment = _sdkConfig.Environment,
+                Index = _sdkConfig.Index,
+                Mint = appMint.PublicKey,
+                ReferenceId = referenceId,
+                ReferenceType = referenceType,
+            };
+
+            return _accountApi.CloseAccount(request);
+        }
+
         public Transaction CreateAccount(
             Keypair owner,
             string mint = null,
             string referenceId = null,
             string referenceType = null,
-            Commitment commitment = Commitment.Confirmed
+            Commitment? commitment = null
         )
         {
+            var appCommitment = GetCommitment(commitment);
             var appConfig = EnsureAppConfig();
             var appMint = GetAppMint(appConfig, mint);
 
@@ -72,7 +99,7 @@ namespace Kinetic.Sdk
 
             var request = new CreateAccountRequest
             {
-                Commitment = commitment.ToString(),
+                Commitment = appCommitment.ToString(),
                 Environment = _sdkConfig.Environment,
                 Index = _sdkConfig.Index,
                 LastValidBlockHeight = blockhash.LastValidBlockHeight,
@@ -84,53 +111,58 @@ namespace Kinetic.Sdk
 
             return _accountApi.CreateAccount(request);
         }
+        
+        public AccountInfo GetAccountInfo(string account, Commitment? commitment = null)
+        {
+            var appCommitment = GetCommitment(commitment);
+            
+            return _accountApi.GetAccountInfo(_sdkConfig.Environment, _sdkConfig.Index, account, appCommitment.ToString());
+        }
 
-        public AppConfig GetAppConfig(string environment, int? index)
+
+        public AppConfig GetAppConfig()
         {
             AppConfig = _appApi.GetAppConfig(_sdkConfig.Environment, _sdkConfig.Index);
             return AppConfig;
         }
 
-        public BalanceResponse GetBalance(string account)
+        public BalanceResponse GetBalance(string account, Commitment? commitment = null)
         {
-            // FIXME: this should come from the GetCommitment method
-            var commitment = Commitment.Confirmed;
+            var appCommitment = GetCommitment(commitment);
 
             return _accountApi.GetBalance(
                 _sdkConfig.Environment,
                 _sdkConfig.Index,
                 account,
-                commitment.ToString()
+                appCommitment.ToString()
             );
         }
 
-        public List<HistoryResponse> GetHistory(string account, string mint = null)
+        public List<HistoryResponse> GetHistory(string account, string mint = null, Commitment? commitment = null)
         {
+            var appCommitment = GetCommitment(commitment);
             var appConfig = EnsureAppConfig();
-            // FIXME: this should come from the GetCommitment method
-            var commitment = Commitment.Confirmed;
             var appMint = GetAppMint(appConfig, mint);
 
-            return _accountApi.GetHistory(_sdkConfig.Environment, _sdkConfig.Index, account, appMint.PublicKey, commitment.ToString());
+            return _accountApi.GetHistory(_sdkConfig.Environment, _sdkConfig.Index, account, appMint.PublicKey, appCommitment.ToString());
         }
 
-        public List<string> GetTokenAccounts(string account, string mint = null)
+        public List<string> GetTokenAccounts(string account, string mint = null, Commitment? commitment = null)
         {
+            var appCommitment = GetCommitment(commitment);
             var appConfig = EnsureAppConfig();
-            // FIXME: this should come from the GetCommitment method
-            var commitment = Commitment.Confirmed;
             var appMint = GetAppMint(appConfig, mint);
 
             return _accountApi
-                .GetTokenAccounts(_sdkConfig.Environment, _sdkConfig.Index, account, appMint.PublicKey, commitment.ToString());
+                .GetTokenAccounts(_sdkConfig.Environment, _sdkConfig.Index, account, appMint.PublicKey, appCommitment.ToString());
         }
 
-        public GetTransactionResponse GetTransaction(string signature)
+        public GetTransactionResponse GetTransaction(string signature, Commitment? commitment = null)
         {
-            // FIXME: this should come from the GetCommitment method
-            var commitment = Commitment.Confirmed;
+            var appCommitment = GetCommitment(commitment);
+
             return _transactionApi
-                .GetTransaction(_sdkConfig.Environment, _sdkConfig.Index, signature, commitment.ToString());
+                .GetTransaction(_sdkConfig.Environment, _sdkConfig.Index, signature, appCommitment.ToString());
         }
 
         public Transaction MakeTransfer(
@@ -141,10 +173,11 @@ namespace Kinetic.Sdk
             string referenceId = null,
             string referenceType = null,
             bool senderCreate = false,
-            Commitment commitment = Commitment.Confirmed,
-            TransactionType type = TransactionType.None
+            TransactionType type = TransactionType.None,
+            Commitment? commitment = null
         )
         {
+            var appCommitment = GetCommitment(commitment);
             var appConfig = EnsureAppConfig();
             var appMint = GetAppMint(appConfig, mint);
 
@@ -155,7 +188,7 @@ namespace Kinetic.Sdk
 
             var blockhash = GetBlockhash();
 
-            var account = GetTokenAccounts(destination, appMint.PublicKey);
+            var account = GetTokenAccounts(destination, appMint.PublicKey, appCommitment);
 
             if (account.Count == 0 && !senderCreate) throw new Exception("Destination account doesn't exist.");
 
@@ -175,7 +208,7 @@ namespace Kinetic.Sdk
 
             var mkTransfer = new MakeTransferRequest
             {
-                Commitment = commitment.ToString(),
+                Commitment = appCommitment.ToString(),
                 Environment = _sdkConfig.Environment,
                 Index = _sdkConfig.Index,
                 LastValidBlockHeight = blockhash.LastValidBlockHeight,
@@ -191,10 +224,11 @@ namespace Kinetic.Sdk
         public RequestAirdropResponse RequestAirdrop(
             string account,
             string amount,
-            Commitment commitment = Commitment.Finalized,
-            string mint = null
+            string mint = null,
+            Commitment? commitment = null
         )
         {
+            var appCommitment = GetCommitment(commitment);
             var appConfig = EnsureAppConfig();
             var appMint = GetAppMint(appConfig, mint);
 
@@ -204,7 +238,7 @@ namespace Kinetic.Sdk
                     {
                         Account = account,
                         Amount = amount,
-                        Commitment = commitment.ToString(),
+                        Commitment = appCommitment.ToString(),
                         Environment = _sdkConfig.Environment,
                         Index = _sdkConfig.Index,
                         Mint = appMint.PublicKey
@@ -221,6 +255,12 @@ namespace Kinetic.Sdk
         {
             if (AppConfig is null) throw new Exception("AppConfig not initialized");
             return AppConfig;
+        }
+        
+
+        private Commitment GetCommitment(Commitment? commitment = null)
+        {
+            return commitment ?? _sdkConfig.Commitment ?? Commitment.Confirmed;
         }
 
         private AppConfigMint GetAppMint(AppConfig appConfig, string mint = null)
