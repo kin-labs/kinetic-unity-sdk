@@ -59,7 +59,11 @@ namespace Kinetic.Sdk.Tests
             90, 195, 224, 74, 167, 48, 234, 92, 160, 3, 29, 163, 62, 235, 147, 240, 30, 108,
         };
 
+        // FIXME: This should be MoGaMuJnB3k8zXjBYBnHxHG47vWcW3nyb7bFYvdVzek once we switch tests to localhost:3000
+        public const string DefaultMint = "KinDesK3dYWo3R2wDk6Ucaf31tvQCCSYyL8Fuqp33GX";
         public static readonly Keypair AliceKeypair = Keypair.FromByteArray(AliceKey);
+        // FIXME: Change this to the PDA from Alice and 'MoGa...Vzek' once we switch tests to localhost:3000
+        public const string AliceTokenAccount = "2buHAucDpb3gECUNZwZQpfAJ8hELsvaQrByYBekT7NKk";
         
         public static readonly Keypair DaveKeypair = Keypair.FromByteArray(DaveKey);
         
