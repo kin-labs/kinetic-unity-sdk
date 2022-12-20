@@ -12,6 +12,8 @@ using Newtonsoft.Json;
 using RestSharp;
 using RestSharp.Extensions;
 
+#pragma warning disable 0618 // UNET transport deprecation
+
 namespace Client
 {
     /// <summary>

@@ -4,6 +4,10 @@ using RestSharp;
 using Client;
 using Model;
 
+#pragma warning disable 0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+using Commitment = System.String;
+
 namespace Api
 {
     /// <summary>
@@ -32,8 +36,9 @@ namespace Api
         /// <param name="environment"></param>
         /// <param name="index"></param>
         /// <param name="signature"></param>
+        /// <param name="commitment"></param>
         /// <returns>GetTransactionResponse</returns>
-        GetTransactionResponse GetTransaction (string environment, int index, string signature);
+        GetTransactionResponse GetTransaction (string environment, int index, string signature, Commitment commitment);
         /// <summary>
         ///  
         /// </summary>
@@ -190,8 +195,9 @@ path = path.Replace("{" + "index" + "}", ApiClient.ParameterToString(index));
         /// <param name="environment"></param>
         /// <param name="index"></param>
         /// <param name="signature"></param>
+        /// <param name="commitment"></param>
         /// <returns>GetTransactionResponse</returns>
-        public GetTransactionResponse GetTransaction (string environment, int index, string signature)
+        public GetTransactionResponse GetTransaction (string environment, int index, string signature, Commitment commitment)
         {
             
             // verify the required parameter 'environment' is set
@@ -202,6 +208,9 @@ path = path.Replace("{" + "index" + "}", ApiClient.ParameterToString(index));
             
             // verify the required parameter 'signature' is set
             if (signature == null) throw new ApiException(400, "Missing required parameter 'signature' when calling GetTransaction");
+            
+            // verify the required parameter 'commitment' is set
+            if (commitment == null) throw new ApiException(400, "Missing required parameter 'commitment' when calling GetTransaction");
             
 
             var path = "/api/transaction/transaction/{environment}/{index}/{signature}";
@@ -216,7 +225,8 @@ path = path.Replace("{" + "signature" + "}", ApiClient.ParameterToString(signatu
             var fileParams = new Dictionary<String, FileParameter>();
             String postBody = null;
 
-                                                
+             if (commitment != null) queryParams.Add("commitment", ApiClient.ParameterToString(commitment)); // query parameter
+                                    
             // authentication setting, if any
             String[] authSettings = new String[] {  };
 

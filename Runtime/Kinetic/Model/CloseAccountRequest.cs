@@ -18,7 +18,14 @@ namespace Model {
   /// 
   /// </summary>
   [DataContract]
-  public class BalanceToken {
+  public class CloseAccountRequest {
+    /// <summary>
+    /// Gets or Sets Commitment
+    /// </summary>
+    [DataMember(Name="commitment", EmitDefaultValue=false)]
+    [JsonProperty(PropertyName = "commitment")]
+    public Commitment Commitment { get; set; }
+
     /// <summary>
     /// Gets or Sets Account
     /// </summary>
@@ -27,18 +34,18 @@ namespace Model {
     public string Account { get; set; }
 
     /// <summary>
-    /// Gets or Sets Balance
+    /// Gets or Sets Environment
     /// </summary>
-    [DataMember(Name="balance", EmitDefaultValue=false)]
-    [JsonProperty(PropertyName = "balance")]
-    public string Balance { get; set; }
+    [DataMember(Name="environment", EmitDefaultValue=false)]
+    [JsonProperty(PropertyName = "environment")]
+    public string Environment { get; set; }
 
     /// <summary>
-    /// Gets or Sets Decimals
+    /// Gets or Sets Index
     /// </summary>
-    [DataMember(Name="decimals", EmitDefaultValue=false)]
-    [JsonProperty(PropertyName = "decimals")]
-    public int Decimals { get; set; }
+    [DataMember(Name="index", EmitDefaultValue=false)]
+    [JsonProperty(PropertyName = "index")]
+    public int Index { get; set; }
 
     /// <summary>
     /// Gets or Sets Mint
@@ -47,6 +54,20 @@ namespace Model {
     [JsonProperty(PropertyName = "mint")]
     public string Mint { get; set; }
 
+    /// <summary>
+    /// Gets or Sets ReferenceId
+    /// </summary>
+    [DataMember(Name="referenceId", EmitDefaultValue=false)]
+    [JsonProperty(PropertyName = "referenceId")]
+    public string ReferenceId { get; set; }
+
+    /// <summary>
+    /// Gets or Sets ReferenceType
+    /// </summary>
+    [DataMember(Name="referenceType", EmitDefaultValue=false)]
+    [JsonProperty(PropertyName = "referenceType")]
+    public string ReferenceType { get; set; }
+
 
     /// <summary>
     /// Get the string presentation of the object
@@ -54,11 +75,14 @@ namespace Model {
     /// <returns>String presentation of the object</returns>
     public override string ToString()  {
       var sb = new StringBuilder();
-      sb.Append("class BalanceToken {\n");
+      sb.Append("class CloseAccountRequest {\n");
+      sb.Append("  Commitment: ").Append(Commitment).Append("\n");
       sb.Append("  Account: ").Append(Account).Append("\n");
-      sb.Append("  Balance: ").Append(Balance).Append("\n");
-      sb.Append("  Decimals: ").Append(Decimals).Append("\n");
+      sb.Append("  Environment: ").Append(Environment).Append("\n");
+      sb.Append("  Index: ").Append(Index).Append("\n");
       sb.Append("  Mint: ").Append(Mint).Append("\n");
+      sb.Append("  ReferenceId: ").Append(ReferenceId).Append("\n");
+      sb.Append("  ReferenceType: ").Append(ReferenceType).Append("\n");
       sb.Append("}\n");
       return sb.ToString();
     }

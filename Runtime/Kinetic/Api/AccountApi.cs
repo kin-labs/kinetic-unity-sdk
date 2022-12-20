@@ -4,6 +4,10 @@ using RestSharp;
 using Client;
 using Model;
 
+#pragma warning disable 0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+using Commitment = System.String;
+
 namespace Api
 {
     /// <summary>
@@ -11,6 +15,12 @@ namespace Api
     /// </summary>
     public interface IAccountApi
     {
+        /// <summary>
+        ///  
+        /// </summary>
+        /// <param name="closeAccountRequest"></param>
+        /// <returns>Transaction</returns>
+        Transaction CloseAccount (CloseAccountRequest closeAccountRequest);
         /// <summary>
         ///  
         /// </summary>
@@ -23,16 +33,18 @@ namespace Api
         /// <param name="environment"></param>
         /// <param name="index"></param>
         /// <param name="accountId"></param>
-        /// <returns></returns>
-        void GetAccountInfo (string environment, int index, string accountId);
+        /// <param name="commitment"></param>
+        /// <returns>AccountInfo</returns>
+        AccountInfo GetAccountInfo (string environment, int index, string accountId, Commitment commitment);
         /// <summary>
         ///  
         /// </summary>
         /// <param name="environment"></param>
         /// <param name="index"></param>
         /// <param name="accountId"></param>
+        /// <param name="commitment"></param>
         /// <returns>BalanceResponse</returns>
-        BalanceResponse GetBalance (string environment, int index, string accountId);
+        BalanceResponse GetBalance (string environment, int index, string accountId, Commitment commitment);
         /// <summary>
         ///  
         /// </summary>
@@ -40,8 +52,9 @@ namespace Api
         /// <param name="index"></param>
         /// <param name="accountId"></param>
         /// <param name="mint"></param>
+        /// <param name="commitment"></param>
         /// <returns>List&lt;HistoryResponse&gt;</returns>
-        List<HistoryResponse> GetHistory (string environment, int index, string accountId, string mint);
+        List<HistoryResponse> GetHistory (string environment, int index, string accountId, string mint, Commitment commitment);
         /// <summary>
         ///  
         /// </summary>
@@ -49,8 +62,9 @@ namespace Api
         /// <param name="index"></param>
         /// <param name="accountId"></param>
         /// <param name="mint"></param>
+        /// <param name="commitment"></param>
         /// <returns>List&lt;string&gt;</returns>
-        List<string> GetTokenAccounts (string environment, int index, string accountId, string mint);
+        List<string> GetTokenAccounts (string environment, int index, string accountId, string mint, Commitment commitment);
     }
 
     /// <summary>
@@ -109,6 +123,43 @@ namespace Api
         /// <summary>
         ///  
         /// </summary>
+        /// <param name="closeAccountRequest"></param>
+        /// <returns>Transaction</returns>
+        public Transaction CloseAccount (CloseAccountRequest closeAccountRequest)
+        {
+            
+            // verify the required parameter 'closeAccountRequest' is set
+            if (closeAccountRequest == null) throw new ApiException(400, "Missing required parameter 'closeAccountRequest' when calling CloseAccount");
+            
+
+            var path = "/api/account/close";
+            path = path.Replace("{format}", "json");
+            
+            var queryParams = new Dictionary<String, String>();
+            var headerParams = new Dictionary<String, String>();
+            var formParams = new Dictionary<String, String>();
+            var fileParams = new Dictionary<String, FileParameter>();
+            String postBody = null;
+
+                                                postBody = ApiClient.Serialize(closeAccountRequest); // http body (model) parameter
+
+            // authentication setting, if any
+            String[] authSettings = new String[] {  };
+
+            // make the HTTP request
+            IRestResponse response = (IRestResponse) ApiClient.CallApi(path, Method.POST, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
+
+            if (((int)response.StatusCode) >= 400)
+                throw new ApiException ((int)response.StatusCode, "Error calling CloseAccount: " + response.Content, response.Content);
+            else if (((int)response.StatusCode) == 0)
+                throw new ApiException ((int)response.StatusCode, "Error calling CloseAccount: " + response.ErrorMessage, response.ErrorMessage);
+
+            return (Transaction) ApiClient.Deserialize(response.Content, typeof(Transaction), response.Headers);
+        }
+
+        /// <summary>
+        ///  
+        /// </summary>
         /// <param name="createAccountRequest"></param>
         /// <returns>Transaction</returns>
         public Transaction CreateAccount (CreateAccountRequest createAccountRequest)
@@ -149,8 +200,9 @@ namespace Api
         /// <param name="environment"></param>
         /// <param name="index"></param>
         /// <param name="accountId"></param>
-        /// <returns></returns>
-        public void GetAccountInfo (string environment, int index, string accountId)
+        /// <param name="commitment"></param>
+        /// <returns>AccountInfo</returns>
+        public AccountInfo GetAccountInfo (string environment, int index, string accountId, Commitment commitment)
         {
             
             // verify the required parameter 'environment' is set
@@ -161,6 +213,9 @@ namespace Api
             
             // verify the required parameter 'accountId' is set
             if (accountId == null) throw new ApiException(400, "Missing required parameter 'accountId' when calling GetAccountInfo");
+            
+            // verify the required parameter 'commitment' is set
+            if (commitment == null) throw new ApiException(400, "Missing required parameter 'commitment' when calling GetAccountInfo");
             
 
             var path = "/api/account/info/{environment}/{index}/{accountId}";
@@ -175,7 +230,8 @@ path = path.Replace("{" + "accountId" + "}", ApiClient.ParameterToString(account
             var fileParams = new Dictionary<String, FileParameter>();
             String postBody = null;
 
-                                                
+             if (commitment != null) queryParams.Add("commitment", ApiClient.ParameterToString(commitment)); // query parameter
+                                    
             // authentication setting, if any
             String[] authSettings = new String[] {  };
 
@@ -187,7 +243,7 @@ path = path.Replace("{" + "accountId" + "}", ApiClient.ParameterToString(account
             else if (((int)response.StatusCode) == 0)
                 throw new ApiException ((int)response.StatusCode, "Error calling GetAccountInfo: " + response.ErrorMessage, response.ErrorMessage);
 
-            return;
+            return (AccountInfo) ApiClient.Deserialize(response.Content, typeof(AccountInfo), response.Headers);
         }
 
         /// <summary>
@@ -196,8 +252,9 @@ path = path.Replace("{" + "accountId" + "}", ApiClient.ParameterToString(account
         /// <param name="environment"></param>
         /// <param name="index"></param>
         /// <param name="accountId"></param>
+        /// <param name="commitment"></param>
         /// <returns>BalanceResponse</returns>
-        public BalanceResponse GetBalance (string environment, int index, string accountId)
+        public BalanceResponse GetBalance (string environment, int index, string accountId, Commitment commitment)
         {
             
             // verify the required parameter 'environment' is set
@@ -208,6 +265,9 @@ path = path.Replace("{" + "accountId" + "}", ApiClient.ParameterToString(account
             
             // verify the required parameter 'accountId' is set
             if (accountId == null) throw new ApiException(400, "Missing required parameter 'accountId' when calling GetBalance");
+            
+            // verify the required parameter 'commitment' is set
+            if (commitment == null) throw new ApiException(400, "Missing required parameter 'commitment' when calling GetBalance");
             
 
             var path = "/api/account/balance/{environment}/{index}/{accountId}";
@@ -222,7 +282,8 @@ path = path.Replace("{" + "accountId" + "}", ApiClient.ParameterToString(account
             var fileParams = new Dictionary<String, FileParameter>();
             String postBody = null;
 
-                                                
+             if (commitment != null) queryParams.Add("commitment", ApiClient.ParameterToString(commitment)); // query parameter
+                                    
             // authentication setting, if any
             String[] authSettings = new String[] {  };
 
@@ -244,8 +305,9 @@ path = path.Replace("{" + "accountId" + "}", ApiClient.ParameterToString(account
         /// <param name="index"></param>
         /// <param name="accountId"></param>
         /// <param name="mint"></param>
+        /// <param name="commitment"></param>
         /// <returns>List&lt;HistoryResponse&gt;</returns>
-        public List<HistoryResponse> GetHistory (string environment, int index, string accountId, string mint)
+        public List<HistoryResponse> GetHistory (string environment, int index, string accountId, string mint, Commitment commitment)
         {
             
             // verify the required parameter 'environment' is set
@@ -259,6 +321,9 @@ path = path.Replace("{" + "accountId" + "}", ApiClient.ParameterToString(account
             
             // verify the required parameter 'mint' is set
             if (mint == null) throw new ApiException(400, "Missing required parameter 'mint' when calling GetHistory");
+            
+            // verify the required parameter 'commitment' is set
+            if (commitment == null) throw new ApiException(400, "Missing required parameter 'commitment' when calling GetHistory");
             
 
             var path = "/api/account/history/{environment}/{index}/{accountId}/{mint}";
@@ -274,7 +339,8 @@ path = path.Replace("{" + "mint" + "}", ApiClient.ParameterToString(mint));
             var fileParams = new Dictionary<String, FileParameter>();
             String postBody = null;
 
-                                                
+             if (commitment != null) queryParams.Add("commitment", ApiClient.ParameterToString(commitment)); // query parameter
+                                    
             // authentication setting, if any
             String[] authSettings = new String[] {  };
 
@@ -296,8 +362,9 @@ path = path.Replace("{" + "mint" + "}", ApiClient.ParameterToString(mint));
         /// <param name="index"></param>
         /// <param name="accountId"></param>
         /// <param name="mint"></param>
+        /// <param name="commitment"></param>
         /// <returns>List&lt;string&gt;</returns>
-        public List<string> GetTokenAccounts (string environment, int index, string accountId, string mint)
+        public List<string> GetTokenAccounts (string environment, int index, string accountId, string mint, Commitment commitment)
         {
             
             // verify the required parameter 'environment' is set
@@ -311,6 +378,9 @@ path = path.Replace("{" + "mint" + "}", ApiClient.ParameterToString(mint));
             
             // verify the required parameter 'mint' is set
             if (mint == null) throw new ApiException(400, "Missing required parameter 'mint' when calling GetTokenAccounts");
+            
+            // verify the required parameter 'commitment' is set
+            if (commitment == null) throw new ApiException(400, "Missing required parameter 'commitment' when calling GetTokenAccounts");
             
 
             var path = "/api/account/token-accounts/{environment}/{index}/{accountId}/{mint}";
@@ -326,7 +396,8 @@ path = path.Replace("{" + "mint" + "}", ApiClient.ParameterToString(mint));
             var fileParams = new Dictionary<String, FileParameter>();
             String postBody = null;
 
-                                                
+             if (commitment != null) queryParams.Add("commitment", ApiClient.ParameterToString(commitment)); // query parameter
+                                    
             // authentication setting, if any
             String[] authSettings = new String[] {  };
 

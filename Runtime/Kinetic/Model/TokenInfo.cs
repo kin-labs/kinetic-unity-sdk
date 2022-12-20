@@ -18,7 +18,7 @@ namespace Model {
   /// 
   /// </summary>
   [DataContract]
-  public class BalanceToken {
+  public class TokenInfo {
     /// <summary>
     /// Gets or Sets Account
     /// </summary>
@@ -34,6 +34,13 @@ namespace Model {
     public string Balance { get; set; }
 
     /// <summary>
+    /// Gets or Sets CloseAuthority
+    /// </summary>
+    [DataMember(Name="closeAuthority", EmitDefaultValue=false)]
+    [JsonProperty(PropertyName = "closeAuthority")]
+    public string CloseAuthority { get; set; }
+
+    /// <summary>
     /// Gets or Sets Decimals
     /// </summary>
     [DataMember(Name="decimals", EmitDefaultValue=false)]
@@ -47,6 +54,13 @@ namespace Model {
     [JsonProperty(PropertyName = "mint")]
     public string Mint { get; set; }
 
+    /// <summary>
+    /// Gets or Sets Owner
+    /// </summary>
+    [DataMember(Name="owner", EmitDefaultValue=false)]
+    [JsonProperty(PropertyName = "owner")]
+    public string Owner { get; set; }
+
 
     /// <summary>
     /// Get the string presentation of the object
@@ -54,11 +68,13 @@ namespace Model {
     /// <returns>String presentation of the object</returns>
     public override string ToString()  {
       var sb = new StringBuilder();
-      sb.Append("class BalanceToken {\n");
+      sb.Append("class TokenInfo {\n");
       sb.Append("  Account: ").Append(Account).Append("\n");
       sb.Append("  Balance: ").Append(Balance).Append("\n");
+      sb.Append("  CloseAuthority: ").Append(CloseAuthority).Append("\n");
       sb.Append("  Decimals: ").Append(Decimals).Append("\n");
       sb.Append("  Mint: ").Append(Mint).Append("\n");
+      sb.Append("  Owner: ").Append(Owner).Append("\n");
       sb.Append("}\n");
       return sb.ToString();
     }

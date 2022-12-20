@@ -18,20 +18,13 @@ namespace Model {
   /// 
   /// </summary>
   [DataContract]
-  public class BalanceToken {
+  public class TokenAmount {
     /// <summary>
-    /// Gets or Sets Account
+    /// Gets or Sets Amount
     /// </summary>
-    [DataMember(Name="account", EmitDefaultValue=false)]
-    [JsonProperty(PropertyName = "account")]
-    public string Account { get; set; }
-
-    /// <summary>
-    /// Gets or Sets Balance
-    /// </summary>
-    [DataMember(Name="balance", EmitDefaultValue=false)]
-    [JsonProperty(PropertyName = "balance")]
-    public string Balance { get; set; }
+    [DataMember(Name="amount", EmitDefaultValue=false)]
+    [JsonProperty(PropertyName = "amount")]
+    public string Amount { get; set; }
 
     /// <summary>
     /// Gets or Sets Decimals
@@ -41,11 +34,18 @@ namespace Model {
     public int Decimals { get; set; }
 
     /// <summary>
-    /// Gets or Sets Mint
+    /// Gets or Sets UiAmount
     /// </summary>
-    [DataMember(Name="mint", EmitDefaultValue=false)]
-    [JsonProperty(PropertyName = "mint")]
-    public string Mint { get; set; }
+    [DataMember(Name="uiAmount", EmitDefaultValue=false)]
+    [JsonProperty(PropertyName = "uiAmount")]
+    public int? UiAmount { get; set; }
+
+    /// <summary>
+    /// Gets or Sets UiAmountString
+    /// </summary>
+    [DataMember(Name="uiAmountString", EmitDefaultValue=false)]
+    [JsonProperty(PropertyName = "uiAmountString")]
+    public string UiAmountString { get; set; }
 
 
     /// <summary>
@@ -54,11 +54,11 @@ namespace Model {
     /// <returns>String presentation of the object</returns>
     public override string ToString()  {
       var sb = new StringBuilder();
-      sb.Append("class BalanceToken {\n");
-      sb.Append("  Account: ").Append(Account).Append("\n");
-      sb.Append("  Balance: ").Append(Balance).Append("\n");
+      sb.Append("class TokenAmount {\n");
+      sb.Append("  Amount: ").Append(Amount).Append("\n");
       sb.Append("  Decimals: ").Append(Decimals).Append("\n");
-      sb.Append("  Mint: ").Append(Mint).Append("\n");
+      sb.Append("  UiAmount: ").Append(UiAmount).Append("\n");
+      sb.Append("  UiAmountString: ").Append(UiAmountString).Append("\n");
       sb.Append("}\n");
       return sb.ToString();
     }

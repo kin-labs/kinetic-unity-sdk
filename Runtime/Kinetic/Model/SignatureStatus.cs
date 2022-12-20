@@ -5,6 +5,13 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
 
+
+using ClusterType = System.String;
+using Commitment = System.String;
+using ConfirmationStatus = System.String;
+using TransactionErrorType = System.String;
+using TransactionStatus = System.String;
+
 namespace Model {
 
   /// <summary>
@@ -17,14 +24,14 @@ namespace Model {
     /// </summary>
     [DataMember(Name="slot", EmitDefaultValue=false)]
     [JsonProperty(PropertyName = "slot")]
-    public decimal? Slot { get; set; }
+    public int? Slot { get; set; }
 
     /// <summary>
     /// Gets or Sets Confirmations
     /// </summary>
     [DataMember(Name="confirmations", EmitDefaultValue=false)]
     [JsonProperty(PropertyName = "confirmations")]
-    public decimal? Confirmations { get; set; }
+    public int? Confirmations { get; set; }
 
     /// <summary>
     /// Gets or Sets Err
@@ -38,7 +45,7 @@ namespace Model {
     /// </summary>
     [DataMember(Name="confirmationStatus", EmitDefaultValue=false)]
     [JsonProperty(PropertyName = "confirmationStatus")]
-    public string ConfirmationStatus { get; set; }
+    public ConfirmationStatus ConfirmationStatus { get; set; }
 
 
     /// <summary>

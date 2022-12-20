@@ -6,7 +6,7 @@ using Kinetic.Sdk.Helpers;
 using Kinetic.Sdk.Interfaces;
 using Model;
 using UnityEngine;
-using Commitment = Solana.Unity.Rpc.Types.Commitment;
+using Commitment = Kinetic.Sdk.Interfaces.Commitment;
 
 // ReSharper disable once CheckNamespace
 

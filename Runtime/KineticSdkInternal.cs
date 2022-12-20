@@ -6,7 +6,6 @@ using Kinetic.Sdk.Helpers;
 using Kinetic.Sdk.Interfaces;
 using Kinetic.Sdk.Transactions;
 using Model;
-using Commitment = Solana.Unity.Rpc.Types.Commitment;
 
 // ReSharper disable once CheckNamespace
 
@@ -94,34 +93,44 @@ namespace Kinetic.Sdk
 
         public BalanceResponse GetBalance(string account)
         {
+            // FIXME: this should come from the GetCommitment method
+            var commitment = Commitment.Confirmed;
+
             return _accountApi.GetBalance(
                 _sdkConfig.Environment,
                 _sdkConfig.Index,
-                account
+                account,
+                commitment.ToString()
             );
         }
 
         public List<HistoryResponse> GetHistory(string account, string mint = null)
         {
             var appConfig = EnsureAppConfig();
+            // FIXME: this should come from the GetCommitment method
+            var commitment = Commitment.Confirmed;
             var appMint = GetAppMint(appConfig, mint);
 
-            return _accountApi.GetHistory(_sdkConfig.Environment, _sdkConfig.Index, account, appMint.PublicKey);
+            return _accountApi.GetHistory(_sdkConfig.Environment, _sdkConfig.Index, account, appMint.PublicKey, commitment.ToString());
         }
 
         public List<string> GetTokenAccounts(string account, string mint = null)
         {
             var appConfig = EnsureAppConfig();
+            // FIXME: this should come from the GetCommitment method
+            var commitment = Commitment.Confirmed;
             var appMint = GetAppMint(appConfig, mint);
 
             return _accountApi
-                .GetTokenAccounts(_sdkConfig.Environment, _sdkConfig.Index, account, appMint.PublicKey);
+                .GetTokenAccounts(_sdkConfig.Environment, _sdkConfig.Index, account, appMint.PublicKey, commitment.ToString());
         }
 
         public GetTransactionResponse GetTransaction(string signature)
         {
+            // FIXME: this should come from the GetCommitment method
+            var commitment = Commitment.Confirmed;
             return _transactionApi
-                .GetTransaction(_sdkConfig.Environment, _sdkConfig.Index, signature);
+                .GetTransaction(_sdkConfig.Environment, _sdkConfig.Index, signature, commitment.ToString());
         }
 
         public Transaction MakeTransfer(

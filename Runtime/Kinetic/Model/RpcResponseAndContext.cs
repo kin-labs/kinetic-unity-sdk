@@ -18,34 +18,20 @@ namespace Model {
   /// 
   /// </summary>
   [DataContract]
-  public class BalanceToken {
+  public class RpcResponseAndContext {
     /// <summary>
-    /// Gets or Sets Account
+    /// Gets or Sets Context
     /// </summary>
-    [DataMember(Name="account", EmitDefaultValue=false)]
-    [JsonProperty(PropertyName = "account")]
-    public string Account { get; set; }
+    [DataMember(Name="context", EmitDefaultValue=false)]
+    [JsonProperty(PropertyName = "context")]
+    public Context Context { get; set; }
 
     /// <summary>
-    /// Gets or Sets Balance
+    /// Gets or Sets Value
     /// </summary>
-    [DataMember(Name="balance", EmitDefaultValue=false)]
-    [JsonProperty(PropertyName = "balance")]
-    public string Balance { get; set; }
-
-    /// <summary>
-    /// Gets or Sets Decimals
-    /// </summary>
-    [DataMember(Name="decimals", EmitDefaultValue=false)]
-    [JsonProperty(PropertyName = "decimals")]
-    public int Decimals { get; set; }
-
-    /// <summary>
-    /// Gets or Sets Mint
-    /// </summary>
-    [DataMember(Name="mint", EmitDefaultValue=false)]
-    [JsonProperty(PropertyName = "mint")]
-    public string Mint { get; set; }
+    [DataMember(Name="value", EmitDefaultValue=false)]
+    [JsonProperty(PropertyName = "value")]
+    public SignatureStatus Value { get; set; }
 
 
     /// <summary>
@@ -54,11 +40,9 @@ namespace Model {
     /// <returns>String presentation of the object</returns>
     public override string ToString()  {
       var sb = new StringBuilder();
-      sb.Append("class BalanceToken {\n");
-      sb.Append("  Account: ").Append(Account).Append("\n");
-      sb.Append("  Balance: ").Append(Balance).Append("\n");
-      sb.Append("  Decimals: ").Append(Decimals).Append("\n");
-      sb.Append("  Mint: ").Append(Mint).Append("\n");
+      sb.Append("class RpcResponseAndContext {\n");
+      sb.Append("  Context: ").Append(Context).Append("\n");
+      sb.Append("  Value: ").Append(Value).Append("\n");
       sb.Append("}\n");
       return sb.ToString();
     }

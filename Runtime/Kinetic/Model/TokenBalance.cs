@@ -18,27 +18,13 @@ namespace Model {
   /// 
   /// </summary>
   [DataContract]
-  public class BalanceToken {
+  public class TokenBalance {
     /// <summary>
-    /// Gets or Sets Account
+    /// Gets or Sets AccountIndex
     /// </summary>
-    [DataMember(Name="account", EmitDefaultValue=false)]
-    [JsonProperty(PropertyName = "account")]
-    public string Account { get; set; }
-
-    /// <summary>
-    /// Gets or Sets Balance
-    /// </summary>
-    [DataMember(Name="balance", EmitDefaultValue=false)]
-    [JsonProperty(PropertyName = "balance")]
-    public string Balance { get; set; }
-
-    /// <summary>
-    /// Gets or Sets Decimals
-    /// </summary>
-    [DataMember(Name="decimals", EmitDefaultValue=false)]
-    [JsonProperty(PropertyName = "decimals")]
-    public int Decimals { get; set; }
+    [DataMember(Name="accountIndex", EmitDefaultValue=false)]
+    [JsonProperty(PropertyName = "accountIndex")]
+    public int AccountIndex { get; set; }
 
     /// <summary>
     /// Gets or Sets Mint
@@ -47,6 +33,20 @@ namespace Model {
     [JsonProperty(PropertyName = "mint")]
     public string Mint { get; set; }
 
+    /// <summary>
+    /// Gets or Sets Owner
+    /// </summary>
+    [DataMember(Name="owner", EmitDefaultValue=false)]
+    [JsonProperty(PropertyName = "owner")]
+    public string Owner { get; set; }
+
+    /// <summary>
+    /// Gets or Sets UiTokenAmount
+    /// </summary>
+    [DataMember(Name="uiTokenAmount", EmitDefaultValue=false)]
+    [JsonProperty(PropertyName = "uiTokenAmount")]
+    public TokenAmount UiTokenAmount { get; set; }
+
 
     /// <summary>
     /// Get the string presentation of the object
@@ -54,11 +54,11 @@ namespace Model {
     /// <returns>String presentation of the object</returns>
     public override string ToString()  {
       var sb = new StringBuilder();
-      sb.Append("class BalanceToken {\n");
-      sb.Append("  Account: ").Append(Account).Append("\n");
-      sb.Append("  Balance: ").Append(Balance).Append("\n");
-      sb.Append("  Decimals: ").Append(Decimals).Append("\n");
+      sb.Append("class TokenBalance {\n");
+      sb.Append("  AccountIndex: ").Append(AccountIndex).Append("\n");
       sb.Append("  Mint: ").Append(Mint).Append("\n");
+      sb.Append("  Owner: ").Append(Owner).Append("\n");
+      sb.Append("  UiTokenAmount: ").Append(UiTokenAmount).Append("\n");
       sb.Append("}\n");
       return sb.ToString();
     }

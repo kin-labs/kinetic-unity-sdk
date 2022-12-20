@@ -18,34 +18,27 @@ namespace Model {
   /// 
   /// </summary>
   [DataContract]
-  public class BalanceToken {
+  public class CompiledInstruction {
     /// <summary>
-    /// Gets or Sets Account
+    /// Gets or Sets ProgramIdIndex
     /// </summary>
-    [DataMember(Name="account", EmitDefaultValue=false)]
-    [JsonProperty(PropertyName = "account")]
-    public string Account { get; set; }
+    [DataMember(Name="programIdIndex", EmitDefaultValue=false)]
+    [JsonProperty(PropertyName = "programIdIndex")]
+    public int ProgramIdIndex { get; set; }
 
     /// <summary>
-    /// Gets or Sets Balance
+    /// Gets or Sets Accounts
     /// </summary>
-    [DataMember(Name="balance", EmitDefaultValue=false)]
-    [JsonProperty(PropertyName = "balance")]
-    public string Balance { get; set; }
+    [DataMember(Name="accounts", EmitDefaultValue=false)]
+    [JsonProperty(PropertyName = "accounts")]
+    public List<int> Accounts { get; set; }
 
     /// <summary>
-    /// Gets or Sets Decimals
+    /// Gets or Sets Data
     /// </summary>
-    [DataMember(Name="decimals", EmitDefaultValue=false)]
-    [JsonProperty(PropertyName = "decimals")]
-    public int Decimals { get; set; }
-
-    /// <summary>
-    /// Gets or Sets Mint
-    /// </summary>
-    [DataMember(Name="mint", EmitDefaultValue=false)]
-    [JsonProperty(PropertyName = "mint")]
-    public string Mint { get; set; }
+    [DataMember(Name="data", EmitDefaultValue=false)]
+    [JsonProperty(PropertyName = "data")]
+    public string Data { get; set; }
 
 
     /// <summary>
@@ -54,11 +47,10 @@ namespace Model {
     /// <returns>String presentation of the object</returns>
     public override string ToString()  {
       var sb = new StringBuilder();
-      sb.Append("class BalanceToken {\n");
-      sb.Append("  Account: ").Append(Account).Append("\n");
-      sb.Append("  Balance: ").Append(Balance).Append("\n");
-      sb.Append("  Decimals: ").Append(Decimals).Append("\n");
-      sb.Append("  Mint: ").Append(Mint).Append("\n");
+      sb.Append("class CompiledInstruction {\n");
+      sb.Append("  ProgramIdIndex: ").Append(ProgramIdIndex).Append("\n");
+      sb.Append("  Accounts: ").Append(Accounts).Append("\n");
+      sb.Append("  Data: ").Append(Data).Append("\n");
       sb.Append("}\n");
       return sb.ToString();
     }

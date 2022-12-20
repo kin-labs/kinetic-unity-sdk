@@ -5,13 +5,27 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
 
+
+using ClusterType = System.String;
+using Commitment = System.String;
+using ConfirmationStatus = System.String;
+using TransactionErrorType = System.String;
+using TransactionStatus = System.String;
+
 namespace Model {
 
   /// <summary>
   /// 
   /// </summary>
   [DataContract]
-  public class TransactionStatus {
+  public class Context {
+    /// <summary>
+    /// Gets or Sets Slot
+    /// </summary>
+    [DataMember(Name="slot", EmitDefaultValue=false)]
+    [JsonProperty(PropertyName = "slot")]
+    public int? Slot { get; set; }
+
 
     /// <summary>
     /// Get the string presentation of the object
@@ -19,7 +33,8 @@ namespace Model {
     /// <returns>String presentation of the object</returns>
     public override string ToString()  {
       var sb = new StringBuilder();
-      sb.Append("class TransactionStatus {\n");
+      sb.Append("class Context {\n");
+      sb.Append("  Slot: ").Append(Slot).Append("\n");
       sb.Append("}\n");
       return sb.ToString();
     }
