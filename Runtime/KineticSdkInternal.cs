@@ -14,8 +14,8 @@ namespace Kinetic.Sdk
 {
     internal static class Constants
     {
-        public static string Name = "Kinetic Unity SDK";
-        public static string Version = "1.0.0-rc.2";
+        public const string Name = "Kinetic Unity SDK";
+        public const string Version = "1.0.0-rc.12";
     }
 
     public class KineticSdkInternal
@@ -37,7 +37,7 @@ namespace Kinetic.Sdk
             // TODO: Support user provided headers
             apiClient.AddDefaultHeader("kinetic-environment", config.Environment);
             apiClient.AddDefaultHeader("kinetic-index", config.Index.ToString());
-            apiClient.AddDefaultHeader("kinetic-user-agent", $"{Constants.Name}/{Constants.Version}");
+            apiClient.AddDefaultHeader("kinetic-user-agent", $"{Constants.Name}@{Constants.Version}");
 
             _accountApi = new AccountApi(apiClient);
             _airdropApi = new AirdropApi(apiClient);
