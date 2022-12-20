@@ -216,7 +216,7 @@ namespace Kinetic.Sdk.Tests
             }
             catch (Exception e)
             {
-                Assert.IsTrue(e.Message.Contains("Error: Try requesting 50000 or less."));
+                Assert.IsTrue(e.Message.Contains("Try requesting 50000 or less."));
             }
         }
     }
