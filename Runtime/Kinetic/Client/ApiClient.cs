@@ -97,6 +97,7 @@ namespace Client
             if (postBody != null) // http body (model) parameter
                 request.AddParameter("application/json", postBody, ParameterType.RequestBody);
 
+            UnityEngine.Debug.Log("ApiClient CallApi");
             return (Object)RestClient.Execute(request);
 
         }

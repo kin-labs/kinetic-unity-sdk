@@ -6,6 +6,7 @@ using Kinetic.Sdk.Helpers;
 using Kinetic.Sdk.Interfaces;
 using Kinetic.Sdk.Transactions;
 using Model;
+using UnityEngine;
 
 // ReSharper disable once CheckNamespace
 
@@ -122,6 +123,7 @@ namespace Kinetic.Sdk
 
         public AppConfig GetAppConfig()
         {
+            UnityEngine.Debug.Log("Try GetAppConfig");
             AppConfig = _appApi.GetAppConfig(_sdkConfig.Environment, _sdkConfig.Index);
             return AppConfig;
         }
