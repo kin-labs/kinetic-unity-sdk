@@ -90,12 +90,12 @@ namespace Kinetic.Sdk
 
         }
 
-        public GetTransactionResponse GetTransactionSync(string signature, Commitment? commitment = null)
+        public UniTask<GetTransactionResponse> GetTransactionSync(string signature, Commitment? commitment = null)
         {
             return _sdkInternal.GetTransaction(signature, commitment);
         }
 
-        public async UniTask<GetTransactionResponse> GetTransaction(string signature, Commitment? commitment = null)
+        public UniTask<GetTransactionResponse> GetTransaction(string signature, Commitment? commitment = null)
         {
 #if UNITY_WEBGL
             return GetTransactionSync(signature, commitment);
@@ -127,7 +127,7 @@ namespace Kinetic.Sdk
 
         }
 
-        public RequestAirdropResponse RequestAirdropSync(
+        public UniTask<RequestAirdropResponse> RequestAirdropSync(
             string account,
             string amount,
             string mint = null,
@@ -137,7 +137,7 @@ namespace Kinetic.Sdk
             return _sdkInternal.RequestAirdrop(account, amount, mint, commitment);
         }
 
-        public async UniTask<RequestAirdropResponse> RequestAirdrop(
+        public UniTask<RequestAirdropResponse> RequestAirdrop(
             string account,
             string amount,
             string mint = null,
