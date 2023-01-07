@@ -6,11 +6,11 @@ using System.Text.RegularExpressions;
 using System.IO;
 using System.Web;
 using System.Linq;
-using System.Net;
 using System.Text;
 using Newtonsoft.Json;
-using RestSharp;
-using RestSharp.Extensions;
+using JeffreyLanters.WebRequests;
+using Cysharp.Threading.Tasks;
+using JeffreyLanters.WebRequests.Core;
 
 #pragma warning disable 0618 // UNET transport deprecation
 
@@ -30,7 +30,7 @@ namespace Client
         public ApiClient(String basePath="http://localhost:3000")
         {
             BasePath = basePath;
-            RestClient = new RestClient(BasePath);
+            RestClient = new WebRequest(basePath);
         }
 
         /// <summary>
@@ -43,7 +43,7 @@ namespace Client
         /// Gets or sets the RestClient.
         /// </summary>
         /// <value>An instance of the RestClient</value>
-        public RestClient RestClient { get; set; }
+        public WebRequest RestClient { get; set; }
 
         /// <summary>
         /// Gets the default header.
@@ -65,41 +65,48 @@ namespace Client
         /// <param name="fileParams">File parameters.</param>
         /// <param name="authSettings">Authentication settings.</param>
         /// <returns>Object</returns>
-        public Object CallApi(String path, RestSharp.Method method, Dictionary<String, String> queryParams, String postBody,
+        public async UniTask<WebRequestResponse> CallApi(String path, RequestMethod method, Dictionary<String, String> queryParams, String postBody,
             Dictionary<String, String> headerParams, Dictionary<String, String> formParams,
-            Dictionary<String, FileParameter> fileParams, String[] authSettings)
+            Dictionary<String, String> fileParams, String[] authSettings)
         {
 
-            var request = new RestRequest(path, method);
+            string body = "";
+            var _headers = _defaultHeaderMap.Concat(headerParams).ToDictionary(e => e.Key, e => e.Value);
+            var _params = queryParams.Concat(formParams).ToDictionary(e => e.Key, e => e.Value);
+            var _formData = FormDataUtility.ToFormData(_params);
 
-            UpdateParamsForAuth(queryParams, headerParams, authSettings);
+            var headers = new List<Header>();
+            foreach(KeyValuePair<string, string> entry in _headers)
+            {
+                headers.Add(new Header(entry.Key, entry.Value));
+            }
 
-            // add default header, if any
-            foreach(var defaultHeader in _defaultHeaderMap)
-                request.AddHeader(defaultHeader.Key, defaultHeader.Value);
+            //Use postBody json string if not blank, else use the formData comprised of queryParams and formParams
+            if (postBody != null || postBody != "")
+            {
+                body = postBody;
+            }
+            else if (_formData != null || _formData != "")
+            {
+                body = _formData;
+            }
 
-            // add header parameter, if any
-            foreach(var param in headerParams)
-                request.AddHeader(param.Key, param.Value);
-
-            // add query parameter, if any
-            foreach(var param in queryParams)
-                request.AddParameter(param.Key, param.Value, ParameterType.GetOrPost);
-
-            // add form parameter, if any
-            foreach(var param in formParams)
-                request.AddParameter(param.Key, param.Value, ParameterType.GetOrPost);
-
-            // add file parameter, if any
-            foreach(var param in fileParams)
-                request.AddFile(param.Value.Name, param.Value.Writer, param.Value.FileName, param.Value.ContentLength, param.Value.ContentType);
-
-            if (postBody != null) // http body (model) parameter
-                request.AddParameter("application/json", postBody, ParameterType.RequestBody);
-
-            UnityEngine.Debug.Log("ApiClient CallApi");
-            return (Object)RestClient.Execute(request);
-
+            try
+            {                
+                var request = new WebRequest(this.BasePath + path)
+                {
+                    method = method,
+                    body = body,
+                    headers = headers.ToArray()
+                };
+                UnityEngine.Debug.Log("ApiClient CallApi");
+                return await request.Send();
+            }
+            catch (WebRequestException exception)
+            {
+                UnityEngine.Debug.Log($"CallApiError {exception.httpStatusCode} while fetching {exception.url}");
+                return null;
+            }
         }
 
         /// <summary>
@@ -121,20 +128,6 @@ namespace Client
         public string EscapeString(string str)
         {
             return UnityWebRequest.EscapeURL(str);
-        }
-
-        /// <summary>
-        /// Create FileParameter based on Stream.
-        /// </summary>
-        /// <param name="name">Parameter name.</param>
-        /// <param name="stream">Input stream.</param>
-        /// <returns>FileParameter.</returns>
-        public FileParameter ParameterToFile(string name, Stream stream)
-        {
-            if (stream is FileStream)
-                return FileParameter.Create(name, stream.ReadAsBytes(), Path.GetFileName(((FileStream)stream).Name));
-            else
-                return FileParameter.Create(name, stream.ReadAsBytes(), "no_file_name_provided");
         }
 
         /// <summary>
@@ -167,7 +160,7 @@ namespace Client
         /// <param name="type">Object type.</param>
         /// <param name="headers">HTTP headers.</param>
         /// <returns>Object representation of the JSON string.</returns>
-        public object Deserialize(string content, Type type, IList<Parameter> headers=null)
+        public object Deserialize(string content, Type type, IList<String> headers=null)
         {
             if (type == typeof(Object)) // return an object
             {
