@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Api;
 using Client;
+using Cysharp.Threading.Tasks;
 using Kinetic.Sdk.Helpers;
 using Kinetic.Sdk.Interfaces;
 using Kinetic.Sdk.Transactions;
@@ -49,7 +50,7 @@ namespace Kinetic.Sdk
 
         #region Core
 
-        public Transaction CloseAccount(
+        public UniTask<Transaction> CloseAccount(
             string account,
             string mint = null,
             string referenceId = null,
@@ -75,7 +76,7 @@ namespace Kinetic.Sdk
             return _accountApi.CloseAccount(request);
         }
 
-        public Transaction CreateAccount(
+        public UniTask<Transaction> CreateAccount(
             Keypair owner,
             string mint = null,
             string referenceId = null,
@@ -113,7 +114,7 @@ namespace Kinetic.Sdk
             return _accountApi.CreateAccount(request);
         }
         
-        public AccountInfo GetAccountInfo(string account, Commitment? commitment = null)
+        public UniTask<AccountInfo> GetAccountInfo(string account, Commitment? commitment = null)
         {
             var appCommitment = GetCommitment(commitment);
             
@@ -121,14 +122,14 @@ namespace Kinetic.Sdk
         }
 
 
-        public AppConfig GetAppConfig()
+        public async UniTask<AppConfig> GetAppConfig()
         {
             UnityEngine.Debug.Log("Try GetAppConfig");
-            AppConfig = _appApi.GetAppConfig(_sdkConfig.Environment, _sdkConfig.Index);
+            AppConfig = await _appApi.GetAppConfig(_sdkConfig.Environment, _sdkConfig.Index);
             return AppConfig;
         }
 
-        public BalanceResponse GetBalance(string account, Commitment? commitment = null)
+        public UniTask<BalanceResponse> GetBalance(string account, Commitment? commitment = null)
         {
             var appCommitment = GetCommitment(commitment);
 
@@ -140,7 +141,7 @@ namespace Kinetic.Sdk
             );
         }
 
-        public List<HistoryResponse> GetHistory(string account, string mint = null, Commitment? commitment = null)
+        public UniTask<List<HistoryResponse>> GetHistory(string account, string mint = null, Commitment? commitment = null)
         {
             var appCommitment = GetCommitment(commitment);
             var appConfig = EnsureAppConfig();
@@ -149,7 +150,7 @@ namespace Kinetic.Sdk
             return _accountApi.GetHistory(_sdkConfig.Environment, _sdkConfig.Index, account, appMint.PublicKey, appCommitment.ToString());
         }
 
-        public List<string> GetTokenAccounts(string account, string mint = null, Commitment? commitment = null)
+        public UniTask<List<string>> GetTokenAccounts(string account, string mint = null, Commitment? commitment = null)
         {
             var appCommitment = GetCommitment(commitment);
             var appConfig = EnsureAppConfig();
@@ -167,7 +168,7 @@ namespace Kinetic.Sdk
                 .GetTransaction(_sdkConfig.Environment, _sdkConfig.Index, signature, appCommitment.ToString());
         }
 
-        public Transaction MakeTransfer(
+        public async UniTask<Transaction> MakeTransfer(
             Keypair owner,
             string amount,
             string destination,
@@ -190,7 +191,7 @@ namespace Kinetic.Sdk
 
             var blockhash = GetBlockhash();
 
-            var account = GetTokenAccounts(destination, appMint.PublicKey, appCommitment);
+            var account = await GetTokenAccounts(destination, appMint.PublicKey, appCommitment);
 
             if (account.Count == 0 && !senderCreate) throw new Exception("Destination account doesn't exist.");
 

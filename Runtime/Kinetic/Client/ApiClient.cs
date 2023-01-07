@@ -16,6 +16,7 @@ using JeffreyLanters.WebRequests.Core;
 
 namespace Client
 {
+
     /// <summary>
     /// API client is mainly responsible for making the HTTP call to the API backend.
     /// </summary>
@@ -69,11 +70,15 @@ namespace Client
             Dictionary<String, String> headerParams, Dictionary<String, String> formParams,
             Dictionary<String, String> fileParams, String[] authSettings)
         {
-
+            string url = this.BasePath + path;
             string body = "";
             var _headers = _defaultHeaderMap.Concat(headerParams).ToDictionary(e => e.Key, e => e.Value);
-            var _params = queryParams.Concat(formParams).ToDictionary(e => e.Key, e => e.Value);
-            var _formData = FormDataUtility.ToFormData(_params);
+            var _queryParams = FormDataUtility.QueryString(queryParams);
+            if(_queryParams != null && _queryParams != "")
+            {
+                url = url + "?" + UnityWebRequest.EscapeURL(_queryParams);
+            }
+            var _formData = FormDataUtility.ToFormData(formParams);
 
             var headers = new List<Header>();
             foreach(KeyValuePair<string, string> entry in _headers)
@@ -93,7 +98,7 @@ namespace Client
 
             try
             {                
-                var request = new WebRequest(this.BasePath + path)
+                var request = new WebRequest(url)
                 {
                     method = method,
                     body = body,

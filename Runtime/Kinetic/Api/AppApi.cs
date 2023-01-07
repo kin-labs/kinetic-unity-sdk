@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using JeffreyLanters.WebRequests;
+using JeffreyLanters.WebRequests.Core;
 using Cysharp.Threading.Tasks;
 using Client;
 using Model;
@@ -8,7 +9,6 @@ using Model;
 #pragma warning disable 0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
 using Commitment = System.String;
-using JeffreyLanters.WebRequests.Core;
 using System.Linq;
 
 namespace Api
