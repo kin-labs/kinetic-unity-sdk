@@ -70,24 +70,26 @@ namespace Client
             Dictionary<String, String> headerParams, Dictionary<String, String> formParams,
             Dictionary<String, String> fileParams, String[] authSettings)
         {
-            UnityEngine.Debug.Log("ApiClient CallApi");
+            //UnityEngine.Debug.Log("ApiClient CallApi");
             string url = this.BasePath + path;
             string body = "";
             var _headers = _defaultHeaderMap.Concat(headerParams).ToDictionary(e => e.Key, e => e.Value);
-            UnityEngine.Debug.Log("ApiClient CallApi 1");
+            //UnityEngine.Debug.Log("ApiClient CallApi 1");
+
             var _queryParams = FormDataUtility.QueryString(queryParams);
-            UnityEngine.Debug.Log("ApiClient CallApi 2");
+            //UnityEngine.Debug.Log("ApiClient CallApi 2");
             if (_queryParams != null && _queryParams != "")
             {
                 url = url + "?" + UnityWebRequest.EscapeURL(_queryParams);
-                UnityEngine.Debug.Log("ApiClient CallApi 2.5");
+                //UnityEngine.Debug.Log("ApiClient CallApi 2.5");
             }
-            UnityEngine.Debug.Log("ApiClient CallApi 3");
+            //UnityEngine.Debug.Log("ApiClient CallApi 3");
+
             var _formData = "";
             if (formParams.Count > 0)
             {
                 _formData = FormDataUtility.ToFormData(formParams);
-                UnityEngine.Debug.Log("ApiClient CallApi 4");
+                //UnityEngine.Debug.Log("ApiClient CallApi 4");
             }
 
             var headers = new List<Header>();
@@ -95,7 +97,7 @@ namespace Client
             {
                 headers.Add(new Header(entry.Key, entry.Value));
             }
-            UnityEngine.Debug.Log("ApiClient CallApi 5");
+            //UnityEngine.Debug.Log("ApiClient CallApi 5");
 
             //Use postBody json string if not blank, else use the formData comprised of queryParams and formParams
             if (postBody != null || postBody != "")
@@ -113,14 +115,17 @@ namespace Client
                 {
                     method = method,
                     body = body,
+                    contentType = ContentType.ApplicationJson,
                     headers = headers.ToArray()
                 };
-                UnityEngine.Debug.Log("ApiClient CallApi Send");
+                //UnityEngine.Debug.Log("ApiClient CallApi Send");
                 return await request.Send();
             }
             catch (WebRequestException exception)
             {
                 UnityEngine.Debug.Log($"CallApiError {exception.httpStatusCode} while fetching {exception.url}");
+                //UnityEngine.Debug.Log($"CallApiErrorBody {body}");
+                UnityEngine.Debug.Log($"CallApiException {exception.rawResponseData}");
                 return null;
             }
         }
