@@ -1,8 +1,17 @@
-```
-Custom Fork which replaces RestSharp package with UnityWebRequests to make it Unity-oriented and compatible 
-with all Unity platforms, specially WebGL.  
+---
+Custom Fork which replaces RestSharp package with UnityWebRequests to make it Unity-oriented and compatible with all Unity platforms, specially WebGL.  
 RestSharp does not work in WebGL.
+Also replaces Task with UniTask as Task/Threading also is not WebGL compatible
+
 ```
+Requires - https://github.com/Cysharp/UniTask
+Requires (custom fork of UnityWebRequests) - https://github.com/GamerzDan/unity-web-requests
+
+Need to add AsmDef references of both above packages to KineticSDK.asmdef
+Tested in Unity 2021.3 with KinSDK rc12 in WebGL, PC, Editor
+```
+---
+
 
 ---
 title: Unity SDK
