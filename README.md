@@ -1,3 +1,8 @@
+```
+Custom Fork which replaces RestSharp package with UnityWebRequests to make it Unity-oriented and compatible with all Unity platforms, specially WebGL.  
+RestSharp does not work in WebGL.
+```
+
 ---
 title: Unity SDK
 layout: layout-index
