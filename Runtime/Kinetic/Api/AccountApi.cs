@@ -1,12 +1,15 @@
 using System;
 using System.Collections.Generic;
-using RestSharp;
+using JeffreyLanters.WebRequests;
+using JeffreyLanters.WebRequests.Core;
+using Cysharp.Threading.Tasks;
 using Client;
 using Model;
 
 #pragma warning disable 0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
 using Commitment = System.String;
+using System.Linq;
 
 namespace Api
 {
@@ -20,13 +23,13 @@ namespace Api
         /// </summary>
         /// <param name="closeAccountRequest"></param>
         /// <returns>Transaction</returns>
-        Transaction CloseAccount (CloseAccountRequest closeAccountRequest);
+        UniTask<Transaction> CloseAccount (CloseAccountRequest closeAccountRequest);
         /// <summary>
         ///  
         /// </summary>
         /// <param name="createAccountRequest"></param>
         /// <returns>Transaction</returns>
-        Transaction CreateAccount (CreateAccountRequest createAccountRequest);
+        UniTask<Transaction> CreateAccount (CreateAccountRequest createAccountRequest);
         /// <summary>
         ///  
         /// </summary>
@@ -35,7 +38,7 @@ namespace Api
         /// <param name="accountId"></param>
         /// <param name="commitment"></param>
         /// <returns>AccountInfo</returns>
-        AccountInfo GetAccountInfo (string environment, int index, string accountId, Commitment commitment);
+        UniTask<AccountInfo> GetAccountInfo (string environment, int index, string accountId, Commitment commitment);
         /// <summary>
         ///  
         /// </summary>
@@ -44,7 +47,7 @@ namespace Api
         /// <param name="accountId"></param>
         /// <param name="commitment"></param>
         /// <returns>BalanceResponse</returns>
-        BalanceResponse GetBalance (string environment, int index, string accountId, Commitment commitment);
+        UniTask<BalanceResponse> GetBalance (string environment, int index, string accountId, Commitment commitment);
         /// <summary>
         ///  
         /// </summary>
@@ -54,7 +57,7 @@ namespace Api
         /// <param name="mint"></param>
         /// <param name="commitment"></param>
         /// <returns>List&lt;HistoryResponse&gt;</returns>
-        List<HistoryResponse> GetHistory (string environment, int index, string accountId, string mint, Commitment commitment);
+        UniTask<List<HistoryResponse>> GetHistory (string environment, int index, string accountId, string mint, Commitment commitment);
         /// <summary>
         ///  
         /// </summary>
@@ -64,7 +67,7 @@ namespace Api
         /// <param name="mint"></param>
         /// <param name="commitment"></param>
         /// <returns>List&lt;string&gt;</returns>
-        List<string> GetTokenAccounts (string environment, int index, string accountId, string mint, Commitment commitment);
+        UniTask<List<string>> GetTokenAccounts (string environment, int index, string accountId, string mint, Commitment commitment);
     }
 
     /// <summary>
@@ -125,7 +128,7 @@ namespace Api
         /// </summary>
         /// <param name="closeAccountRequest"></param>
         /// <returns>Transaction</returns>
-        public Transaction CloseAccount (CloseAccountRequest closeAccountRequest)
+        public async UniTask<Transaction> CloseAccount (CloseAccountRequest closeAccountRequest)
         {
             
             // verify the required parameter 'closeAccountRequest' is set
@@ -138,7 +141,7 @@ namespace Api
             var queryParams = new Dictionary<String, String>();
             var headerParams = new Dictionary<String, String>();
             var formParams = new Dictionary<String, String>();
-            var fileParams = new Dictionary<String, FileParameter>();
+            var fileParams = new Dictionary<String, String>();
             String postBody = null;
 
                                                 postBody = ApiClient.Serialize(closeAccountRequest); // http body (model) parameter
@@ -147,14 +150,14 @@ namespace Api
             String[] authSettings = new String[] {  };
 
             // make the HTTP request
-            IRestResponse response = (IRestResponse) ApiClient.CallApi(path, Method.POST, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
+            WebRequestResponse response = await ApiClient.CallApi(path, RequestMethod.Post, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
 
             if (((int)response.StatusCode) >= 400)
                 throw new ApiException ((int)response.StatusCode, "Error calling CloseAccount: " + response.Content, response.Content);
             else if (((int)response.StatusCode) == 0)
                 throw new ApiException ((int)response.StatusCode, "Error calling CloseAccount: " + response.ErrorMessage, response.ErrorMessage);
 
-            return (Transaction) ApiClient.Deserialize(response.Content, typeof(Transaction), response.Headers);
+            return (Transaction) ApiClient.Deserialize(response.Content, typeof(Transaction), response.headers.Values.ToList());
         }
 
         /// <summary>
@@ -162,7 +165,7 @@ namespace Api
         /// </summary>
         /// <param name="createAccountRequest"></param>
         /// <returns>Transaction</returns>
-        public Transaction CreateAccount (CreateAccountRequest createAccountRequest)
+        public async UniTask<Transaction> CreateAccount (CreateAccountRequest createAccountRequest)
         {
             
             // verify the required parameter 'createAccountRequest' is set
@@ -175,7 +178,7 @@ namespace Api
             var queryParams = new Dictionary<String, String>();
             var headerParams = new Dictionary<String, String>();
             var formParams = new Dictionary<String, String>();
-            var fileParams = new Dictionary<String, FileParameter>();
+            var fileParams = new Dictionary<String, String>();
             String postBody = null;
 
                                                 postBody = ApiClient.Serialize(createAccountRequest); // http body (model) parameter
@@ -184,14 +187,14 @@ namespace Api
             String[] authSettings = new String[] {  };
 
             // make the HTTP request
-            IRestResponse response = (IRestResponse) ApiClient.CallApi(path, Method.POST, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
+            WebRequestResponse response = await ApiClient.CallApi(path, RequestMethod.Post, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
 
             if (((int)response.StatusCode) >= 400)
                 throw new ApiException ((int)response.StatusCode, "Error calling CreateAccount: " + response.Content, response.Content);
             else if (((int)response.StatusCode) == 0)
                 throw new ApiException ((int)response.StatusCode, "Error calling CreateAccount: " + response.ErrorMessage, response.ErrorMessage);
 
-            return (Transaction) ApiClient.Deserialize(response.Content, typeof(Transaction), response.Headers);
+            return (Transaction) ApiClient.Deserialize(response.Content, typeof(Transaction), response.headers.Values.ToList());
         }
 
         /// <summary>
@@ -202,7 +205,7 @@ namespace Api
         /// <param name="accountId"></param>
         /// <param name="commitment"></param>
         /// <returns>AccountInfo</returns>
-        public AccountInfo GetAccountInfo (string environment, int index, string accountId, Commitment commitment)
+        public async UniTask<AccountInfo> GetAccountInfo (string environment, int index, string accountId, Commitment commitment)
         {
             
             // verify the required parameter 'environment' is set
@@ -227,7 +230,7 @@ path = path.Replace("{" + "accountId" + "}", ApiClient.ParameterToString(account
             var queryParams = new Dictionary<String, String>();
             var headerParams = new Dictionary<String, String>();
             var formParams = new Dictionary<String, String>();
-            var fileParams = new Dictionary<String, FileParameter>();
+            var fileParams = new Dictionary<String, String>();
             String postBody = null;
 
              if (commitment != null) queryParams.Add("commitment", ApiClient.ParameterToString(commitment)); // query parameter
@@ -236,14 +239,14 @@ path = path.Replace("{" + "accountId" + "}", ApiClient.ParameterToString(account
             String[] authSettings = new String[] {  };
 
             // make the HTTP request
-            IRestResponse response = (IRestResponse) ApiClient.CallApi(path, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
+            WebRequestResponse response = await ApiClient.CallApi(path, RequestMethod.Get, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
 
             if (((int)response.StatusCode) >= 400)
                 throw new ApiException ((int)response.StatusCode, "Error calling GetAccountInfo: " + response.Content, response.Content);
             else if (((int)response.StatusCode) == 0)
                 throw new ApiException ((int)response.StatusCode, "Error calling GetAccountInfo: " + response.ErrorMessage, response.ErrorMessage);
 
-            return (AccountInfo) ApiClient.Deserialize(response.Content, typeof(AccountInfo), response.Headers);
+            return (AccountInfo) ApiClient.Deserialize(response.Content, typeof(AccountInfo), response.headers.Values.ToList());
         }
 
         /// <summary>
@@ -254,7 +257,7 @@ path = path.Replace("{" + "accountId" + "}", ApiClient.ParameterToString(account
         /// <param name="accountId"></param>
         /// <param name="commitment"></param>
         /// <returns>BalanceResponse</returns>
-        public BalanceResponse GetBalance (string environment, int index, string accountId, Commitment commitment)
+        public async UniTask<BalanceResponse> GetBalance (string environment, int index, string accountId, Commitment commitment)
         {
             
             // verify the required parameter 'environment' is set
@@ -279,7 +282,7 @@ path = path.Replace("{" + "accountId" + "}", ApiClient.ParameterToString(account
             var queryParams = new Dictionary<String, String>();
             var headerParams = new Dictionary<String, String>();
             var formParams = new Dictionary<String, String>();
-            var fileParams = new Dictionary<String, FileParameter>();
+            var fileParams = new Dictionary<String, String>();
             String postBody = null;
 
              if (commitment != null) queryParams.Add("commitment", ApiClient.ParameterToString(commitment)); // query parameter
@@ -288,14 +291,14 @@ path = path.Replace("{" + "accountId" + "}", ApiClient.ParameterToString(account
             String[] authSettings = new String[] {  };
 
             // make the HTTP request
-            IRestResponse response = (IRestResponse) ApiClient.CallApi(path, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
+            WebRequestResponse response = await ApiClient.CallApi(path, RequestMethod.Get, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
 
             if (((int)response.StatusCode) >= 400)
                 throw new ApiException ((int)response.StatusCode, "Error calling GetBalance: " + response.Content, response.Content);
             else if (((int)response.StatusCode) == 0)
                 throw new ApiException ((int)response.StatusCode, "Error calling GetBalance: " + response.ErrorMessage, response.ErrorMessage);
 
-            return (BalanceResponse) ApiClient.Deserialize(response.Content, typeof(BalanceResponse), response.Headers);
+            return (BalanceResponse) ApiClient.Deserialize(response.Content, typeof(BalanceResponse), response.headers.Values.ToList());
         }
 
         /// <summary>
@@ -307,7 +310,7 @@ path = path.Replace("{" + "accountId" + "}", ApiClient.ParameterToString(account
         /// <param name="mint"></param>
         /// <param name="commitment"></param>
         /// <returns>List&lt;HistoryResponse&gt;</returns>
-        public List<HistoryResponse> GetHistory (string environment, int index, string accountId, string mint, Commitment commitment)
+        public async UniTask<List<HistoryResponse>> GetHistory (string environment, int index, string accountId, string mint, Commitment commitment)
         {
             
             // verify the required parameter 'environment' is set
@@ -336,7 +339,7 @@ path = path.Replace("{" + "mint" + "}", ApiClient.ParameterToString(mint));
             var queryParams = new Dictionary<String, String>();
             var headerParams = new Dictionary<String, String>();
             var formParams = new Dictionary<String, String>();
-            var fileParams = new Dictionary<String, FileParameter>();
+            var fileParams = new Dictionary<String, String>();
             String postBody = null;
 
              if (commitment != null) queryParams.Add("commitment", ApiClient.ParameterToString(commitment)); // query parameter
@@ -345,14 +348,14 @@ path = path.Replace("{" + "mint" + "}", ApiClient.ParameterToString(mint));
             String[] authSettings = new String[] {  };
 
             // make the HTTP request
-            IRestResponse response = (IRestResponse) ApiClient.CallApi(path, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
+            WebRequestResponse response = await ApiClient.CallApi(path, RequestMethod.Get, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
 
             if (((int)response.StatusCode) >= 400)
                 throw new ApiException ((int)response.StatusCode, "Error calling GetHistory: " + response.Content, response.Content);
             else if (((int)response.StatusCode) == 0)
                 throw new ApiException ((int)response.StatusCode, "Error calling GetHistory: " + response.ErrorMessage, response.ErrorMessage);
 
-            return (List<HistoryResponse>) ApiClient.Deserialize(response.Content, typeof(List<HistoryResponse>), response.Headers);
+            return (List<HistoryResponse>) ApiClient.Deserialize(response.Content, typeof(List<HistoryResponse>), response.headers.Values.ToList());
         }
 
         /// <summary>
@@ -364,7 +367,7 @@ path = path.Replace("{" + "mint" + "}", ApiClient.ParameterToString(mint));
         /// <param name="mint"></param>
         /// <param name="commitment"></param>
         /// <returns>List&lt;string&gt;</returns>
-        public List<string> GetTokenAccounts (string environment, int index, string accountId, string mint, Commitment commitment)
+        public async UniTask<List<string>> GetTokenAccounts (string environment, int index, string accountId, string mint, Commitment commitment)
         {
             
             // verify the required parameter 'environment' is set
@@ -393,7 +396,7 @@ path = path.Replace("{" + "mint" + "}", ApiClient.ParameterToString(mint));
             var queryParams = new Dictionary<String, String>();
             var headerParams = new Dictionary<String, String>();
             var formParams = new Dictionary<String, String>();
-            var fileParams = new Dictionary<String, FileParameter>();
+            var fileParams = new Dictionary<String, String>();
             String postBody = null;
 
              if (commitment != null) queryParams.Add("commitment", ApiClient.ParameterToString(commitment)); // query parameter
@@ -402,14 +405,14 @@ path = path.Replace("{" + "mint" + "}", ApiClient.ParameterToString(mint));
             String[] authSettings = new String[] {  };
 
             // make the HTTP request
-            IRestResponse response = (IRestResponse) ApiClient.CallApi(path, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
+            WebRequestResponse response = await ApiClient.CallApi(path, RequestMethod.Get, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
 
             if (((int)response.StatusCode) >= 400)
                 throw new ApiException ((int)response.StatusCode, "Error calling GetTokenAccounts: " + response.Content, response.Content);
             else if (((int)response.StatusCode) == 0)
                 throw new ApiException ((int)response.StatusCode, "Error calling GetTokenAccounts: " + response.ErrorMessage, response.ErrorMessage);
 
-            return (List<string>) ApiClient.Deserialize(response.Content, typeof(List<string>), response.Headers);
+            return (List<string>) ApiClient.Deserialize(response.Content, typeof(List<string>), response.headers.Values.ToList());
         }
 
     }

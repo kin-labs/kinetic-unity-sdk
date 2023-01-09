@@ -1,12 +1,15 @@
 using System;
 using System.Collections.Generic;
-using RestSharp;
+using JeffreyLanters.WebRequests;
+using JeffreyLanters.WebRequests.Core;
+using Cysharp.Threading.Tasks;
 using Client;
 using Model;
 
 #pragma warning disable 0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
 using Commitment = System.String;
+using System.Linq;
 
 namespace Api
 {
@@ -21,7 +24,7 @@ namespace Api
         /// <param name="environment"></param>
         /// <param name="index"></param>
         /// <returns>LatestBlockhashResponse</returns>
-        LatestBlockhashResponse GetLatestBlockhash (string environment, int index);
+        UniTask<LatestBlockhashResponse> GetLatestBlockhash (string environment, int index);
         /// <summary>
         ///  
         /// </summary>
@@ -29,7 +32,7 @@ namespace Api
         /// <param name="index"></param>
         /// <param name="dataLength"></param>
         /// <returns>MinimumRentExemptionBalanceResponse</returns>
-        MinimumRentExemptionBalanceResponse GetMinimumRentExemptionBalance (string environment, int index, int dataLength);
+        UniTask<MinimumRentExemptionBalanceResponse> GetMinimumRentExemptionBalance (string environment, int index, int dataLength);
         /// <summary>
         ///  
         /// </summary>
@@ -38,13 +41,13 @@ namespace Api
         /// <param name="signature"></param>
         /// <param name="commitment"></param>
         /// <returns>GetTransactionResponse</returns>
-        GetTransactionResponse GetTransaction (string environment, int index, string signature, Commitment commitment);
+        UniTask<GetTransactionResponse> GetTransaction (string environment, int index, string signature, Commitment commitment);
         /// <summary>
         ///  
         /// </summary>
         /// <param name="makeTransferRequest"></param>
         /// <returns>Transaction</returns>
-        Transaction MakeTransfer (MakeTransferRequest makeTransferRequest);
+        UniTask<Transaction> MakeTransfer (MakeTransferRequest makeTransferRequest);
     }
 
     /// <summary>
@@ -106,7 +109,7 @@ namespace Api
         /// <param name="environment"></param>
         /// <param name="index"></param>
         /// <returns>LatestBlockhashResponse</returns>
-        public LatestBlockhashResponse GetLatestBlockhash (string environment, int index)
+        public async UniTask<LatestBlockhashResponse> GetLatestBlockhash (string environment, int index)
         {
             
             // verify the required parameter 'environment' is set
@@ -124,7 +127,7 @@ path = path.Replace("{" + "index" + "}", ApiClient.ParameterToString(index));
             var queryParams = new Dictionary<String, String>();
             var headerParams = new Dictionary<String, String>();
             var formParams = new Dictionary<String, String>();
-            var fileParams = new Dictionary<String, FileParameter>();
+            var fileParams = new Dictionary<String, String>();
             String postBody = null;
 
                                                 
@@ -132,14 +135,14 @@ path = path.Replace("{" + "index" + "}", ApiClient.ParameterToString(index));
             String[] authSettings = new String[] {  };
 
             // make the HTTP request
-            IRestResponse response = (IRestResponse) ApiClient.CallApi(path, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
+            WebRequestResponse response = await ApiClient.CallApi(path, RequestMethod.Get, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
 
             if (((int)response.StatusCode) >= 400)
                 throw new ApiException ((int)response.StatusCode, "Error calling GetLatestBlockhash: " + response.Content, response.Content);
             else if (((int)response.StatusCode) == 0)
                 throw new ApiException ((int)response.StatusCode, "Error calling GetLatestBlockhash: " + response.ErrorMessage, response.ErrorMessage);
 
-            return (LatestBlockhashResponse) ApiClient.Deserialize(response.Content, typeof(LatestBlockhashResponse), response.Headers);
+            return (LatestBlockhashResponse) ApiClient.Deserialize(response.Content, typeof(LatestBlockhashResponse), response.headers.Values.ToList());
         }
 
         /// <summary>
@@ -149,7 +152,7 @@ path = path.Replace("{" + "index" + "}", ApiClient.ParameterToString(index));
         /// <param name="index"></param>
         /// <param name="dataLength"></param>
         /// <returns>MinimumRentExemptionBalanceResponse</returns>
-        public MinimumRentExemptionBalanceResponse GetMinimumRentExemptionBalance (string environment, int index, int dataLength)
+        public async UniTask<MinimumRentExemptionBalanceResponse> GetMinimumRentExemptionBalance (string environment, int index, int dataLength)
         {
             
             // verify the required parameter 'environment' is set
@@ -170,7 +173,7 @@ path = path.Replace("{" + "index" + "}", ApiClient.ParameterToString(index));
             var queryParams = new Dictionary<String, String>();
             var headerParams = new Dictionary<String, String>();
             var formParams = new Dictionary<String, String>();
-            var fileParams = new Dictionary<String, FileParameter>();
+            var fileParams = new Dictionary<String, String>();
             String postBody = null;
 
              if (dataLength != null) queryParams.Add("dataLength", ApiClient.ParameterToString(dataLength)); // query parameter
@@ -179,14 +182,14 @@ path = path.Replace("{" + "index" + "}", ApiClient.ParameterToString(index));
             String[] authSettings = new String[] {  };
 
             // make the HTTP request
-            IRestResponse response = (IRestResponse) ApiClient.CallApi(path, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
+            WebRequestResponse response = await ApiClient.CallApi(path, RequestMethod.Get, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
 
             if (((int)response.StatusCode) >= 400)
                 throw new ApiException ((int)response.StatusCode, "Error calling GetMinimumRentExemptionBalance: " + response.Content, response.Content);
             else if (((int)response.StatusCode) == 0)
                 throw new ApiException ((int)response.StatusCode, "Error calling GetMinimumRentExemptionBalance: " + response.ErrorMessage, response.ErrorMessage);
 
-            return (MinimumRentExemptionBalanceResponse) ApiClient.Deserialize(response.Content, typeof(MinimumRentExemptionBalanceResponse), response.Headers);
+            return (MinimumRentExemptionBalanceResponse) ApiClient.Deserialize(response.Content, typeof(MinimumRentExemptionBalanceResponse), response.headers.Values.ToList());
         }
 
         /// <summary>
@@ -197,7 +200,7 @@ path = path.Replace("{" + "index" + "}", ApiClient.ParameterToString(index));
         /// <param name="signature"></param>
         /// <param name="commitment"></param>
         /// <returns>GetTransactionResponse</returns>
-        public GetTransactionResponse GetTransaction (string environment, int index, string signature, Commitment commitment)
+        public async UniTask<GetTransactionResponse> GetTransaction (string environment, int index, string signature, Commitment commitment)
         {
             
             // verify the required parameter 'environment' is set
@@ -222,7 +225,7 @@ path = path.Replace("{" + "signature" + "}", ApiClient.ParameterToString(signatu
             var queryParams = new Dictionary<String, String>();
             var headerParams = new Dictionary<String, String>();
             var formParams = new Dictionary<String, String>();
-            var fileParams = new Dictionary<String, FileParameter>();
+            var fileParams = new Dictionary<String, String>();
             String postBody = null;
 
              if (commitment != null) queryParams.Add("commitment", ApiClient.ParameterToString(commitment)); // query parameter
@@ -231,14 +234,14 @@ path = path.Replace("{" + "signature" + "}", ApiClient.ParameterToString(signatu
             String[] authSettings = new String[] {  };
 
             // make the HTTP request
-            IRestResponse response = (IRestResponse) ApiClient.CallApi(path, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
+            WebRequestResponse response = await ApiClient.CallApi(path, RequestMethod.Get, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
 
             if (((int)response.StatusCode) >= 400)
                 throw new ApiException ((int)response.StatusCode, "Error calling GetTransaction: " + response.Content, response.Content);
             else if (((int)response.StatusCode) == 0)
                 throw new ApiException ((int)response.StatusCode, "Error calling GetTransaction: " + response.ErrorMessage, response.ErrorMessage);
 
-            return (GetTransactionResponse) ApiClient.Deserialize(response.Content, typeof(GetTransactionResponse), response.Headers);
+            return (GetTransactionResponse) ApiClient.Deserialize(response.Content, typeof(GetTransactionResponse), response.headers.Values.ToList());
         }
 
         /// <summary>
@@ -246,7 +249,7 @@ path = path.Replace("{" + "signature" + "}", ApiClient.ParameterToString(signatu
         /// </summary>
         /// <param name="makeTransferRequest"></param>
         /// <returns>Transaction</returns>
-        public Transaction MakeTransfer (MakeTransferRequest makeTransferRequest)
+        public async UniTask<Transaction> MakeTransfer (MakeTransferRequest makeTransferRequest)
         {
             
             // verify the required parameter 'makeTransferRequest' is set
@@ -259,7 +262,7 @@ path = path.Replace("{" + "signature" + "}", ApiClient.ParameterToString(signatu
             var queryParams = new Dictionary<String, String>();
             var headerParams = new Dictionary<String, String>();
             var formParams = new Dictionary<String, String>();
-            var fileParams = new Dictionary<String, FileParameter>();
+            var fileParams = new Dictionary<String, String>();
             String postBody = null;
 
                                                 postBody = ApiClient.Serialize(makeTransferRequest); // http body (model) parameter
@@ -268,14 +271,14 @@ path = path.Replace("{" + "signature" + "}", ApiClient.ParameterToString(signatu
             String[] authSettings = new String[] {  };
 
             // make the HTTP request
-            IRestResponse response = (IRestResponse) ApiClient.CallApi(path, Method.POST, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
+            WebRequestResponse response = await ApiClient.CallApi(path, RequestMethod.Post, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
 
             if (((int)response.StatusCode) >= 400)
                 throw new ApiException ((int)response.StatusCode, "Error calling MakeTransfer: " + response.Content, response.Content);
             else if (((int)response.StatusCode) == 0)
                 throw new ApiException ((int)response.StatusCode, "Error calling MakeTransfer: " + response.ErrorMessage, response.ErrorMessage);
 
-            return (Transaction) ApiClient.Deserialize(response.Content, typeof(Transaction), response.Headers);
+            return (Transaction) ApiClient.Deserialize(response.Content, typeof(Transaction), response.headers.Values.ToList());
         }
 
     }

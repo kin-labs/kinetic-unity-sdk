@@ -1,12 +1,15 @@
 using System;
 using System.Collections.Generic;
-using RestSharp;
+using JeffreyLanters.WebRequests;
+using JeffreyLanters.WebRequests.Core;
+using Cysharp.Threading.Tasks;
 using Client;
 using Model;
 
 #pragma warning disable 0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
 using Commitment = System.String;
+using System.Linq;
 
 namespace Api
 {
@@ -20,7 +23,7 @@ namespace Api
         /// </summary>
         /// <param name="requestAirdropRequest"></param>
         /// <returns>RequestAirdropResponse</returns>
-        RequestAirdropResponse RequestAirdrop (RequestAirdropRequest requestAirdropRequest);
+        UniTask<RequestAirdropResponse> RequestAirdrop (RequestAirdropRequest requestAirdropRequest);
     }
 
     /// <summary>
@@ -81,7 +84,7 @@ namespace Api
         /// </summary>
         /// <param name="requestAirdropRequest"></param>
         /// <returns>RequestAirdropResponse</returns>
-        public RequestAirdropResponse RequestAirdrop (RequestAirdropRequest requestAirdropRequest)
+        public async UniTask<RequestAirdropResponse> RequestAirdrop (RequestAirdropRequest requestAirdropRequest)
         {
             
             // verify the required parameter 'requestAirdropRequest' is set
@@ -94,7 +97,7 @@ namespace Api
             var queryParams = new Dictionary<String, String>();
             var headerParams = new Dictionary<String, String>();
             var formParams = new Dictionary<String, String>();
-            var fileParams = new Dictionary<String, FileParameter>();
+            var fileParams = new Dictionary<String, String>();
             String postBody = null;
 
                                                 postBody = ApiClient.Serialize(requestAirdropRequest); // http body (model) parameter
@@ -103,14 +106,14 @@ namespace Api
             String[] authSettings = new String[] {  };
 
             // make the HTTP request
-            IRestResponse response = (IRestResponse) ApiClient.CallApi(path, Method.POST, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
+            WebRequestResponse response = await ApiClient.CallApi(path, RequestMethod.Post, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
 
             if (((int)response.StatusCode) >= 400)
                 throw new ApiException ((int)response.StatusCode, "Error calling RequestAirdrop: " + response.Content, response.Content);
             else if (((int)response.StatusCode) == 0)
                 throw new ApiException ((int)response.StatusCode, "Error calling RequestAirdrop: " + response.ErrorMessage, response.ErrorMessage);
 
-            return (RequestAirdropResponse) ApiClient.Deserialize(response.Content, typeof(RequestAirdropResponse), response.Headers);
+            return (RequestAirdropResponse) ApiClient.Deserialize(response.Content, typeof(RequestAirdropResponse), response.headers.Values.ToList());
         }
 
     }

@@ -1,9 +1,12 @@
 {
     "name": "Kinetic.Sdk.Tests",
+    "rootNamespace": "",
     "references": [
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",
-        "Kinetic.Sdk"
+        "Kinetic.Sdk",
+        "UniTask",
+        "nl.jeffreylanters.web-requests"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
