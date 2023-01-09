@@ -48,11 +48,7 @@ namespace Kinetic.Sdk
 
         public UniTask<AccountInfo> GetAccountInfo(string account, Commitment? commitment = null )
         {
-#if UNITY_WEBGL
             return GetAccountInfoSync(account, commitment);
-#else
-            return await Task.Run(() => GetAccountInfoSync(account, commitment));
-#endif
         }
 
         public UniTask<BalanceResponse> GetBalanceSync(string account, Commitment? commitment = null)
@@ -62,11 +58,7 @@ namespace Kinetic.Sdk
 
         public UniTask<BalanceResponse> GetBalance(string account, Commitment? commitment = null)
         {
-#if UNITY_WEBGL
             return GetBalanceSync(account, commitment);
-#else
-            return await Task.Run(() => GetBalanceSync(account, commitment));            
-#endif
         }
 
         public string GetExplorerUrl(string path)
@@ -82,11 +74,7 @@ namespace Kinetic.Sdk
 
         public UniTask<List<HistoryResponse>> GetHistory(string account, string mint = null, Commitment? commitment = null)
         {
-#if UNITY_WEBGL
             return GetHistorySync(account, mint, commitment);
-#else
-            return await Task.Run(() => GetHistorySync(account, mint, commitment));            
-#endif
 
         }
 
@@ -97,12 +85,7 @@ namespace Kinetic.Sdk
 
         public UniTask<GetTransactionResponse> GetTransaction(string signature, Commitment? commitment = null)
         {
-#if UNITY_WEBGL
             return GetTransactionSync(signature, commitment);
-#else
-            return await Task.Run(() => GetTransactionSync(signature, commitment));            
-#endif
-
         }
 
 
@@ -119,12 +102,7 @@ namespace Kinetic.Sdk
             string mint = null,
             Commitment? commitment = null)
         {
-#if UNITY_WEBGL
             return GetTokenAccountsSync(account, mint, commitment);
-#else
-             return await Task.Run(() => GetTokenAccountsSync(account, mint, commitment));           
-#endif
-
         }
 
         public UniTask<RequestAirdropResponse> RequestAirdropSync(
@@ -144,11 +122,7 @@ namespace Kinetic.Sdk
             Commitment? commitment = null
         )
         {
-#if UNITY_WEBGL
             return RequestAirdropSync(account, amount, mint, commitment);
-#else
-            return await Task.Run(() => RequestAirdropSync(account, amount, mint, commitment));            
-#endif
 
         }
 
@@ -175,12 +149,7 @@ namespace Kinetic.Sdk
             Commitment? commitment = null
         )
         {
-#if UNITY_WEBGL
             return CloseAccountSync(account, mint, referenceId, referenceType, commitment);
-#else
-            return await Task.Run(() => CloseAccountSync(account, mint, referenceId, referenceType, commitment));            
-#endif
-
         }
 
         public UniTask<Transaction> CreateAccountSync(
@@ -202,12 +171,7 @@ namespace Kinetic.Sdk
             Commitment? commitment = null
         )
         {
-#if UNITY_WEBGL
             return CreateAccountSync(owner, mint, referenceId, referenceType, commitment);
-#else
-             return await Task.Run(() => CreateAccountSync(owner, mint, referenceId, referenceType, commitment));           
-#endif
-
         }
 
         public UniTask<Transaction> MakeTransferSync(
@@ -238,12 +202,7 @@ namespace Kinetic.Sdk
             Commitment? commitment = null
         )
         {
-#if UNITY_WEBGL
             return MakeTransferSync(owner, amount, destination, mint, referenceId, referenceType, senderCreate, type, commitment);
-#else
-            return await Task.Run(() =>
-                MakeTransferSync(owner, amount, destination, mint, referenceId, referenceType, senderCreate, type, commitment));            
-#endif
         }
 
         #endregion
@@ -300,12 +259,7 @@ namespace Kinetic.Sdk
         public static UniTask<KineticSdk> Setup(KineticSdkConfig config)
         {
             Debug.Log("Prepare Setup task");
-#if UNITY_WEBGL
             return SetupSync(config);
-#else
-            return await Task.Run(() => SetupSync(config));            
-#endif
-
         }
 
 #endregion
