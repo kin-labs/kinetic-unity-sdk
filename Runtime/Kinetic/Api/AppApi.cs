@@ -117,10 +117,10 @@ path = path.Replace("{" + "index" + "}", ApiClient.ParameterToString(index));
                                                 
             // authentication setting, if any
             String[] authSettings = new String[] {  };
-            UnityEngine.Debug.Log("Call GetAppConfig");
+            //UnityEngine.Debug.Log("Call GetAppConfig");
             // make the HTTP request
             WebRequestResponse response = await ApiClient.CallApi(path, RequestMethod.Get, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
-            UnityEngine.Debug.Log("Finish GetAppConfig");
+            //UnityEngine.Debug.Log("Finish GetAppConfig");
             if (((int)response.StatusCode) >= 400)
                 throw new ApiException ((int)response.StatusCode, "Error calling GetAppConfig: " + response.Content, response.Content);
             else if (((int)response.StatusCode) == 0)

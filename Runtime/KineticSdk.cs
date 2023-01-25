@@ -211,7 +211,7 @@ namespace Kinetic.Sdk
 
         private async UniTask<AppConfig> Init()
         {
-            Debug.Log("AppConfigInit");
+            //Debug.Log("AppConfigInit");
             // Error if SdkConfig is not set
             if (SdkConfig == null)
             {
@@ -241,7 +241,7 @@ namespace Kinetic.Sdk
 
         public static async UniTask<KineticSdk> SetupSync(KineticSdkConfig config)
         {
-            Debug.Log("SetupSync");
+            //Debug.Log("SetupSync");
             var sdk = new KineticSdk(config: ValidateKineticSdkConfig.Validate(config));
             try
             {
@@ -258,7 +258,7 @@ namespace Kinetic.Sdk
 
         public static UniTask<KineticSdk> Setup(KineticSdkConfig config)
         {
-            Debug.Log("Prepare Setup task");
+            //Debug.Log("Prepare Setup task");
             return SetupSync(config);
         }
 

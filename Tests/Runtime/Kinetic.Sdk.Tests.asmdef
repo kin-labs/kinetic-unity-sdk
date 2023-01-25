@@ -6,7 +6,10 @@
         "UnityEditor.TestRunner",
         "Kinetic.Sdk",
         "UniTask",
-        "nl.jeffreylanters.web-requests"
+        "nl.jeffreylanters.web-requests",
+        "Solana.Unity",
+        "Chaos.Nacl",
+        "NewAssembly"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
