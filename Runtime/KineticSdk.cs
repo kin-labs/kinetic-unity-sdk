@@ -1,11 +1,14 @@
 using System;
 using System.Collections.Generic;
+#if !UNITY_WEBGL
 using System.Threading.Tasks;
+#endif
 using Kinetic.Sdk.Helpers;
 using Kinetic.Sdk.Interfaces;
 using Kinetic.Sdk.Transactions;
 using Model;
 using UnityEngine;
+using Cysharp.Threading.Tasks;
 
 // ReSharper disable once CheckNamespace
 
@@ -35,27 +38,27 @@ namespace Kinetic.Sdk
             return _sdkInternal.AppConfig;
         }
 
-        #region Utility
+#region Utility
 
 
-        public AccountInfo GetAccountInfoSync(string account, Commitment? commitment = null)
+        public UniTask<AccountInfo> GetAccountInfoSync(string account, Commitment? commitment = null)
         {
             return _sdkInternal.GetAccountInfo(account, commitment);
         }
 
-        public async Task<AccountInfo> GetAccountInfo(string account, Commitment? commitment = null )
+        public UniTask<AccountInfo> GetAccountInfo(string account, Commitment? commitment = null )
         {
-            return await Task.Run(() => GetAccountInfoSync(account, commitment));
+            return GetAccountInfoSync(account, commitment);
         }
 
-        public BalanceResponse GetBalanceSync(string account, Commitment? commitment = null)
+        public UniTask<BalanceResponse> GetBalanceSync(string account, Commitment? commitment = null)
         {
             return _sdkInternal.GetBalance(account, commitment);
         }
 
-        public async Task<BalanceResponse> GetBalance(string account, Commitment? commitment = null)
+        public UniTask<BalanceResponse> GetBalance(string account, Commitment? commitment = null)
         {
-            return await Task.Run(() => GetBalanceSync(account, commitment));
+            return GetBalanceSync(account, commitment);
         }
 
         public string GetExplorerUrl(string path)
@@ -64,28 +67,29 @@ namespace Kinetic.Sdk
         }
 
 
-        public List<HistoryResponse> GetHistorySync(string account, string mint = null, Commitment? commitment = null)
+        public UniTask<List<HistoryResponse>> GetHistorySync(string account, string mint = null, Commitment? commitment = null)
         {
             return _sdkInternal.GetHistory(account, mint, commitment);
         }
 
-        public async Task<List<HistoryResponse>> GetHistory(string account, string mint = null, Commitment? commitment = null)
+        public UniTask<List<HistoryResponse>> GetHistory(string account, string mint = null, Commitment? commitment = null)
         {
-            return await Task.Run(() => GetHistorySync(account, mint, commitment));
+            return GetHistorySync(account, mint, commitment);
+
         }
 
-        public GetTransactionResponse GetTransactionSync(string signature, Commitment? commitment = null)
+        public UniTask<GetTransactionResponse> GetTransactionSync(string signature, Commitment? commitment = null)
         {
             return _sdkInternal.GetTransaction(signature, commitment);
         }
 
-        public async Task<GetTransactionResponse> GetTransaction(string signature, Commitment? commitment = null)
+        public UniTask<GetTransactionResponse> GetTransaction(string signature, Commitment? commitment = null)
         {
-            return await Task.Run(() => GetTransactionSync(signature, commitment));
+            return GetTransactionSync(signature, commitment);
         }
 
 
-        public List<string> GetTokenAccountsSync(
+        public UniTask<List<string>> GetTokenAccountsSync(
             string account,
             string mint = null,
             Commitment? commitment = null)
@@ -93,15 +97,15 @@ namespace Kinetic.Sdk
             return _sdkInternal.GetTokenAccounts(account, mint, commitment);
         }
 
-        public async Task<List<string>> GetTokenAccounts(
+        public UniTask<List<string>> GetTokenAccounts(
             string account,
             string mint = null,
             Commitment? commitment = null)
         {
-            return await Task.Run(() => GetTokenAccountsSync(account, mint, commitment));
+            return GetTokenAccountsSync(account, mint, commitment);
         }
 
-        public RequestAirdropResponse RequestAirdropSync(
+        public UniTask<RequestAirdropResponse> RequestAirdropSync(
             string account,
             string amount,
             string mint = null,
@@ -111,21 +115,22 @@ namespace Kinetic.Sdk
             return _sdkInternal.RequestAirdrop(account, amount, mint, commitment);
         }
 
-        public async Task<RequestAirdropResponse> RequestAirdrop(
+        public UniTask<RequestAirdropResponse> RequestAirdrop(
             string account,
             string amount,
             string mint = null,
             Commitment? commitment = null
         )
         {
-            return await Task.Run(() => RequestAirdropSync(account, amount, mint, commitment));
+            return RequestAirdropSync(account, amount, mint, commitment);
+
         }
 
         #endregion
 
         #region Transactions
 
-        public Transaction CloseAccountSync(
+        public UniTask<Transaction> CloseAccountSync(
             string account,
             string mint = null,
             string referenceId = null,
@@ -136,7 +141,7 @@ namespace Kinetic.Sdk
             return _sdkInternal.CloseAccount(account, mint, referenceId, referenceType, commitment);
         }
 
-        public async Task<Transaction> CloseAccount(
+        public UniTask<Transaction> CloseAccount(
             string account,
             string mint = null,
             string referenceId = null,
@@ -144,10 +149,10 @@ namespace Kinetic.Sdk
             Commitment? commitment = null
         )
         {
-            return await Task.Run(() => CloseAccountSync(account, mint, referenceId, referenceType, commitment));
+            return CloseAccountSync(account, mint, referenceId, referenceType, commitment);
         }
 
-        public Transaction CreateAccountSync(
+        public UniTask<Transaction> CreateAccountSync(
             Keypair owner,
             string mint = null,
             string referenceId = null,
@@ -158,7 +163,7 @@ namespace Kinetic.Sdk
             return _sdkInternal.CreateAccount(owner, mint, referenceId, referenceType, commitment);
         }
 
-        public async Task<Transaction> CreateAccount(
+        public UniTask<Transaction> CreateAccount(
             Keypair owner,
             string mint = null,
             string referenceId = null,
@@ -166,10 +171,10 @@ namespace Kinetic.Sdk
             Commitment? commitment = null
         )
         {
-            return await Task.Run(() => CreateAccountSync(owner, mint, referenceId, referenceType, commitment));
+            return CreateAccountSync(owner, mint, referenceId, referenceType, commitment);
         }
 
-        public Transaction MakeTransferSync(
+        public UniTask<Transaction> MakeTransferSync(
             Keypair owner,
             string amount,
             string destination,
@@ -185,7 +190,7 @@ namespace Kinetic.Sdk
                 senderCreate, type, commitment);
         }
 
-        public async Task<Transaction> MakeTransfer(
+        public UniTask<Transaction> MakeTransfer(
             Keypair owner,
             string amount,
             string destination,
@@ -197,16 +202,16 @@ namespace Kinetic.Sdk
             Commitment? commitment = null
         )
         {
-            return await Task.Run(() =>
-                MakeTransferSync(owner, amount, destination, mint, referenceId, referenceType, senderCreate, type, commitment));
+            return MakeTransferSync(owner, amount, destination, mint, referenceId, referenceType, senderCreate, type, commitment);
         }
 
         #endregion
 
         #region Initialization
 
-        private AppConfig Init()
+        private async UniTask<AppConfig> Init()
         {
+            //Debug.Log("AppConfigInit");
             // Error if SdkConfig is not set
             if (SdkConfig == null)
             {
@@ -215,7 +220,7 @@ namespace Kinetic.Sdk
             try
             {
                 SdkConfig!.Logger?.Log("KineticSdk: initializing");
-                var config = _sdkInternal.GetAppConfig();
+                var config = await _sdkInternal.GetAppConfig();
                 SdkConfig!.SolanaRpcEndpoint = SdkConfig.SolanaRpcEndpoint != null
                     ? SdkConfig.SolanaRpcEndpoint.GetSolanaRpcEndpoint()
                     : config.Environment.Cluster.Endpoint.GetSolanaRpcEndpoint();
@@ -234,12 +239,13 @@ namespace Kinetic.Sdk
             }
         }
 
-        public static KineticSdk SetupSync(KineticSdkConfig config)
+        public static async UniTask<KineticSdk> SetupSync(KineticSdkConfig config)
         {
+            //Debug.Log("SetupSync");
             var sdk = new KineticSdk(config: ValidateKineticSdkConfig.Validate(config));
             try
             {
-                sdk.Init();
+                await sdk.Init();
                 config.Logger?.Log("KineticSdk: Setup done.");
                 return sdk;
             }
@@ -250,11 +256,12 @@ namespace Kinetic.Sdk
             }
         }
 
-        public static async Task<KineticSdk> Setup(KineticSdkConfig config)
+        public static UniTask<KineticSdk> Setup(KineticSdkConfig config)
         {
-            return await Task.Run(() => SetupSync(config));
+            //Debug.Log("Prepare Setup task");
+            return SetupSync(config);
         }
 
-        #endregion
+#endregion
     }
 }

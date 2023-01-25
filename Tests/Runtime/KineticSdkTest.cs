@@ -12,9 +12,9 @@ namespace Kinetic.Sdk.Tests
     public class KineticSdkTest
     {
         [SetUp]
-        public void Init()
+        public async void Init()
         {
-            _sdk = KineticSdk.SetupSync(
+            _sdk = await KineticSdk.SetupSync(
                 new KineticSdkConfig(
                     Endpoint,
                     Environment,
@@ -64,18 +64,18 @@ namespace Kinetic.Sdk.Tests
         }
 
         [Test]
-        public void GetBalance()
+        public async void GetBalance()
         {
-            var res = _sdk.GetBalanceSync(KineticSdkFixture.AliceKeypair.PublicKey);
+            var res = await _sdk.GetBalanceSync(KineticSdkFixture.AliceKeypair.PublicKey);
             var balance = double.Parse(res.Balance);
             Assert.IsTrue(!double.IsNaN(balance));
             Assert.IsTrue(balance > 0);
         }
 
         [Test, Timeout(30000)]
-        public void TestGetAccountInfo()
+        public async void TestGetAccountInfo()
         {
-            var res = _sdk.GetAccountInfoSync(account: KineticSdkFixture.AliceKeypair.PublicKey);
+            var res = await _sdk.GetAccountInfoSync(account: KineticSdkFixture.AliceKeypair.PublicKey);
             
             Assert.IsFalse(res.IsMint);
             Assert.IsFalse(res.IsTokenAccount);
@@ -89,11 +89,11 @@ namespace Kinetic.Sdk.Tests
 
 
         [Test, Timeout(30000)]
-        public void TestCloseAccount()
+        public async void TestCloseAccount()
         {
             
             var owner = Keypair.Random();
-            var createdTx = _sdk.CreateAccountSync(owner, commitment: Commitment.Finalized, referenceType: "Unity: TestCloseAccount", referenceId: "Create");
+            var createdTx = await _sdk.CreateAccountSync(owner, commitment: Commitment.Finalized, referenceType: "Unity: TestCloseAccount", referenceId: "Create");
 
             Assert.NotNull(createdTx);
             Assert.NotNull(createdTx.Signature);
@@ -101,7 +101,7 @@ namespace Kinetic.Sdk.Tests
             Assert.AreEqual(_sdk.Config().Mint.PublicKey, createdTx.Mint);
             Assert.AreEqual("Committed", createdTx.Status);
             
-            var closedTx = _sdk.CloseAccountSync(owner.PublicKey, commitment: Commitment.Finalized, referenceType: "Unity: TestCloseAccount", referenceId: "Close");
+            var closedTx = await _sdk.CloseAccountSync(owner.PublicKey, commitment: Commitment.Finalized, referenceType: "Unity: TestCloseAccount", referenceId: "Close");
 
             Assert.NotNull(closedTx);
             Assert.NotNull(closedTx.Signature);
@@ -111,10 +111,10 @@ namespace Kinetic.Sdk.Tests
         }
         
         [Test]
-        public void TestCreateAccount()
+        public async void TestCreateAccount()
         {
             var owner = Keypair.Random();
-            var tx = _sdk.CreateAccountSync(owner);
+            var tx = await _sdk.CreateAccountSync(owner);
 
             Assert.NotNull(tx);
             Assert.NotNull(tx.Signature);
@@ -124,9 +124,9 @@ namespace Kinetic.Sdk.Tests
         }
 
         [Test]
-        public void TestCreateAccountAlreadyExists()
+        public async void TestCreateAccountAlreadyExists()
         {
-            var tx = _sdk.CreateAccountSync(KineticSdkFixture.DaveKeypair);
+            var tx = await _sdk.CreateAccountSync(KineticSdkFixture.DaveKeypair);
             Assert.IsNull(tx.Signature);
             Assert.IsNull(tx.Amount);
             Assert.IsTrue(tx.Errors.Count > 0);
@@ -135,17 +135,17 @@ namespace Kinetic.Sdk.Tests
         }
 
         [Test]
-        public void TestGetHistory()
+        public async void TestGetHistory()
         {
-            var history = _sdk.GetHistorySync(KineticSdkFixture.AliceKeypair.PublicKey);
+            var history = await _sdk.GetHistorySync(KineticSdkFixture.AliceKeypair.PublicKey);
             Assert.IsTrue(history.Count > 0);
             Assert.IsNotNull(history[0].Account);
         }
 
         [Test]
-        public void TestGetTokenAccounts()
+        public async void TestGetTokenAccounts()
         {
-            var tokenAccounts = _sdk.GetTokenAccountsSync(KineticSdkFixture.AliceKeypair.PublicKey);
+            var tokenAccounts = await _sdk.GetTokenAccountsSync(KineticSdkFixture.AliceKeypair.PublicKey);
             Assert.IsTrue(tokenAccounts.Count > 0);
             Assert.IsNotNull(tokenAccounts[0]);
         }
@@ -159,9 +159,9 @@ namespace Kinetic.Sdk.Tests
         }
 
         [Test]
-        public void TestTransaction()
+        public async void TestTransaction()
         {
-            var tx = _sdk.MakeTransferSync(
+            var tx = await _sdk.MakeTransferSync(
                 amount: "43",
                 destination: KineticSdkFixture.BobKeypair.PublicKey,
                 owner: KineticSdkFixture.AliceKeypair);
@@ -174,9 +174,9 @@ namespace Kinetic.Sdk.Tests
         }
 
         [Test]
-        public void TestTransactionWithInsufficientFunds()
+        public async void TestTransactionWithInsufficientFunds()
         {
-            var tx = _sdk.MakeTransferSync(
+            var tx = await _sdk.MakeTransferSync(
                 amount: "99999999999999",
                 destination: KineticSdkFixture.BobKeypair.PublicKey,
                 owner: KineticSdkFixture.AliceKeypair);
@@ -188,10 +188,10 @@ namespace Kinetic.Sdk.Tests
         }
 
         [Test]
-        public void TestTransactionWithSenderCreation()
+        public async void TestTransactionWithSenderCreation()
         {
             var destination = Keypair.Random();
-            var tx = _sdk.MakeTransferSync(
+            var tx = await _sdk.MakeTransferSync(
                 amount: "43",
                 destination: destination.PublicKey,
                 owner: KineticSdkFixture.AliceKeypair,
@@ -242,9 +242,9 @@ namespace Kinetic.Sdk.Tests
         }
 
         [Test]
-        public void TestRequestAirdrop()
+        public async void TestRequestAirdrop()
         {
-            var airdrop = _sdk.RequestAirdropSync(KineticSdkFixture.DaveKeypair.PublicKey, "1000");
+            var airdrop = await _sdk.RequestAirdropSync(KineticSdkFixture.DaveKeypair.PublicKey, "1000");
             Assert.IsNotNull(airdrop.Signature);
         }
 

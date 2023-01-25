@@ -1,12 +1,15 @@
 using System;
 using System.Collections.Generic;
-using RestSharp;
+using JeffreyLanters.WebRequests;
+using JeffreyLanters.WebRequests.Core;
+using Cysharp.Threading.Tasks;
 using Client;
 using Model;
 
 #pragma warning disable 0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
 using Commitment = System.String;
+using System.Linq;
 
 namespace Api
 {
@@ -21,14 +24,14 @@ namespace Api
         /// <param name="environment"></param>
         /// <param name="index"></param>
         /// <returns>AppConfig</returns>
-        AppConfig GetAppConfig (string environment, int index);
+        UniTask<AppConfig> GetAppConfig (string environment, int index);
         /// <summary>
         ///  
         /// </summary>
         /// <param name="environment"></param>
         /// <param name="index"></param>
         /// <returns>AppHealth</returns>
-        AppHealth GetAppHealth (string environment, int index);
+        UniTask<AppHealth> GetAppHealth (string environment, int index);
     }
 
     /// <summary>
@@ -90,7 +93,7 @@ namespace Api
         /// <param name="environment"></param>
         /// <param name="index"></param>
         /// <returns>AppConfig</returns>
-        public AppConfig GetAppConfig (string environment, int index)
+        public async UniTask<AppConfig> GetAppConfig (string environment, int index)
         {
             
             // verify the required parameter 'environment' is set
@@ -108,22 +111,22 @@ path = path.Replace("{" + "index" + "}", ApiClient.ParameterToString(index));
             var queryParams = new Dictionary<String, String>();
             var headerParams = new Dictionary<String, String>();
             var formParams = new Dictionary<String, String>();
-            var fileParams = new Dictionary<String, FileParameter>();
+            var fileParams = new Dictionary<String, String>();
             String postBody = null;
 
                                                 
             // authentication setting, if any
             String[] authSettings = new String[] {  };
-
+            //UnityEngine.Debug.Log("Call GetAppConfig");
             // make the HTTP request
-            IRestResponse response = (IRestResponse) ApiClient.CallApi(path, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
-
+            WebRequestResponse response = await ApiClient.CallApi(path, RequestMethod.Get, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
+            //UnityEngine.Debug.Log("Finish GetAppConfig");
             if (((int)response.StatusCode) >= 400)
                 throw new ApiException ((int)response.StatusCode, "Error calling GetAppConfig: " + response.Content, response.Content);
             else if (((int)response.StatusCode) == 0)
                 throw new ApiException ((int)response.StatusCode, "Error calling GetAppConfig: " + response.ErrorMessage, response.ErrorMessage);
 
-            return (AppConfig) ApiClient.Deserialize(response.Content, typeof(AppConfig), response.Headers);
+            return (AppConfig) ApiClient.Deserialize(response.Content, typeof(AppConfig), response.headers.Values.ToList());
         }
 
         /// <summary>
@@ -132,7 +135,7 @@ path = path.Replace("{" + "index" + "}", ApiClient.ParameterToString(index));
         /// <param name="environment"></param>
         /// <param name="index"></param>
         /// <returns>AppHealth</returns>
-        public AppHealth GetAppHealth (string environment, int index)
+        public async UniTask<AppHealth> GetAppHealth (string environment, int index)
         {
             
             // verify the required parameter 'environment' is set
@@ -150,7 +153,7 @@ path = path.Replace("{" + "index" + "}", ApiClient.ParameterToString(index));
             var queryParams = new Dictionary<String, String>();
             var headerParams = new Dictionary<String, String>();
             var formParams = new Dictionary<String, String>();
-            var fileParams = new Dictionary<String, FileParameter>();
+            var fileParams = new Dictionary<String, String>();
             String postBody = null;
 
                                                 
@@ -158,14 +161,14 @@ path = path.Replace("{" + "index" + "}", ApiClient.ParameterToString(index));
             String[] authSettings = new String[] {  };
 
             // make the HTTP request
-            IRestResponse response = (IRestResponse) ApiClient.CallApi(path, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
+            WebRequestResponse response = await ApiClient.CallApi(path, RequestMethod.Get, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
 
             if (((int)response.StatusCode) >= 400)
                 throw new ApiException ((int)response.StatusCode, "Error calling GetAppHealth: " + response.Content, response.Content);
             else if (((int)response.StatusCode) == 0)
                 throw new ApiException ((int)response.StatusCode, "Error calling GetAppHealth: " + response.ErrorMessage, response.ErrorMessage);
 
-            return (AppHealth) ApiClient.Deserialize(response.Content, typeof(AppHealth), response.Headers);
+            return (AppHealth) ApiClient.Deserialize(response.Content, typeof(AppHealth), response.headers.Values.ToList());
         }
 
     }

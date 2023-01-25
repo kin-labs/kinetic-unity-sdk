@@ -1,0 +1,17 @@
+{
+    "name": "Solana.Unity",
+    "rootNamespace": "",
+    "references": [
+        "GUID:b3e39678a8864ed408212bd7910fd844",
+        "GUID:e81c8beff9ece1e43848e56b1b271dea"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": true,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
